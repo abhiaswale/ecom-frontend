@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import Form from "../Form/Form";
 import Navigation from "../Navigation/Navigation";
@@ -7,6 +8,7 @@ const Login = () => {
   const authCtx = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const loginHandler = async (e) => {
     console.log(email, password);
     e.preventDefault();
@@ -25,6 +27,7 @@ const Login = () => {
     localStorage.setItem("token", data.token);
     localStorage.setItem("userId", data.userId);
     console.log(data);
+    navigate("/landing");
     console.log("Login handler");
   };
 

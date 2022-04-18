@@ -1,9 +1,11 @@
 import React from "react";
 import bg from "../Assets/ecom.jpg";
+import Navigation from "../Navigation/Navigation";
 
 const Landing = () => {
   return (
     <div>
+      <Navigation />
       <section
         style={{ backgroundImage: `url(${bg})` }}
         className="bg-cover w-full h-[76vh]"

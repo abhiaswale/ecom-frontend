@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Filters = (props) => {
   const categoryFilters = [
@@ -15,7 +15,6 @@ const Filters = (props) => {
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
-  const [b, setB] = useState([]);
 
   let filteredProducts = [];
 
