@@ -9,6 +9,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const autoLogout = (miliseconds) => {
+    setTimeout(() => {
+      authCtx.logout();
+    }, miliseconds);
+  };
   const loginHandler = async (e) => {
     console.log(email, password);
     e.preventDefault();
@@ -26,8 +32,12 @@ const Login = () => {
     authCtx.login(data.token);
     localStorage.setItem("token", data.token);
     localStorage.setItem("userId", data.userId);
+    const remainingMiliseconds = 60 * 60 * 1000;
+    const expiryDate = new Date().getTime() + remainingMiliseconds;
+    localStorage.setItem("expiryDate", expiryDate);
+    autoLogout(remainingMiliseconds);
     console.log(data);
-    navigate("/landing");
+    navigate("/");
     console.log("Login handler");
   };
 

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 
 const Navigation = () => {
@@ -18,7 +19,8 @@ const Navigation = () => {
         </section>
 
         <section className="flex justify-evenly items-center">
-          {!authCtx.isAuth && <p>Login</p>}
+          {authCtx.isAuth && <Link to="/profile">profile</Link>}
+          {!authCtx.isAuth && <Link to="/login">Login</Link>}
           {authCtx.isAuth && <button onClick={logoutHandler}>Logout</button>}
           <p>Wishlist</p>
           <p>Cart</p>

@@ -10,9 +10,25 @@ const Prod = () => {
     console.log(data);
     setProducts(data.data);
   };
+
   useEffect(() => {
     fetchProd();
   }, []);
+
+  const getCartHandler = () => {
+    fetch(`http://localhost:3000/cart`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setCart(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const addtoCartHandler = (id) => {
     console.log(id);
@@ -23,7 +39,9 @@ const Prod = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        getCartHandler();
       })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
       });
@@ -38,21 +56,6 @@ const Prod = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getCartHandler = () => {
-    fetch(`http://localhost:3000/cart`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setCart(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -76,7 +79,6 @@ const Prod = () => {
   return (
     <div>
       <Navigation />
-
       <button onClick={getCartHandler}>get Cart</button>
       {cart &&
         cart.map((p) => (

@@ -1,8 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Filters from "../Filters/Filters";
+import Prod from "../Prod";
 
 const Shop = () => {
   const [products, setProducts] = useState("");
+  // const [cart, setCart] = useState({});
+
+  // const getCartHandler = () => {
+  //   fetch(`http://localhost:3000/cart`, {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setCart(data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   //Get the Products
   useEffect(() => {
     fetch("http://localhost:3000/get-products")
@@ -25,6 +43,7 @@ const Shop = () => {
             <h1>{prod.productName}</h1>
             <span>{prod.productPrice}</span>
             <img src={prod.productImage} className="w-60"></img>
+            <button>Add to cart</button>
           </div>
         ))}
       </div>
@@ -33,8 +52,9 @@ const Shop = () => {
 
   return (
     <div>
-      {products && <Filters products={products} />}
+      {/* {products && <Filters products={products} />} */}
       {/* <div>{content}</div> */}
+      <Prod />
     </div>
   );
 };

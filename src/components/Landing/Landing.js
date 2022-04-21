@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import bg from "../Assets/ecom.jpg";
 import Navigation from "../Navigation/Navigation";
 
@@ -14,7 +15,9 @@ const Landing = () => {
         <p>Lets Design Together</p>
         <h1>CLEARANCE SALE</h1>
         <h4>Upto 70% Off on Various products</h4>
-        <button>Shop Now</button>
+        <button>
+          <Link to="/shop">Shop Now</Link>
+        </button>
       </section>
       <section>
         <h1>FEATURED CATEGORIES</h1>
