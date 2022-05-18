@@ -10,7 +10,6 @@ const Filters = (props) => {
     { id: "b1", name: "Apple", type: "brand" },
     { id: "b2", name: "Samsung", type: "brand" },
   ];
-
   const [filtering, setFiltering] = useState(false);
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
@@ -34,6 +33,7 @@ const Filters = (props) => {
   const brandfilterHandler = (id, type) => {
     setFiltering(true);
     const currentIndex = bChecked.indexOf(id);
+    console.log("-------------", currentIndex);
     const newChecked = [...bChecked];
 
     if (currentIndex === -1) {
@@ -41,25 +41,25 @@ const Filters = (props) => {
     } else {
       newChecked.splice(currentIndex, 1);
     }
-    setChecked(newChecked);
-    if (checked.length > 0) {
-      setBChecked(newChecked);
-    }
+    // console.log(newChecked);
+    setBChecked(newChecked);
+    // if (checked.length > 0) {
+    //   setBChecked(newChecked);
+    // }
   };
 
   if (filtering) {
     console.log(checked);
+    console.log(bChecked);
     filteredProducts = props.products.filter((product) => {
-      if (
-        checked.includes(product.productCategory) ||
-        checked.includes(product.productBrand)
-      ) {
+      if (checked.includes(product.productCategory)) {
+        return product;
+      } else if (bChecked.includes(product.productBrand)) {
         return product;
       }
-
       return null;
     });
-    console.log(filteredProducts); //logs the filtered products
+    console.log(filteredProducts); //logs the filtered products   /////////////////////////
     setFProd(filteredProducts); //too many re-renders error
     setFiltering(false);
   }

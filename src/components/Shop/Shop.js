@@ -52,9 +52,9 @@ const Shop = () => {
 
   return (
     <div>
-      {/* {products && <Filters products={products} />} */}
+      {products && <Filters products={products} />}
       {/* <div>{content}</div> */}
-      <Prod />
+      {/* <Prod /> */}
     </div>
   );
 };
