@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
+import Navigation from "../Navigation/Navigation";
 
 const Account = () => {
   const authCtx = useContext(AuthContext);
@@ -17,11 +18,11 @@ const Account = () => {
   });
   return (
     <div>
-      Account
-      <div>
-        <nav>
+      <Navigation />
+      <div className="flex flex-row">
+        <nav className="flex flex-col">
           <NavLink
-            to="/profile/details"
+            to="/profile"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }

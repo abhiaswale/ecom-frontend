@@ -1,9 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bg from "../Assets/ecom.jpg";
 import Navigation from "../Navigation/Navigation";
 
 const Landing = () => {
+  const navigate = useNavigate();
+  const filterHandler = (id) => {
+    navigate("/shop", { state: id });
+  };
   return (
     <div>
       <Navigation />
@@ -23,9 +27,35 @@ const Landing = () => {
         <h1>FEATURED CATEGORIES</h1>
         <div>
           <div className="grid grid-cols-4">
-            <div>Category 1</div>
-            <div>Category 2</div>
-            <div>Category 3</div>
+            <div>
+              <button
+                onClick={() => {
+                  filterHandler("Mobile Phone");
+                }}
+              >
+                Mobile Phone
+              </button>
+            </div>
+            <div>
+              {" "}
+              <button
+                onClick={() => {
+                  filterHandler("Laptop");
+                }}
+              >
+                Laptop
+              </button>
+            </div>
+            <div>
+              {" "}
+              <button
+                onClick={() => {
+                  filterHandler("Camera");
+                }}
+              >
+                Camera
+              </button>
+            </div>
             <div>Category 4</div>
           </div>
         </div>

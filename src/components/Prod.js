@@ -39,9 +39,10 @@ const Prod = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        getCartHandler();
       })
-      .then(() => {})
+      .then(() => {
+        console.log("ADD called");
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -76,9 +77,12 @@ const Prod = () => {
       });
   };
 
+  useEffect(() => {
+    getCartHandler();
+  }, []);
+
   return (
     <div>
-      <Navigation />
       <button onClick={getCartHandler}>get Cart</button>
       {cart &&
         cart.map((p) => (

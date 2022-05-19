@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Filters = (props) => {
   const categoryFilters = [
@@ -33,7 +33,6 @@ const Filters = (props) => {
   const brandfilterHandler = (id, type) => {
     setFiltering(true);
     const currentIndex = bChecked.indexOf(id);
-    console.log("-------------", currentIndex);
     const newChecked = [...bChecked];
 
     if (currentIndex === -1) {
@@ -41,7 +40,6 @@ const Filters = (props) => {
     } else {
       newChecked.splice(currentIndex, 1);
     }
-    // console.log(newChecked);
     setBChecked(newChecked);
     // if (checked.length > 0) {
     //   setBChecked(newChecked);
@@ -54,7 +52,10 @@ const Filters = (props) => {
     filteredProducts = props.products.filter((product) => {
       if (checked.includes(product.productCategory)) {
         return product;
-      } else if (bChecked.includes(product.productBrand)) {
+      } else if (
+        checked.includes(product.productCategory) ||
+        bChecked.includes(product.productBrand)
+      ) {
         return product;
       }
       return null;
@@ -67,7 +68,8 @@ const Filters = (props) => {
   if (filtering) {
     if (checked.length > 0 && bChecked.length > 0) {
       const prods = [...fProd];
-      filteredProducts = prods.filter((p) => {
+      console.log("Filtered Products", prods);
+      filteredProducts = fProd.filter((p) => {
         if (
           checked.includes(p.productCategory) &&
           bChecked.includes(p.productBrand)
@@ -87,6 +89,13 @@ const Filters = (props) => {
   if (fProd.length > 0) {
     console.log(fProd);
   }
+
+  useEffect(() => {
+    if (props.fId) {
+      console.log(props.fId);
+      filterHandler(props.fId);
+    }
+  }, [props.fId]);
 
   let content;
   if (props.products) {
@@ -128,7 +137,7 @@ const Filters = (props) => {
               onChange={() => {
                 filterHandler(value.name, value.type);
               }}
-              // checked={checked.indexOf(value.name) === -1 ? false : true}
+              checked={checked.indexOf(value.name) === -1 ? false : true}
             ></input>
           </div>
         ))}

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Filters from "../Filters/Filters";
 import Prod from "../Prod";
 
 const Shop = () => {
+  const location = useLocation();
+  const filterId = location.state;
+
+  // console.log(filterId);
   const [products, setProducts] = useState("");
   // const [cart, setCart] = useState({});
 
@@ -52,7 +57,7 @@ const Shop = () => {
 
   return (
     <div>
-      {products && <Filters products={products} />}
+      {products && <Filters products={products} fId={filterId} />}
       {/* <div>{content}</div> */}
       {/* <Prod /> */}
     </div>
