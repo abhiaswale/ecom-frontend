@@ -17,9 +17,9 @@ export const CartContextProvider = (props) => {
           count++;
         });
         console.log(count);
-        setQuan(quan);
+        setQuan(count);
       });
-  });
+  }, []);
   const contextValue = {
     cartQuantity: quan,
   };
@@ -30,3 +30,5 @@ export const CartContextProvider = (props) => {
     </CartContext.Provider>
   );
 };
+
+export default CartContext;

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import AuthContext from "./Context/auth-context";
 import Navigation from "./Navigation/Navigation";
 
 const Prod = () => {
   const [products, setProducts] = useState("");
   const [cart, setCart] = useState("");
+  const authCtx = useContext(AuthContext);
   const fetchProd = async () => {
     const response = await fetch("http://localhost:3000/get-products");
     const data = await response.json();
@@ -22,7 +24,7 @@ const Prod = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.data);
         setCart(data.data);
       })
       .catch((err) => {
@@ -34,15 +36,17 @@ const Prod = () => {
     console.log(id);
     fetch(`http://localhost:3000/add-to-cart/${id}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authCtx.token,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.data.items);
+        setCart(data.data.items);
       })
-      .then(() => {
-        console.log("ADD called");
-      })
+
       .catch((err) => {
         console.log(err);
       });
