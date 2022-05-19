@@ -60,7 +60,7 @@ const Prod = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setCart(data.data.items);
       })
       .catch((err) => {
         console.log(err);
@@ -90,7 +90,7 @@ const Prod = () => {
       <button onClick={getCartHandler}>get Cart</button>
       {cart &&
         cart.map((p) => (
-          <section>
+          <section key={p._id}>
             <h6>{p.productId.productName}</h6>
             <div>
               <button

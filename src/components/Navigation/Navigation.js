@@ -21,6 +21,13 @@ const Navigation = () => {
         <section className="flex justify-center items-center">
           <h3>ECom.</h3>
           <p>Let's Design Together</p>
+          <span>
+            <Link to="/">Home</Link>
+          </span>
+          <span>
+            <Link to="/shop">Shop</Link>
+          </span>
+
           <span className="w-24">
             <input placeholder="Search" />
           </span>
