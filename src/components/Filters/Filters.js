@@ -13,7 +13,7 @@ const Filters = (props) => {
   const [filtering, setFiltering] = useState(false);
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
-  const [fProd, setFProd] = useState([]);
+  const [fProd, setFProd] = useState(props.products);
 
   let filteredProducts = [];
 
@@ -34,7 +34,6 @@ const Filters = (props) => {
     setFiltering(true);
     const currentIndex = bChecked.indexOf(id);
     const newChecked = [...bChecked];
-
     if (currentIndex === -1) {
       newChecked.push(id);
     } else {
@@ -125,9 +124,43 @@ const Filters = (props) => {
       </div>
     );
   }
+
+  const SortHandler = (value) => {
+    console.log("Sortefewef = ", fProd);
+    let ordered = fProd.sort((a, b) =>
+      a.productPrice > b.productPrice ? 1 : -1
+    );
+    let lastElement = ordered.pop();
+    ordered.unshift(lastElement);
+    console.log(ordered);
+  };
+
   return (
     <div>
       <section>
+        <section>
+          <input
+            type="radio"
+            id="htl"
+            value="1"
+            name="sorting"
+            onChange={() => {
+              SortHandler(1);
+            }}
+          ></input>
+          <label htmlFor="htl">High to low</label>
+          <input
+            type="radio"
+            id="lth"
+            value="-1"
+            name="sorting"
+            onChange={() => {
+              SortHandler(-1);
+            }}
+          ></input>
+          <label htmlFor="htl"> Low to High</label>
+        </section>
+
         <h1>CATEGORY</h1>
         {categoryFilters.map((value, index) => (
           <div key={index}>

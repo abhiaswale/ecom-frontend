@@ -46,7 +46,6 @@ const Prod = () => {
         console.log(data.data.items);
         setCart(data.data.items);
       })
-
       .catch((err) => {
         console.log(err);
       });

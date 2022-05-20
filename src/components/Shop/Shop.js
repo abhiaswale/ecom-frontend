@@ -1,31 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Filters from "../Filters/Filters";
+import Navigation from "../Navigation/Navigation";
 import Prod from "../Prod";
 
 const Shop = () => {
   const location = useLocation();
   const filterId = location.state;
-
-  // console.log(filterId);
   const [products, setProducts] = useState("");
-  // const [cart, setCart] = useState({});
-
-  // const getCartHandler = () => {
-  //   fetch(`http://localhost:3000/cart`, {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setCart(data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   //Get the Products
   useEffect(() => {
     fetch("http://localhost:3000/get-products")
@@ -57,6 +39,7 @@ const Shop = () => {
 
   return (
     <div>
+      <Navigation />
       {products && <Filters products={products} fId={filterId} />}
       {/* <div>{content}</div> */}
       {/* <Prod /> */}

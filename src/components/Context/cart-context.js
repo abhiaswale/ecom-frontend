@@ -19,7 +19,7 @@ export const CartContextProvider = (props) => {
         console.log(count);
         setQuan(count);
       });
-  }, []);
+  });
   const contextValue = {
     cartQuantity: quan,
   };

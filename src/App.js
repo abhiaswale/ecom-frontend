@@ -7,7 +7,6 @@ import { PrivateRoute } from "./components/util/PrivateRoute";
 import Account from "./components/Account/Account";
 import Profile from "./components/Account/Profile";
 import Prod from "./components/Prod";
-// import Prod from "./components/Prod";
 function App() {
   return (
     <div className="App">
@@ -24,10 +23,10 @@ function App() {
           }
         >
           <Route path="" element={<Profile />}></Route>
-          <Route path="orders" element={<Prod />}></Route>
+          <Route path="cart" element={<Prod />}></Route>
           <Route path="address" element={<>hi address</>}></Route>
           <Route path="setting" element={<>hi setting</>}></Route>
-          <Route path="wishlist" element={<>Hi Wishlist</>}></Route>
+          <Route path="wishlist" element={<></>}></Route>
           <Route path="cart" element={<>hi cart</>}></Route>
         </Route>
       </Routes>
