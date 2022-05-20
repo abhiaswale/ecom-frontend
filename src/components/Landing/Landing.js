@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import bg from "../Assets/ecom.jpg";
+import bg from "../Assets/w.jpg";
 import Navigation from "../Navigation/Navigation";
 
 const Landing = () => {

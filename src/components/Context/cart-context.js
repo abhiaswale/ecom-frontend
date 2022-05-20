@@ -5,6 +5,7 @@ const CartContext = React.createContext({
 
 export const CartContextProvider = (props) => {
   const [quan, setQuan] = useState(null);
+
   useEffect(() => {
     fetch("http://localhost:3000/cart")
       .then((resp) => {
@@ -19,7 +20,8 @@ export const CartContextProvider = (props) => {
         console.log(count);
         setQuan(count);
       });
-  });
+  }, []);
+
   const contextValue = {
     cartQuantity: quan,
   };

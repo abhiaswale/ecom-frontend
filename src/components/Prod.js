@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "./Context/auth-context";
-import Navigation from "./Navigation/Navigation";
+import CartContext from "./Context/cart-context";
 
 const Prod = () => {
   const [products, setProducts] = useState("");
   const [cart, setCart] = useState("");
   const authCtx = useContext(AuthContext);
+  const cartCtx = useContext(CartContext);
   const fetchProd = async () => {
     const response = await fetch("http://localhost:3000/get-products");
     const data = await response.json();
@@ -46,6 +47,7 @@ const Prod = () => {
         console.log(data.data.items);
         setCart(data.data.items);
       })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
       });
