@@ -5,6 +5,7 @@ import Navigation from "../Navigation/Navigation";
 
 const Account = () => {
   const authCtx = useContext(AuthContext);
+
   useEffect(() => {
     fetch("http://localhost:3000/user/details", {
       method: "GET",
@@ -22,7 +23,7 @@ const Account = () => {
       <div className="flex flex-row">
         <nav className="flex flex-col">
           <NavLink
-            to="/profile"
+            to="/"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }
@@ -30,7 +31,7 @@ const Account = () => {
             Profile
           </NavLink>
           <NavLink
-            to="/profile/orders"
+            to="/account/orders"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }
@@ -38,7 +39,7 @@ const Account = () => {
             Orders
           </NavLink>
           <NavLink
-            to="/profile/address"
+            to="/account/address"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }
@@ -46,7 +47,7 @@ const Account = () => {
             Address
           </NavLink>
           <NavLink
-            to="/profile/setting"
+            to="/account/setting"
             className={({ isActive }) => (isActive ? "text-lg" : "text-sm")}
           >
             Setting

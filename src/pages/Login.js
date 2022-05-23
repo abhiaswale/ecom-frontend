@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../Context/auth-context";
-import Form from "../Form/Form";
-import Navigation from "../Navigation/Navigation";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../components/Context/auth-context";
+import Form from "../components/Form/Form";
+import Navigation from "../components/Navigation/Navigation";
 
 const Login = () => {
   const authCtx = useContext(AuthContext);
@@ -69,7 +69,9 @@ const Login = () => {
           </div>
           <button type="submit">Login</button>
           <div>Login with test credentials</div>
-          <div>New user? Register Now</div>
+          <div>
+            New user? <Link to="/signup">Signup</Link>{" "}
+          </div>
         </form>
       </Form>
     </div>

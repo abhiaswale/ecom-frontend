@@ -6,6 +6,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Badge from "@mui/material/Badge";
 import CartContext from "../Context/cart-context";
+import EComLogo from "../Assets/L1.png";
+import SearchBar from "./SearchBar";
 
 const Navigation = () => {
   const authCtx = useContext(AuthContext);
@@ -22,33 +24,37 @@ const Navigation = () => {
   return (
     <div>
       <div className="h-16 bg-[#0E3EDA] flex justify-around items-center ">
-        <section className="flex justify-center items-center">
-          <span>
-            <h3 className="font-bold text-lg">ECom.</h3>
-            <p className="text-sm">Let's Design Together</p>
-          </span>
+        <nav className="flex justify-center items-center">
+          <Link to="">
+            <img src={EComLogo} className="h-10 w-32"></img>
+          </Link>
           <NavLink
             to="/"
-            className={({ isActive }) => (isActive ? "text-pink-700" : "")}
+            className={({ isActive }) =>
+              isActive ? "text-white mx-6" : "mx-6"
+            }
           >
             Home
           </NavLink>
           <NavLink
             to="/shop"
-            className={({ isActive }) => (isActive ? "text-pink-700" : "")}
+            className={({ isActive }) => (isActive ? "text-white" : "")}
           >
             Shop Now
           </NavLink>
-        </section>
-        <span className="w-24">
-          <input placeholder="Search" />
+        </nav>
+
+        <span className="w-46">
+          {/* <input placeholder="Search" className="" /> */}
+          <SearchBar />
         </span>
+
         <section className="flex justify-evenly items-center flex-row">
           {authCtx.isAuth && <button onClick={logoutHandler}>Logout</button>}
-          <Link to="/profile" className="">
-            <AccountCircleIcon />
-            {authCtx.isAuth && <p>Hi,{authCtx.userName}</p>}
-            {!authCtx.isAuth && <p>Login</p>}
+          <Link to="/account" className="text-lg">
+            <AccountCircleIcon className="text-lg" />
+            {authCtx.isAuth && <p className="text-sm">Hi,{authCtx.userName}</p>}
+            {!authCtx.isAuth && <p className="text-sm">Login</p>}
           </Link>
           <Badge badgeContent={authCtx.isAuth ? count : 0} color="primary">
             <Link to="/profile/wishlist">
