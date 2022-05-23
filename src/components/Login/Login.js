@@ -13,6 +13,7 @@ const Login = () => {
   const autoLogout = (miliseconds) => {
     setTimeout(() => {
       authCtx.logout();
+      navigate("/login");
     }, miliseconds);
   };
   const loginHandler = async (e) => {

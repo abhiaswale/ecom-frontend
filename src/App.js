@@ -7,6 +7,7 @@ import { PrivateRoute } from "./components/util/PrivateRoute";
 import Account from "./components/Account/Account";
 import Profile from "./components/Account/Profile";
 import Prod from "./components/Prod";
+import Footer from "./components/Footer/Footer";
 function App() {
   return (
     <div className="App">
@@ -30,6 +31,7 @@ function App() {
           <Route path="cart" element={<>hi cart</>}></Route>
         </Route>
       </Routes>
+      <Footer />
     </div>
   );
 }

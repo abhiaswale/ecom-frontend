@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -10,7 +10,11 @@ import CartContext from "../Context/cart-context";
 const Navigation = () => {
   const authCtx = useContext(AuthContext);
   const cartContext = useContext(CartContext);
-  const [count, setCount] = useState(cartContext.cartQuantity);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    setCount(cartContext.cartQuantity);
+  });
 
   const logoutHandler = () => {
     authCtx.logout();
@@ -46,13 +50,13 @@ const Navigation = () => {
             {authCtx.isAuth && <p>Hi,{authCtx.userName}</p>}
             {!authCtx.isAuth && <p>Login</p>}
           </Link>
-          <Badge badgeContent={count} color="primary">
+          <Badge badgeContent={authCtx.isAuth ? count : 0} color="primary">
             <Link to="/profile/wishlist">
               <FavoriteIcon />
               <p>Wishlist</p>
             </Link>
           </Badge>
-          <Badge badgeContent={count} color="primary">
+          <Badge badgeContent={authCtx.isAuth ? count : 0} color="primary">
             <Link to="/profile/cart">
               <ShoppingCartIcon />
               <p>Cart</p>

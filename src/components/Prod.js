@@ -47,7 +47,9 @@ const Prod = () => {
         console.log(data.data.items);
         setCart(data.data.items);
       })
-      .then(() => {})
+      .then(() => {
+        cartCtx.updateCartQuan();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -62,6 +64,12 @@ const Prod = () => {
       .then((res) => res.json())
       .then((data) => {
         setCart(data.data.items);
+      })
+      .then(() => {
+        cartCtx.updateCartQuan();
+      })
+      .then(() => {
+        cartCtx.updateCartQuan();
       })
       .catch((err) => {
         console.log(err);
