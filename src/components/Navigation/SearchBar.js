@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoSearch } from "react-icons/go";
 
 const suggestions = [
   "Mobile",
@@ -8,17 +9,22 @@ const suggestions = [
   "Samsung",
   "Apple",
   "Lenovo",
+  "Aabsc",
+  "Abaduc",
+  "SBUA",
+  "Abbbcs",
 ];
 
 const SearchBar = () => {
   const [searchItem, setSearchItem] = useState("");
   const [suggest, setSuggest] = useState([]);
   const inputRef = useRef();
+  const suggestionRef = useRef();
   const navigate = useNavigate();
   const changeHandler = (e) => {
     let array = [];
     setSearchItem(e.target.value);
-    if (searchItem.length >= 2) {
+    if (searchItem.length >= 1) {
       array = suggestions.filter((item) => {
         return item.toLowerCase().startsWith(searchItem.toLowerCase());
       });
@@ -31,7 +37,7 @@ const SearchBar = () => {
       return;
     }
     return (
-      <ul>
+      <ul ref={suggestionRef} className="absolute top-10 bg-white w-full">
         {suggest &&
           suggest.map((item) => (
             <li
@@ -48,10 +54,27 @@ const SearchBar = () => {
       </ul>
     );
   };
+  useEffect(() => {
+    let handler = (e) => {
+      if (suggest.length > 0) {
+        if (!suggestionRef.current.contains(e.target)) {
+          setSuggest([]);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("submit called");
+    if (inputRef.current.value.length <= 0 || searchItem.length <= 0) {
+      return;
+    }
     fetch(`http://localhost:3000/search?searchTerm=${inputRef.current.value}`, {
       method: "GET",
     })
@@ -69,12 +92,13 @@ const SearchBar = () => {
   };
 
   return (
-    <>
+    <section className="flex justify-center items-center flex-row relative">
       <input
-        className="w-full"
+        className="w-full p-2"
         type="text"
         onChange={changeHandler}
         ref={inputRef}
+        placeholder="Type to search"
         onKeyUp={(e) => {
           if (e.key === "Enter") {
             submitHandler();
@@ -82,10 +106,14 @@ const SearchBar = () => {
         }}
       ></input>
       {searchItem && getSuggestions()}
-      <button onClick={submitHandler} type="submit">
-        Search
+      <button
+        className="absolute right-4 text-[1.4rem]"
+        onClick={submitHandler}
+        type="submit"
+      >
+        <GoSearch />
       </button>
-    </>
+    </section>
   );
 };
 

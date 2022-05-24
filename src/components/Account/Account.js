@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import Navigation from "../Navigation/Navigation";
 
 const Account = () => {
   const authCtx = useContext(AuthContext);
+  const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
     fetch("http://localhost:3000/user/details", {
@@ -12,11 +13,14 @@ const Account = () => {
       headers: { Authorization: authCtx.token },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setUserDetails(data);
+        console.log(userDetails);
+      })
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
   return (
     <div>
       <Navigation />
@@ -40,6 +44,7 @@ const Account = () => {
           </NavLink>
           <NavLink
             to="/account/address"
+            state={{ details: userDetails }}
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }

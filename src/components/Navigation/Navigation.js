@@ -44,10 +44,9 @@ const Navigation = () => {
           </NavLink>
         </nav>
 
-        <span className="w-96">
-          {/* <input placeholder="Search" className="" /> */}
+        <div className="w-96">
           <SearchBar />
-        </span>
+        </div>
 
         <section className="flex justify-evenly items-center flex-row">
           {authCtx.isAuth && <button onClick={logoutHandler}>Logout</button>}
