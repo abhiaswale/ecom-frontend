@@ -10,6 +10,7 @@ import Prod from "./components/Prod";
 import Footer from "./components/Footer/Footer";
 import Signup from "./pages/Signup";
 import Address from "./components/Account/Address";
+import SearchPage from "./pages/SearchPage";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/search" element={<SearchPage />}></Route>
         <Route path="/" element={<Landing />} />
         <Route
           path="/account"

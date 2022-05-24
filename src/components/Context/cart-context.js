@@ -13,12 +13,10 @@ export const CartContextProvider = (props) => {
         return resp.json();
       })
       .then((data) => {
-        console.log("Updated Cart");
         let count = 0;
         data.data.forEach((element) => {
           count++;
         });
-        console.log(count);
         setQuan(count);
       });
   };

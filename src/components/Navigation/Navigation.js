@@ -44,7 +44,7 @@ const Navigation = () => {
           </NavLink>
         </nav>
 
-        <span className="w-46">
+        <span className="w-96">
           {/* <input placeholder="Search" className="" /> */}
           <SearchBar />
         </span>

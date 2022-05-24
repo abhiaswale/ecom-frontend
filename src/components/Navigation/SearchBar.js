@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const suggestions = ["Mobile", "Laptop", "Camera", "Samsung", "Apple"];
+const suggestions = [
+  "Mobile",
+  "Laptop",
+  "Camera",
+  "Samsung",
+  "Apple",
+  "Lenovo",
+];
 
 const SearchBar = () => {
   const [searchItem, setSearchItem] = useState("");
   const [suggest, setSuggest] = useState([]);
-
+  const inputRef = useRef();
+  const navigate = useNavigate();
   const changeHandler = (e) => {
     let array = [];
     setSearchItem(e.target.value);
@@ -26,11 +35,11 @@ const SearchBar = () => {
         {suggest &&
           suggest.map((item) => (
             <li
+              key={item}
               className="cursor-pointer"
-              onClick={() => {
-                setSearchItem(item);
-                submitHandler();
-                setSuggest([]);
+              onClick={(e) => {
+                inputRef.current.value = item;
+                submitHandler(e);
               }}
             >
               {item}
@@ -41,9 +50,9 @@ const SearchBar = () => {
   };
 
   const submitHandler = (e) => {
-    // e.preventDefault();
-    console.log(searchItem);
-    fetch(`http://localhost:3000/search?searchTerm=${searchItem}`, {
+    e.preventDefault();
+    console.log("submit called");
+    fetch(`http://localhost:3000/search?searchTerm=${inputRef.current.value}`, {
       method: "GET",
     })
       .then((res) => {
@@ -51,16 +60,31 @@ const SearchBar = () => {
       })
       .then((data) => {
         console.log(data);
+        const searchData = {
+          data: data,
+          searchItem: inputRef.current.value,
+        };
+        navigate("/search", { state: searchData });
       });
   };
 
   return (
     <>
-      <form onSubmit={submitHandler}>
-        <input type="text" onChange={changeHandler} value={searchItem}></input>
-        {searchItem && getSuggestions()}
-        <button type="submit">Search</button>
-      </form>
+      <input
+        className="w-full"
+        type="text"
+        onChange={changeHandler}
+        ref={inputRef}
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            submitHandler();
+          }
+        }}
+      ></input>
+      {searchItem && getSuggestions()}
+      <button onClick={submitHandler} type="submit">
+        Search
+      </button>
     </>
   );
 };
