@@ -1,41 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import Navigation from "../Navigation/Navigation";
 
 const Account = () => {
   const authCtx = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("http://localhost:3000/user/details", {
-      method: "GET",
-      headers: { Authorization: authCtx.token },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUserDetails(data);
-        console.log(userDetails);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
   return (
     <div>
       <Navigation />
+      <span className="text-xxl">ACCOUNT</span>
       <div className="flex flex-row">
         <nav className="flex flex-col">
           <NavLink
-            to="/"
+            to="/account"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }
+            end
           >
             Profile
           </NavLink>
           <NavLink
-            to="/account/orders"
+            to="/account/cart"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }
@@ -44,7 +33,6 @@ const Account = () => {
           </NavLink>
           <NavLink
             to="/account/address"
-            state={{ details: userDetails }}
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }

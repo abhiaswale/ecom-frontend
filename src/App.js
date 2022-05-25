@@ -21,6 +21,14 @@ function App() {
         <Route path="/search" element={<SearchPage />}></Route>
         <Route path="/" element={<Landing />} />
         <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <Prod />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
           path="/account"
           element={
             <PrivateRoute>
@@ -28,13 +36,23 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route path="" element={<Profile />}></Route>
-          <Route path="cart" element={<Prod />}></Route>
-          <Route path="address" element={<Address />}></Route>
+          <Route path="" element={<Profile />} exact></Route>
+          {/* <Route path="cart" element={<>hi Cart</>}></Route> */}
+          <Route path="address" element={<>Address</>}></Route>
           <Route path="setting" element={<>hi setting</>}></Route>
           <Route path="wishlist" element={<></>}></Route>
-          <Route path="cart" element={<>hi cart</>}></Route>
+          <Route path="orders" element={<>hi orders</>}></Route>
         </Route>
+        {/* <Route to="/*" element={<PrivateRoute />}>
+          <Route path="/account" element={<Account />} exact>
+            <Route path="" element={<Profile />}></Route>
+            <Route path="/account/cart" element={<Prod />}></Route>
+            <Route path="/account/address" element={<>Address</>}></Route>
+            <Route path="/account/setting" element={<>hi setting</>}></Route>
+            <Route path="/account/wishlist" element={<></>}></Route>
+            <Route path="/account/orders" element={<>hi orders</>}></Route>
+          </Route>
+        </Route> */}
       </Routes>
       <Footer />
     </div>

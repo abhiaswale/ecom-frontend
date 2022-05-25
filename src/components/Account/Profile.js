@@ -3,30 +3,33 @@ import AuthContext from "../Context/auth-context";
 
 const Profile = () => {
   const [userData, setUserData] = useState();
-  const [cart, setCart] = useState("");
 
   const authCtx = useContext(AuthContext);
 
-  const getCartHandler = () => {
-    fetch(`http://localhost:3000/cart`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setCart(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const getCartHandler = () => {
+  //   fetch(`http://localhost:3000/cart`, {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setCart(data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-  if (cart) {
-    console.log(cart);
-  }
+  // if (cart) {
+  //   console.log(cart);
+  // }
 
   useEffect(() => {
+    getUserDetails();
+  }, []);
+
+  const getUserDetails = () => {
     fetch("http://localhost:3000/user/details", {
       method: "GET",
       headers: { Authorization: authCtx.token },
@@ -39,7 +42,7 @@ const Profile = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
   return (
     <div>
@@ -47,7 +50,6 @@ const Profile = () => {
         <section>
           <p>hjkj</p>
           <p>{userData.firstName}</p>
-          <button onClick={getCartHandler}>Get cart</button>
         </section>
       )}
     </div>
