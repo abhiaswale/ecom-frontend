@@ -28,6 +28,14 @@ function App() {
             </PrivateRoute>
           }
         ></Route>
+         <Route
+          path="/wishlist"
+          element={
+            <PrivateRoute>
+            
+            </PrivateRoute>
+          }
+        ></Route>
         <Route
           path="/account"
           element={
@@ -37,7 +45,6 @@ function App() {
           }
         >
           <Route path="" element={<Profile />} exact></Route>
-          {/* <Route path="cart" element={<>hi Cart</>}></Route> */}
           <Route path="address" element={<>Address</>}></Route>
           <Route path="setting" element={<>hi setting</>}></Route>
           <Route path="wishlist" element={<></>}></Route>

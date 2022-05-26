@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "./Context/auth-context";
 import CartContext from "./Context/cart-context";
+import Navigation from "./Navigation/Navigation";
 
 const Prod = () => {
   const [products, setProducts] = useState("");
   const [cart, setCart] = useState("");
   const authCtx = useContext(AuthContext);
   const cartCtx = useContext(CartContext);
+
   const fetchProd = async () => {
     const response = await fetch("http://localhost:3000/get-products");
     const data = await response.json();
@@ -96,6 +98,7 @@ const Prod = () => {
 
   return (
     <div>
+      <Navigation />
       <button onClick={getCartHandler}>get Cart</button>
       {cart &&
         cart.map((p) => (

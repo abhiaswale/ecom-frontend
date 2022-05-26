@@ -15,6 +15,7 @@ const Navigation = () => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    console.log("called");
     setCount(cartContext.cartQuantity);
   });
 
@@ -56,13 +57,13 @@ const Navigation = () => {
             {!authCtx.isAuth && <p className="text-sm">Login</p>}
           </Link>
           <Badge badgeContent={authCtx.isAuth ? count : 0} color="primary">
-            <Link to="/profile/wishlist">
+            <Link to="/wishlist">
               <FavoriteIcon />
               <p>Wishlist</p>
             </Link>
           </Badge>
           <Badge badgeContent={authCtx.isAuth ? count : 0} color="primary">
-            <Link to="/profile/cart">
+            <Link to="/cart">
               <ShoppingCartIcon />
               <p>Cart</p>
             </Link>

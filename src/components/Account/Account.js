@@ -4,10 +4,6 @@ import AuthContext from "../Context/auth-context";
 import Navigation from "../Navigation/Navigation";
 
 const Account = () => {
-  const authCtx = useContext(AuthContext);
-  const [userDetails, setUserDetails] = useState();
-  const navigate = useNavigate();
-
   return (
     <div>
       <Navigation />

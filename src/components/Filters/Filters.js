@@ -10,12 +10,15 @@ const Filters = (props) => {
     { id: "b1", name: "Apple", type: "brand" },
     { id: "b2", name: "Samsung", type: "brand" },
   ];
+
   const [filtering, setFiltering] = useState(false);
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState(props.products);
 
   let filteredProducts = [];
+
+  //Filter Logic
 
   const filterHandler = (id, type) => {
     setFiltering(true);
@@ -40,14 +43,9 @@ const Filters = (props) => {
       newChecked.splice(currentIndex, 1);
     }
     setBChecked(newChecked);
-    // if (checked.length > 0) {
-    //   setBChecked(newChecked);
-    // }
   };
 
   if (filtering) {
-    console.log(checked);
-    console.log(bChecked);
     filteredProducts = props.products.filter((product) => {
       if (checked.includes(product.productCategory)) {
         return product;
@@ -97,20 +95,6 @@ const Filters = (props) => {
   }, [props.fId]);
 
   let content;
-  if (props.products) {
-    content = (
-      <div className="grid grid-cols-2">
-        {props.products.map((prod) => (
-          <div key={prod._id}>
-            <h1>{prod.productName}</h1>
-            <span>{prod.productPrice}</span>
-            <img src={prod.productImage} className="w-60"></img>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   if (fProd.length > 0) {
     content = (
       <div className="grid grid-cols-2">
@@ -119,6 +103,13 @@ const Filters = (props) => {
             <h1>{prod.productName}</h1>
             <span>{prod.productPrice}</span>
             <img src={prod.productImage} className="w-60"></img>
+            <button
+              onClick={() => {
+                props.onAdd(prod._id);
+              }}
+            >
+              Add to cart
+            </button>
           </div>
         ))}
       </div>
@@ -136,61 +127,76 @@ const Filters = (props) => {
   };
 
   return (
-    <div>
-      <section>
-        <section>
-          <input
-            type="radio"
-            id="htl"
-            value="1"
-            name="sorting"
-            onChange={() => {
-              SortHandler(1);
-            }}
-          ></input>
-          <label htmlFor="htl">High to low</label>
-          <input
-            type="radio"
-            id="lth"
-            value="-1"
-            name="sorting"
-            onChange={() => {
-              SortHandler(-1);
-            }}
-          ></input>
-          <label htmlFor="htl"> Low to High</label>
-        </section>
-
-        <h1>CATEGORY</h1>
-        {categoryFilters.map((value, index) => (
-          <div key={index}>
-            <label>{value.name}</label>
-            <input
-              type="checkbox"
-              onChange={() => {
-                filterHandler(value.name, value.type);
-              }}
-              checked={checked.indexOf(value.name) === -1 ? false : true}
-            ></input>
-          </div>
-        ))}
-      </section>
-      <section>
-        <h1>BRAND</h1>
-        {brandFilters.map((value, index) => (
-          <div key={index}>
-            <label>{value.name}</label>
-            <input
-              type="checkbox"
-              onChange={() => {
-                brandfilterHandler(value.name, value.type);
-              }}
-            ></input>
-          </div>
-        ))}
-      </section>
-
-      <div>{content}</div>
+    <div className="flex justify-start items-start">
+      <div className="">
+        <div className="flex justify-center items-center">
+          <h3>Filters</h3>
+          <button>Clear All</button>
+        </div>
+        <div>
+          <ul>
+            <li>Sort</li>
+            <li>
+              <label htmlFor="htl">
+                <input
+                  type="radio"
+                  id="htl"
+                  value="1"
+                  name="sorting"
+                  onChange={() => {
+                    SortHandler(1);
+                  }}
+                />
+                High to low
+              </label>
+            </li>
+            <li>
+              <label htmlFor="htl">
+                <input
+                  type="radio"
+                  id="lth"
+                  value="-1"
+                  name="sorting"
+                  onChange={() => {
+                    SortHandler(-1);
+                  }}
+                />
+                Low to High
+              </label>
+            </li>
+          </ul>
+          <ul>
+            <li>CATEGORY</li>
+            {categoryFilters.map((value, index) => (
+              <li key={index}>
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    filterHandler(value.name, value.type);
+                  }}
+                  checked={checked.indexOf(value.name) === -1 ? false : true}
+                />
+                <label>{value.name}</label>
+              </li>
+            ))}
+          </ul>
+          <ul>
+            <li>BRAND</li>
+            {brandFilters.map((value, index) => (
+              <li key={index}>
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    brandfilterHandler(value.name, value.type);
+                  }}
+                />
+                <label>{value.name}</label>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="">{content}</div>
     </div>
   );
 };
