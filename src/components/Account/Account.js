@@ -20,7 +20,7 @@ const Account = () => {
             Profile
           </NavLink>
           <NavLink
-            to="/account/cart"
+            to="/account/orders"
             className={({ isActive }) =>
               isActive ? "bg-green-500 font-bold" : "bg-red-500 font-thin"
             }

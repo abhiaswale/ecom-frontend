@@ -15,7 +15,7 @@ const Filters = (props) => {
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState(props.products);
-
+  const [fFlag, setFFlag] = useState(0);
   let filteredProducts = [];
 
   //Filter Logic
@@ -47,7 +47,10 @@ const Filters = (props) => {
 
   if (filtering) {
     filteredProducts = props.products.filter((product) => {
-      if (checked.includes(product.productCategory)) {
+      if (
+        checked.includes(product.productCategory) ||
+        bChecked.includes(product.productBrand)
+      ) {
         return product;
       } else if (
         checked.includes(product.productCategory) ||
@@ -59,6 +62,9 @@ const Filters = (props) => {
     });
     console.log(filteredProducts); //logs the filtered products   /////////////////////////
     setFProd(filteredProducts); //too many re-renders error
+    if (filteredProducts.length <= 0) {
+      setFFlag(1);
+    }
     setFiltering(false);
   }
 
@@ -79,6 +85,9 @@ const Filters = (props) => {
         return null;
       });
       setFProd(filteredProducts);
+      if (filteredProducts.length <= 0) {
+        setFFlag(1);
+      }
       setFiltering(false);
     }
   }
@@ -95,6 +104,7 @@ const Filters = (props) => {
   }, [props.fId]);
 
   let content;
+
   if (fProd.length > 0) {
     content = (
       <div className="grid grid-cols-2">
