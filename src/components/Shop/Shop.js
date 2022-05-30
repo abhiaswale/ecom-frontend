@@ -8,6 +8,7 @@ import Prod from "../Prod";
 
 const Shop = () => {
   const location = useLocation();
+  console.log(location.state);
   const filterId = location.state;
   const [products, setProducts] = useState("");
   const authCtx = useContext(AuthContext);
@@ -17,7 +18,6 @@ const Shop = () => {
     fetch("http://localhost:3000/get-products")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setProducts(data.data);
       })
       .catch((err) => {

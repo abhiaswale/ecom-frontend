@@ -5,14 +5,15 @@ import { GoSearch } from "react-icons/go";
 const suggestions = [
   "Mobile",
   "Laptop",
-  "Camera",
+  "Headphone",
+  "Watch",
   "Samsung",
   "Apple",
   "Lenovo",
-  "Aabsc",
-  "Abaduc",
-  "SBUA",
-  "Abbbcs",
+  "Jbl",
+  "Realme",
+  "Dell",
+  "Asus",
 ];
 
 const SearchBar = () => {

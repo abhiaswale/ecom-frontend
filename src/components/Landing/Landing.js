@@ -5,51 +5,66 @@ import Logo from "../Assets/L1.png";
 import Navigation from "../Navigation/Navigation";
 import Divider from "@mui/material/Divider";
 
+import Mobile from "../Assets/Categories/Mobile.jpg";
+import Laptop from "../Assets/Categories/Laptop.jpg";
+import Watch from "../Assets/Categories/watch.jpg";
+import Headphones from "../Assets/Categories/Headphones.jpg";
+
+import samsung from "../Assets/Brands/samsung.png";
+import apple from "../Assets/Brands/apple.png";
+import dell from "../Assets/Brands/dell.png";
+import asus from "../Assets/Brands/asus.jpg";
+
 const Landing = () => {
   const navigate = useNavigate();
 
-  const filterHandler = (id) => {
+  const filterHandler = (id, type) => {
+    const detail = {
+      id: id,
+      type: type,
+    };
     console.log("Called");
-    navigate("/shop", { state: id });
+    navigate("/shop", { state: detail });
   };
 
   const categoriesArray = [
     {
-      background: bg,
+      background: Mobile,
       name: "Mobile",
     },
     {
-      background: bg,
+      background: Laptop,
       name: "Laptop",
     },
     {
-      background: bg,
-      name: "Camera",
+      background: Headphones,
+      name: "Headphone",
     },
     {
-      background: bg,
-      name: "Mobile",
+      background: Watch,
+      name: "Watch",
     },
   ];
 
   const brandsArray = [
     {
-      background: bg,
+      background: samsung,
       name: "Samsung",
     },
     {
-      background: bg,
-      name: "Lenovo",
-    },
-    {
-      background: bg,
+      background: apple,
       name: "Apple",
     },
     {
-      background: bg,
-      name: "Nikon",
+      background: dell,
+      name: "Dell",
+    },
+    {
+      background: asus,
+      name: "Asus",
     },
   ];
+
   return (
     <div>
       <Navigation />
@@ -68,7 +83,7 @@ const Landing = () => {
         </button>
       </div>
       <section>
-        <h1 className="text-5xl font-semibold">FEATURED CATEGORIES</h1>
+        <h1 className="text-5xl font-semibold mt-8">FEATURED CATEGORIES</h1>
         <div className="flex justify-center items-center my-2">
           <Divider
             sx={{
@@ -78,19 +93,22 @@ const Landing = () => {
             }}
           />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center my-24">
           <div className="w-3/5 grid grid-cols-4 h-52 gap-8">
             {categoriesArray.map((item) => (
-              <div className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl">
+              <div
+                key={item.name}
+                onClick={() => {
+                  filterHandler(item.name, "category");
+                }}
+                className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl"
+              >
                 <div
-                  onClick={() => {
-                    filterHandler(item.name);
-                  }}
                   style={{ backgroundImage: `url(${item.background})` }}
-                  className="w-full h-full opacity-60 absolute"
+                  className="bg-cover w-full h-full opacity-60 absolute"
                 ></div>
 
-                <div className="absolute top-[40%] left-1/3 text-center">
+                <div className="font-bold absolute top-[40%] left-1/3 text-center">
                   {item.name}
                 </div>
               </div>
@@ -109,21 +127,20 @@ const Landing = () => {
             }}
           />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center my-24">
           <div className="w-3/5 grid grid-cols-4 h-52 gap-8">
             {brandsArray.map((item) => (
-              <div className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl">
-                <div
-                  onClick={() => {
-                    filterHandler(item.name);
-                  }}
-                  style={{ backgroundImage: `url(${item.background})` }}
-                  className="w-full h-full opacity-60 absolute"
-                ></div>
-
-                <div className="absolute top-[40%] left-1/3 text-center">
-                  {item.name}
-                </div>
+              <div
+                key={item.name}
+                onClick={() => {
+                  filterHandler(item.name, "brand");
+                }}
+                className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl flex justify-center items-center"
+              >
+                <img
+                  src={item.background}
+                  className="bg-cover w-full h-auto absolute"
+                ></img>
               </div>
             ))}
           </div>
