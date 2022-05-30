@@ -9,8 +9,47 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const filterHandler = (id) => {
+    console.log("Called");
     navigate("/shop", { state: id });
   };
+
+  const categoriesArray = [
+    {
+      background: bg,
+      name: "Mobile",
+    },
+    {
+      background: bg,
+      name: "Laptop",
+    },
+    {
+      background: bg,
+      name: "Camera",
+    },
+    {
+      background: bg,
+      name: "Mobile",
+    },
+  ];
+
+  const brandsArray = [
+    {
+      background: bg,
+      name: "Samsung",
+    },
+    {
+      background: bg,
+      name: "Lenovo",
+    },
+    {
+      background: bg,
+      name: "Apple",
+    },
+    {
+      background: bg,
+      name: "Nikon",
+    },
+  ];
   return (
     <div>
       <Navigation />
@@ -40,63 +79,22 @@ const Landing = () => {
           />
         </div>
         <div className="flex justify-center items-center">
-          <div className="w-4/5 grid grid-cols-4 h-52 gap-8">
-            <div className="relative">
-              <div
-                style={{ backgroundImage: `url(${bg})` }}
-                className="w-full h-full opacity-60 absolute hover:tr"
-              ></div>
-              <div
-                className="absolute top-0 left-0 w-full h-full text-center"
-                onClick={() => {
-                  filterHandler("Mobile Phone");
-                }}
-              >
-                Mobile Phone
+          <div className="w-3/5 grid grid-cols-4 h-52 gap-8">
+            {categoriesArray.map((item) => (
+              <div className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl">
+                <div
+                  onClick={() => {
+                    filterHandler(item.name);
+                  }}
+                  style={{ backgroundImage: `url(${item.background})` }}
+                  className="w-full h-full opacity-60 absolute"
+                ></div>
+
+                <div className="absolute top-[40%] left-1/3 text-center">
+                  {item.name}
+                </div>
               </div>
-            </div>
-            <div className="relative">
-              <div
-                style={{ backgroundImage: `url(${bg})` }}
-                className="w-full h-full opacity-60 absolute"
-              ></div>
-              <div
-                className="absolute top-0 left-0 w-full h-full"
-                onClick={() => {
-                  filterHandler("Mobile Phone");
-                }}
-              >
-                Mobile Phone
-              </div>
-            </div>
-            <div className="relative">
-              <div
-                style={{ backgroundImage: `url(${bg})` }}
-                className="w-full h-full opacity-60 absolute"
-              ></div>
-              <div
-                className="absolute top-0 left-0 w-full h-full "
-                onClick={() => {
-                  filterHandler("Mobile Phone");
-                }}
-              >
-                Mobile Phone
-              </div>
-            </div>
-            <div className="relative">
-              <div
-                style={{ backgroundImage: `url(${bg})` }}
-                className="w-full h-full opacity-60 absolute"
-              ></div>
-              <div
-                className="absolute top-0 left-0 w-full h-full"
-                onClick={() => {
-                  filterHandler("Mobile Phone");
-                }}
-              >
-                Mobile Phone
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -111,12 +109,23 @@ const Landing = () => {
             }}
           />
         </div>
-        <div>
-          <div className="grid grid-cols-4">
-            <div>Brand 1</div>
-            <div>Brand 2</div>
-            <div>Brand 3</div>
-            <div>Brand 4</div>
+        <div className="flex justify-center items-center">
+          <div className="w-3/5 grid grid-cols-4 h-52 gap-8">
+            {brandsArray.map((item) => (
+              <div className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl">
+                <div
+                  onClick={() => {
+                    filterHandler(item.name);
+                  }}
+                  style={{ backgroundImage: `url(${item.background})` }}
+                  className="w-full h-full opacity-60 absolute"
+                ></div>
+
+                <div className="absolute top-[40%] left-1/3 text-center">
+                  {item.name}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
