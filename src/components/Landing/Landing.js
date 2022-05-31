@@ -94,21 +94,21 @@ const Landing = () => {
           />
         </div>
         <div className="flex justify-center items-center my-24">
-          <div className="w-3/5 grid grid-cols-4 h-52 gap-8">
+          <div className="w-3/5 grid grid-cols-4 h-48 gap-8">
             {categoriesArray.map((item) => (
               <div
                 key={item.name}
                 onClick={() => {
                   filterHandler(item.name, "category");
                 }}
-                className="cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl"
+                className="w-48 cursor-pointer relative transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl"
               >
-                <div
-                  style={{ backgroundImage: `url(${item.background})` }}
-                  className="bg-cover w-full h-full opacity-60 absolute"
-                ></div>
+                <img
+                  src={item.background}
+                  className="bg-cover w-full h-auto opacity-40 border-2 border-teal-500 rounded-xl absolute"
+                ></img>
 
-                <div className="font-bold absolute top-[40%] left-1/3 text-center">
+                <div className="font-bold absolute top-1/2 left-1/2 text-center">
                   {item.name}
                 </div>
               </div>

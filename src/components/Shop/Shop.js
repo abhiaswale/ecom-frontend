@@ -8,7 +8,7 @@ import Prod from "../Prod";
 
 const Shop = () => {
   const location = useLocation();
-  console.log(location.state);
+  // console.log(location.state);
   const filterId = location.state;
   const [products, setProducts] = useState("");
   const authCtx = useContext(AuthContext);

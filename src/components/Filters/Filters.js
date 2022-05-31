@@ -22,6 +22,7 @@ const Filters = (props) => {
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
   const [products, setProducts] = useState(props.products);
+
   let filteredProducts = [];
 
   //Filter Logic
@@ -51,49 +52,32 @@ const Filters = (props) => {
   };
 
   if (filtering) {
-    filteredProducts = props.products.filter((product) => {
-      if (
-        checked.includes(product.productCategory) ||
-        bChecked.includes(product.productBrand)
-      ) {
-        return product;
-      } else if (
-        checked.includes(product.productCategory) ||
-        bChecked.includes(product.productBrand)
-      ) {
-        return product;
-      }
-      return null;
-    });
-    console.log(filteredProducts); //logs the filtered products   /////////////////////////
-    setFProd(filteredProducts); //too many re-renders error
-    setFiltering(false);
-  }
-
-  if (filtering) {
+    if (checked.length > 0 || bChecked.length > 0) {
+      filteredProducts = props.products.filter((product) => {
+        if (
+          checked.includes(product.productCategory) ||
+          bChecked.includes(product.productBrand)
+        ) {
+          return product;
+        }
+        return null;
+      });
+      setFProd(filteredProducts);
+    }
     if (checked.length > 0 && bChecked.length > 0) {
-      const prods = [...fProd];
-      console.log("Filtered Products", prods);
-      filteredProducts = fProd.filter((p) => {
+      filteredProducts = props.products.filter((p) => {
         if (
           checked.includes(p.productCategory) &&
           bChecked.includes(p.productBrand)
         ) {
           console.log(p);
           return p;
-        } else if (bChecked.includes(p.productBrand)) {
-          return p;
         }
         return null;
       });
       setFProd(filteredProducts);
-
-      setFiltering(false);
     }
-  }
-
-  if (fProd.length > 0) {
-    console.log(fProd);
+    setFiltering(false);
   }
 
   useEffect(() => {
@@ -108,9 +92,24 @@ const Filters = (props) => {
 
   let content;
 
-  if (fProd.length > 0) {
-    setProducts(fProd);
-  }
+  // content = (
+  //   <div className="grid grid-cols-4">
+  //     {products.map((prod) => (
+  //       <div key={prod._id}>
+  //         <h1>{prod.productName}</h1>
+  //         <span>{prod.productPrice}</span>
+  //         <img src={prod.productImage} className="w-60"></img>
+  //         <button
+  //           onClick={() => {
+  //             props.onAdd(prod._id);
+  //           }}
+  //         >
+  //           Add to cart
+  //         </button>
+  //       </div>
+  //     ))}
+  //   </div>
+  // );
   if (fProd.length > 0) {
     content = (
       <div className="grid grid-cols-4">
@@ -132,32 +131,70 @@ const Filters = (props) => {
     );
   }
 
-  if (bChecked.length <= 0 && checked.length <= 0 && fProd.length <= 0) {
+  if (fProd.length <= 0) {
+    content = (
+      <div className="grid grid-cols-4">
+        {products.map((prod) => (
+          <div key={prod._id}>
+            <h1>{prod.productName}</h1>
+            <span>{prod.productPrice}</span>
+            <img src={prod.productImage} className="w-60"></img>
+            <button
+              onClick={() => {
+                props.onAdd(prod._id);
+              }}
+            >
+              Add to cart
+            </button>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if ((bChecked.length > 0 || checked.length > 0) && fProd.length <= 0) {
     content = <h1>No Products found</h1>;
   }
 
+  //SORTING LOGIC
   const SortHandler = (value) => {
-    console.log("Sortefewef = ", fProd);
-    let ordered = fProd.sort((a, b) =>
-      a.productPrice > b.productPrice ? 1 : -1
-    );
-    let lastElement = ordered.pop();
-    ordered.unshift(lastElement);
-    console.log(ordered);
+    if (value == -1) {
+      const p = props.products.sort((a, b) => {
+        return Number(a.productPrice) - Number(b.productPrice);
+      });
+      console.log(p);
+      setProducts(p);
+    }
+    if (value == 1) {
+      const p = props.products.sort((a, b) => {
+        return Number(b.productPrice) - Number(a.productPrice);
+      });
+      console.log(p);
+      setProducts(p);
+    }
   };
 
   return (
     <div className="flex justify-start items-start">
-      <div className="">
-        <div className="flex justify-center items-center">
-          <h3>Filters</h3>
-          <button>Clear All</button>
+      <div className="ml-4 w-1/5 my-8">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-bold ">FILTERS</h3>
+          <button
+            onClick={() => {
+              setBChecked([]);
+              setChecked([]);
+              setFiltering(true);
+            }}
+          >
+            Clear All
+          </button>
         </div>
-        <div>
+        <div className="border-b-[1px] border-indigo-500"></div>
+        <div className="text-left">
           <ul>
-            <li>Sort</li>
+            <li className="text-[1.1rem] font-bold p-[2px] my-2">SORT</li>
             <li>
-              <label htmlFor="htl">
+              <label>
                 <input
                   type="radio"
                   id="htl"
@@ -171,7 +208,7 @@ const Filters = (props) => {
               </label>
             </li>
             <li>
-              <label htmlFor="htl">
+              <label>
                 <input
                   type="radio"
                   id="lth"
@@ -185,8 +222,9 @@ const Filters = (props) => {
               </label>
             </li>
           </ul>
+          <div className="border-b-[1px] border-indigo-500"></div>
           <ul>
-            <li>CATEGORY</li>
+            <li className="text-[1.1rem] font-bold p-[2px] my-2">CATEGORY</li>
             {categoryFilters.map((value, index) => (
               <li key={index}>
                 <input
@@ -200,8 +238,9 @@ const Filters = (props) => {
               </li>
             ))}
           </ul>
+          <div className="border-b-[1px] border-indigo-500"></div>
           <ul>
-            <li>BRAND</li>
+            <li className="text-[1.1rem] font-bold p-[2px] my-2">BRAND</li>
             {brandFilters.map((value, index) => (
               <li key={index}>
                 <input
