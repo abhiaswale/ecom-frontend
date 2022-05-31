@@ -52,6 +52,7 @@ const Filters = (props) => {
   };
 
   if (filtering) {
+    console.log(checked, bChecked);
     if (checked.length > 0 || bChecked.length > 0) {
       filteredProducts = props.products.filter((product) => {
         if (
@@ -77,6 +78,7 @@ const Filters = (props) => {
       });
       setFProd(filteredProducts);
     }
+    setFProd(filteredProducts);
     setFiltering(false);
   }
 
@@ -90,71 +92,13 @@ const Filters = (props) => {
     }
   }, [props.fId]);
 
-  let content;
-
-  // content = (
-  //   <div className="grid grid-cols-4">
-  //     {products.map((prod) => (
-  //       <div key={prod._id}>
-  //         <h1>{prod.productName}</h1>
-  //         <span>{prod.productPrice}</span>
-  //         <img src={prod.productImage} className="w-60"></img>
-  //         <button
-  //           onClick={() => {
-  //             props.onAdd(prod._id);
-  //           }}
-  //         >
-  //           Add to cart
-  //         </button>
-  //       </div>
-  //     ))}
-  //   </div>
-  // );
-  if (fProd.length > 0) {
-    content = (
-      <div className="grid grid-cols-4">
-        {fProd.map((prod) => (
-          <div key={prod._id}>
-            <h1>{prod.productName}</h1>
-            <span>{prod.productPrice}</span>
-            <img src={prod.productImage} className="w-60"></img>
-            <button
-              onClick={() => {
-                props.onAdd(prod._id);
-              }}
-            >
-              Add to cart
-            </button>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (fProd.length <= 0) {
-    content = (
-      <div className="grid grid-cols-4">
-        {products.map((prod) => (
-          <div key={prod._id}>
-            <h1>{prod.productName}</h1>
-            <span>{prod.productPrice}</span>
-            <img src={prod.productImage} className="w-60"></img>
-            <button
-              onClick={() => {
-                props.onAdd(prod._id);
-              }}
-            >
-              Add to cart
-            </button>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if ((bChecked.length > 0 || checked.length > 0) && fProd.length <= 0) {
-    content = <h1>No Products found</h1>;
-  }
+  useEffect(() => {
+    if (fProd.length > 0) {
+      setProducts(fProd);
+    } else if (fProd.length <= 0) {
+      setProducts(props.products);
+    }
+  }, [fProd]);
 
   //SORTING LOGIC
   const SortHandler = (value) => {
@@ -173,6 +117,30 @@ const Filters = (props) => {
       setProducts(p);
     }
   };
+
+  let content;
+  content = (
+    <div className="grid grid-cols-4">
+      {products.map((prod) => (
+        <div key={prod._id}>
+          <h1>{prod.productName}</h1>
+          <span>{prod.productPrice}</span>
+          <img src={prod.productImage} className="w-60"></img>
+          <button
+            onClick={() => {
+              props.onAdd(prod._id);
+            }}
+          >
+            Add to cart
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+
+  if ((bChecked.length > 0 || checked.length > 0) && fProd.length <= 0) {
+    content = <h1>No Products found</h1>;
+  }
 
   return (
     <div className="flex justify-start items-start">
