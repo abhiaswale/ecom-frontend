@@ -21,9 +21,13 @@ const Prod = () => {
   }, []);
 
   const getCartHandler = () => {
-    fetch(`http://localhost:3000/cart`, {
+    fetch(`http://localhost:3000/user/cart`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authCtx.token,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -37,7 +41,7 @@ const Prod = () => {
 
   const addtoCartHandler = (id) => {
     console.log(id);
-    fetch(`http://localhost:3000/add-to-cart/${id}`, {
+    fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,9 +63,12 @@ const Prod = () => {
 
   const removeFromCartHandler = (id) => {
     console.log(id);
-    fetch(`http://localhost:3000/delete-from-cart/${id}`, {
+    fetch(`http://localhost:3000/user/delete-from-cart/${id}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: authCtx.token,
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => res.json())
       .then((data) => {

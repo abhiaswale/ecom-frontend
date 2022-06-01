@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 const Filters = (props) => {
   const categoryFilters = [
     { id: 1, name: "Mobile", type: "category" },
@@ -22,6 +24,11 @@ const Filters = (props) => {
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
   const [products, setProducts] = useState(props.products);
+
+  const navigate = useNavigate();
+
+  const wishlist = props.wishlist;
+  console.log(wishlist);
 
   let filteredProducts = [];
 
@@ -102,36 +109,43 @@ const Filters = (props) => {
 
   //SORTING LOGIC
   const SortHandler = (value) => {
+    let p;
     if (value == -1) {
-      const p = props.products.sort((a, b) => {
+      p = products.sort((a, b) => {
         return Number(a.productPrice) - Number(b.productPrice);
       });
-      console.log(p);
-      setProducts(p);
     }
     if (value == 1) {
-      const p = props.products.sort((a, b) => {
+      p = products.sort((a, b) => {
         return Number(b.productPrice) - Number(a.productPrice);
       });
-      console.log(p);
-      setProducts(p);
     }
+    console.log(p);
+    setProducts([...p]);
   };
 
   let content;
   content = (
-    <div className="grid grid-cols-4">
+    <div className="grid grid-cols-4 gap-4">
       {products.map((prod) => (
         <div key={prod._id}>
+          <div
+            className="flex justify-center items-center"
+            onClick={() => {
+              navigate(`/shop/${prod._id}`);
+            }}
+          >
+            <img src={prod.productImage} className="w-52 h-52 bg-cover"></img>
+          </div>
+          <p>{prod.productBrand}</p>
           <h1>{prod.productName}</h1>
           <span>{prod.productPrice}</span>
-          <img src={prod.productImage} className="w-60"></img>
           <button
             onClick={() => {
               props.onAdd(prod._id);
             }}
           >
-            Add to cart
+            add to cart
           </button>
         </div>
       ))}
@@ -153,13 +167,14 @@ const Filters = (props) => {
               setChecked([]);
               setFiltering(true);
             }}
+            className="underline leading-4"
           >
             Clear All
           </button>
         </div>
         <div className="border-b-[1px] border-indigo-500"></div>
         <div className="text-left">
-          <ul>
+          <ul className="my-2">
             <li className="text-[1.1rem] font-bold p-[2px] my-2">SORT</li>
             <li>
               <label>
@@ -171,6 +186,7 @@ const Filters = (props) => {
                   onChange={() => {
                     SortHandler(1);
                   }}
+                  className="mr-2"
                 />
                 High to low
               </label>
@@ -185,13 +201,14 @@ const Filters = (props) => {
                   onChange={() => {
                     SortHandler(-1);
                   }}
+                  className="mr-2"
                 />
                 Low to High
               </label>
             </li>
           </ul>
           <div className="border-b-[1px] border-indigo-500"></div>
-          <ul>
+          <ul className="my-2">
             <li className="text-[1.1rem] font-bold p-[2px] my-2">CATEGORY</li>
             {categoryFilters.map((value, index) => (
               <li key={index}>
@@ -207,7 +224,7 @@ const Filters = (props) => {
             ))}
           </ul>
           <div className="border-b-[1px] border-indigo-500"></div>
-          <ul>
+          <ul className="my-2">
             <li className="text-[1.1rem] font-bold p-[2px] my-2">BRAND</li>
             {brandFilters.map((value, index) => (
               <li key={index}>

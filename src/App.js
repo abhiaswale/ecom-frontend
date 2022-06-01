@@ -9,6 +9,7 @@ import Prod from "./components/Prod";
 import Footer from "./components/Footer/Footer";
 import Signup from "./pages/Signup";
 import SearchPage from "./pages/SearchPage";
+import SingleProduct from "./components/Filters/SingleProduct";
 function App() {
   return (
     <div className="font-Sans text-center ">
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:id" element={<SingleProduct />} />
         <Route path="/search" element={<SearchPage />}></Route>
         <Route path="/" element={<Landing />} />
         <Route
@@ -42,7 +44,7 @@ function App() {
           <Route path="orders" element={<>hi orders</>}></Route>
         </Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

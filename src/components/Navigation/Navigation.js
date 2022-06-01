@@ -13,10 +13,12 @@ const Navigation = () => {
   const authCtx = useContext(AuthContext);
   const cartContext = useContext(CartContext);
   const [count, setCount] = useState(0);
+  const [wCount, setWCount] = useState(0);
 
   useEffect(() => {
     console.log("called");
     setCount(cartContext.cartQuantity);
+    setWCount(cartContext.wishlistQuantity);
   });
 
   const logoutHandler = () => {
@@ -56,7 +58,7 @@ const Navigation = () => {
             {authCtx.isAuth && <p className="text-sm">Hi,{authCtx.userName}</p>}
             {!authCtx.isAuth && <p className="text-sm">Login</p>}
           </Link>
-          <Badge badgeContent={authCtx.isAuth ? count : 0} color="primary">
+          <Badge badgeContent={authCtx.isAuth ? wCount : 0} color="primary">
             <Link to="/wishlist">
               <FavoriteIcon />
               <p>Wishlist</p>
