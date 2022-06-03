@@ -16,7 +16,7 @@ const Navigation = () => {
   const [wCount, setWCount] = useState(0);
 
   useEffect(() => {
-    console.log("called");
+    // console.log("called");
     setCount(cartContext.cartQuantity);
     setWCount(cartContext.wishlistQuantity);
   });

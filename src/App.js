@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer";
 import Signup from "./pages/Signup";
 import SearchPage from "./pages/SearchPage";
 import SingleProduct from "./components/Filters/SingleProduct";
+import Wishlist from "./components/Account/Wishlist";
 function App() {
   return (
     <div className="font-Sans text-center ">
@@ -28,7 +29,14 @@ function App() {
             </PrivateRoute>
           }
         ></Route>
-        <Route path="/wishlist" element={<PrivateRoute></PrivateRoute>}></Route>
+        <Route
+          path="/wishlist"
+          element={
+            <PrivateRoute>
+              <Wishlist />
+            </PrivateRoute>
+          }
+        ></Route>
         <Route
           path="/account"
           element={

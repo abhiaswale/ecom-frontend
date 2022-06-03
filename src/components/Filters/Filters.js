@@ -23,13 +23,41 @@ const Filters = (props) => {
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
-  const [products, setProducts] = useState(props.products);
+  const [products, setProducts] = useState(props.wishlistProds);
+  const wishlist = props.wishlist;
+
+  console.log(products);
+
+  // const Temp = () => {
+  //   const prod = [...products];
+  //   prod.forEach((p) => {
+  //     wishlist.forEach((e) => {
+  //       let updatedItem;
+  //       if (e.productId === p._id) {
+  //         const index = prod.findIndex((i) => e.productId === i._id);
+  //         console.log(index);
+  //         updatedItem = { ...p, wishlist: true };
+  //         prod[index] = updatedItem;
+  //       } else if (p._id !== e.productId) {
+  //         const index = products.findIndex((i) => p._id === i._id);
+  //         updatedItem = { ...p, wishlist: false };
+  //         prod[index] = updatedItem;
+  //       }
+  //     });
+  //   });
+  //   console.log(prod);
+  //   setProducts(prod);
+  // };
+  // useEffect(() => {
+  //   if (wishlist.length > 0) {
+  //     Temp();
+  //   }
+  // }, [wishlist]);
 
   const navigate = useNavigate();
 
-  const wishlist = props.wishlist;
-  console.log(wishlist);
-
+  // console.log(wishlist);
+  // console.log(products);
   let filteredProducts = [];
 
   //Filter Logic
@@ -147,6 +175,7 @@ const Filters = (props) => {
           >
             add to cart
           </button>
+          <button>{prod.wishlist === true ? "y" : "n"}</button>
         </div>
       ))}
     </div>

@@ -38,7 +38,7 @@ export const CartContextProvider = (props) => {
         data.data.forEach((element) => {
           count++;
         });
-        console.log(count);
+        // console.log(count);
         setWishlistQuan(count);
       });
   };
