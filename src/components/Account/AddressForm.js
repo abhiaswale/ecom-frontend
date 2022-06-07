@@ -55,7 +55,7 @@ const AddressForm = (props) => {
             <option value="Australia">Australia</option>
           </select>
         </label>
-        <input
+        <input 
           type="text"
           placeholder="Enter name"
           name="name"

@@ -11,7 +11,7 @@ const Account = () => {
       <div className="border-b-[1px] border-indigo-500 mx-80"></div>
       <div className="flex justify-center items-center flex-row">
         <div className="grid grid-cols-20/80 divide-x divide-indigo-500 w-3/5">
-          <nav className=" px-4 grid grid-cols-1 divide-y divide-indigo-500 w-auto font-semibold text-xl h-auto">
+          <nav className=" px-4 grid grid-cols-1 divide-y divide-indigo-500 w-auto font-semibold text-xl h-[15rem]">
             <NavLink
               to="/account"
               className={({ isActive }) =>
