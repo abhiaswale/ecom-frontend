@@ -11,6 +11,8 @@ import Signup from "./pages/Signup";
 import SearchPage from "./pages/SearchPage";
 import SingleProduct from "./components/Filters/SingleProduct";
 import Wishlist from "./components/Account/Wishlist";
+import Orders from "./components/Account/Orders";
+import Cart from "./components/Cart/Cart";
 function App() {
   return (
     <div className="font-Sans text-center ">
@@ -25,7 +27,7 @@ function App() {
           path="/cart"
           element={
             <PrivateRoute>
-              <Prod />
+              <Cart />
             </PrivateRoute>
           }
         ></Route>
@@ -49,7 +51,7 @@ function App() {
           <Route path="address" element={<>Address</>}></Route>
           <Route path="setting" element={<>hi setting</>}></Route>
           <Route path="wishlist" element={<></>}></Route>
-          <Route path="orders" element={<>hi orders</>}></Route>
+          <Route path="orders" element={<Orders />}></Route>
         </Route>
       </Routes>
       {/* <Footer /> */}

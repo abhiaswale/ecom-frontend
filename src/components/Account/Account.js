@@ -8,14 +8,14 @@ const Account = () => {
     <>
       <Navigation />
       <div className="text-3xl p-4 my-4 font-semibold">ACCOUNT</div>
-      <div className=" my-4 border-b-[1px] border-indigo-500 mx-80"></div>
+      <div className="border-b-[1px] border-indigo-500 mx-80"></div>
       <div className="flex justify-center items-center flex-row">
-        <div className="grid grid-cols-20/80 divide-x divide-indigo-500  w-1/2">
-          <nav className="grid grid-cols-1 divide-y divide-indigo-500 w-auto font-semibold">
+        <div className="grid grid-cols-20/80 divide-x divide-indigo-500 w-3/5">
+          <nav className=" px-4 grid grid-cols-1 divide-y divide-indigo-500 w-auto font-semibold text-xl h-auto">
             <NavLink
               to="/account"
               className={({ isActive }) =>
-                isActive ? "font-bold" : " font-thin"
+                isActive ? "py-4 font-bold" : "py-4 font-thin"
               }
               end
             >
@@ -24,7 +24,7 @@ const Account = () => {
             <NavLink
               to="/account/orders"
               className={({ isActive }) =>
-                isActive ? "font-bold" : " font-thin"
+                isActive ? "py-4 font-bold" : "py-4 font-thin"
               }
             >
               Orders
@@ -32,14 +32,16 @@ const Account = () => {
             <NavLink
               to="/account/address"
               className={({ isActive }) =>
-                isActive ? " font-bold" : " font-thin"
+                isActive ? "py-4 font-bold" : "py-4 font-thin"
               }
             >
               Address
             </NavLink>
             <NavLink
               to="/account/setting"
-              className={({ isActive }) => (isActive ? "text-lg" : "text-sm")}
+              className={({ isActive }) =>
+                isActive ? "py-4 font-bold" : "py-4 font-thin"
+              }
             >
               Setting
             </NavLink>

@@ -3,28 +3,7 @@ import AuthContext from "../Context/auth-context";
 
 const Profile = () => {
   const [userData, setUserData] = useState();
-
   const authCtx = useContext(AuthContext);
-
-  // const getCartHandler = () => {
-  //   fetch(`http://localhost:3000/cart`, {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setCart(data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  // if (cart) {
-  //   console.log(cart);
-  // }
-
   useEffect(() => {
     getUserDetails();
   }, []);
@@ -45,12 +24,23 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="text-left m-6">
       {userData && (
-        <section>
-          <p>hjkj</p>
-          <p>{userData.firstName}</p>
-        </section>
+        <div>
+          <h3 className=" font-semibold">PROFILE DETAILS</h3>
+          <div className="my-4 w-2/3">
+            <section className="my-2 grid grid-cols-2">
+              <p>Full Name :</p>
+              <p>
+                {userData.firstName} {userData.lastName}
+              </p>
+            </section>
+            <section className="my-2 grid grid-cols-2">
+              <p>Email :</p>
+              <p>{userData.email}</p>
+            </section>
+          </div>
+        </div>
       )}
     </div>
   );
