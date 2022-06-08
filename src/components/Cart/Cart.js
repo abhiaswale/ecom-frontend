@@ -28,6 +28,11 @@ const Cart = () => {
       .then((data) => {
         console.log(data.data);
         setProducts(data.data);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
       });
   };
 

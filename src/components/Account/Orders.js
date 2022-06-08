@@ -27,18 +27,18 @@ const Orders = () => {
       <h3 className="font-semibold my-2">MY ORDERS</h3>
 
       {orders.map((o) => (
-        <div>
-          <div>
-            <p>Order Confirmed</p>
+        <div className="p-4 shadow-2xl rounded-lg text-sm">
+          <div className="my-2 text-sm">
+            <p className="text-base font-semibold">Order Confirmed</p>
             <p>{o.createdAt}</p>
           </div>
-          <p>Order #{o._id}</p>
-          <p>Total: {o.totalAmount}</p>
+          <p className="my-2">Order #{o._id}</p>
+          <p className="my-2">Total: &#8377;{o.totalAmount}</p>
           <p>
             Deliver To: {o.address.Name} {o.address.AddressLine1},
             {o.address.AddressLine2},{o.address.City},{o.address.State}
           </p>
-          <div>
+          <div className="my-2">
             {o.products.map((p) => (
               <div
                 onClick={() => {}}

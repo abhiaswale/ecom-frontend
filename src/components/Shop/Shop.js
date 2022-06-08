@@ -68,7 +68,7 @@ const Shop = () => {
     setfP(prod);
   };
   useEffect(() => {
-    if (wishlist.length > 0 && products.length > 0) {
+    if (wishlist && wishlist.length > 0 && products.length > 0) {
       Temp();
     }
   }, [wishlist, products]);

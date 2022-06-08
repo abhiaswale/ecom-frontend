@@ -4,6 +4,7 @@ const CartContext = React.createContext({
   wishlistQuantity: 0,
   updateCartQuan: () => {},
   updateWishlistQuan: () => {},
+  // addToCart:()=>{}
 });
 
 export const CartContextProvider = (props) => {
