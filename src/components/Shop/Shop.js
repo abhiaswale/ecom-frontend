@@ -74,20 +74,21 @@ const Shop = () => {
   }, [wishlist, products]);
 
   const addtoCartHandler = (id) => {
-    fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        cartCtx.updateCartQuan();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: authCtx.token,
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     cartCtx.updateCartQuan();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    cartCtx.addToCart(id);
   };
 
   return (

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CartContext from "../Context/cart-context";
 const Filters = (props) => {
   const categoryFilters = [
     { id: 1, name: "Mobile", type: "category" },
@@ -26,8 +27,8 @@ const Filters = (props) => {
   const [products, setProducts] = useState(props.wishlistProds);
   const wishlist = props.wishlist;
 
-  console.log(products);
-
+  const cartCtx = useContext(CartContext);
+  // console.log(products);
   // const Temp = () => {
   //   const prod = [...products];
   //   prod.forEach((p) => {
@@ -170,7 +171,8 @@ const Filters = (props) => {
           <span>{prod.productPrice}</span>
           <button
             onClick={() => {
-              props.onAdd(prod._id);
+              // props.onAdd(prod._id);
+              cartCtx.addToCart(prod._id);
             }}
           >
             add to cart

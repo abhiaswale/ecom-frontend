@@ -4,12 +4,14 @@ const CartContext = React.createContext({
   wishlistQuantity: 0,
   updateCartQuan: () => {},
   updateWishlistQuan: () => {},
-  // addToCart:()=>{}
+  addToCart: () => {},
+  cart: [],
 });
 
 export const CartContextProvider = (props) => {
   const [quan, setQuan] = useState(null);
   const [wishlistquan, setWishlistQuan] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
 
   const updateCart = () => {
     fetch("http://localhost:3000/user/cart", {
@@ -39,8 +41,25 @@ export const CartContextProvider = (props) => {
         data.data.forEach((element) => {
           count++;
         });
-        // console.log(count);
         setWishlistQuan(count);
+      });
+  };
+
+  const addtoCartHandler = (id) => {
+    fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        headers: { Authorization: localStorage.getItem("token") },
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCartItems(data.data.items);
+        updateCart();
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -54,7 +73,10 @@ export const CartContextProvider = (props) => {
     updateCartQuan: updateCart,
     wishlistQuantity: wishlistquan,
     updateWishlistQuan: updateWishlist,
+    addtoCart: addtoCartHandler,
+    cartItems: cartItems,
   };
+  y;
 
   return (
     <CartContext.Provider value={contextValue}>
