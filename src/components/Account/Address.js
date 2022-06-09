@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 import AuthContext from "../Context/auth-context";
 import AddressForm from "./AddressForm";
@@ -12,13 +13,13 @@ const Address = () => {
   const [editAddress, setEditAddress] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:3000/user/details", {
+    fetch("http://localhost:3000/get-addresses", {
       method: "GET",
       headers: { Authorization: authCtx.token },
     })
       .then((res) => res.json())
       .then((data) => {
-        setAddresses(data.user.addresses);
+        setAddresses(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +27,7 @@ const Address = () => {
   }, []);
 
   const removeAddress = (id) => {
-    fetch(`http://localhost:3000/user/remove-address/${id}`, {
+    fetch(`http://localhost:3000/remove-address/${id}`, {
       method: "POST",
       headers: {
         Authorization: authCtx.token,
@@ -53,44 +54,49 @@ const Address = () => {
   return (
     <div className="text-left m-6">
       <h3 className="font-semibold my-6">MY ADDRESSES</h3>
-
       <section>
         {addresses.map((i) => (
-          <div className="p-2 my-2" key={i._id}>
-            <p className="font-semibold">{i.Name}</p>
-            <section>
+          <div className="my-2" key={i._id}>
+            <p className="font-semibold ">{i.Name}</p>
+            <section className="my-2 ">
               {i.AddressLine1}&nbsp;
               {i.City}, {i.State}-{i.Pincode}
               <p>{i.Country}</p>
               <p>Mobile Number: {i.Mobile}</p>
             </section>
-            <div>
-              <button
-                onClick={() => {
-                  editHandler(i._id);
-                }}
-              >
-                Edit
-              </button>
-
-              <button
-                onClick={() => {
-                  removeAddress(i._id);
-                }}
-              >
-                Remove
-              </button>
+            <div className="flex justify-start items-start">
+              <div className="">
+                <button
+                  className="text-sm text-white my-2 p-[4px] px-4 border-[0.5px] border-[#0E3EDA] rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
+                  onClick={() => {
+                    editHandler(i._id);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
+              <div className="ml-4">
+                <button
+                  className="text-sm border-[0.5px] border-black my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3f404353]"
+                  onClick={() => {
+                    removeAddress(i._id);
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </section>
-      <div>
+      <div className=" my-8 ">
         <button
+          className="font-semibold"
           onClick={() => {
             setIsAddNew(true);
           }}
         >
-          Add Address
+          <AddIcon /> ADD NEW ADDRESS
         </button>
       </div>
       {isAddNew && (

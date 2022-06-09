@@ -17,9 +17,40 @@ const AddressForm = (props) => {
     { value: "Goa", label: "Goa" },
   ];
 
-  const addAddress = () => {
-    fetch("http://localhost:3000/user/add-address", {
-      method: "POST",
+  useEffect(() => {
+    if (props.isEdit) {
+      const addressData = props.addressData;
+      console.log(addressData);
+      setCountry(addressData.Country);
+      setName(addressData.Name);
+      setAddress(addressData.AddressLine1);
+      setState(addressData.State);
+      setPincode(addressData.Pincode);
+      setMobile(addressData.Mobile);
+      setCity(addressData.City);
+    }
+  }, []);
+
+  const cancelHandler = () => {
+    props.isEdit ? props.setIsEdit(false) : props.setIsAddNew(false);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(name);
+    console.log(address);
+    console.log(city);
+    console.log(state);
+    console.log(mobile);
+    console.log(pincode);
+    let url = "http://localhost:3000/add-address";
+    let method = "POST";
+    if (props.isEdit) {
+      url = `http://localhost:3000/edit-address/${props.addressData._id}`;
+      method = "PUT";
+    }
+    fetch(url, {
+      method: method,
       headers: {
         Authorization: authCtx.token,
         "Content-Type": "application/json",
@@ -42,35 +73,6 @@ const AddressForm = (props) => {
         props.setAddresses(data.data);
         cancelHandler();
       });
-  };
-
-  useEffect(() => {
-    if (props.isEdit) {
-      const addressData = props.addressData;
-      console.log(addressData);
-      setCountry(addressData.Country);
-      setName(addressData.Name);
-      setAddress(addressData.AddressLine1);
-      setState(addressData.State);
-      setPincode(addressData.Pincode);
-      setMobile(addressData.Mobile);
-      setCity(addressData.City);
-    }
-  }, []);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    console.log(name);
-    console.log(address);
-    console.log(city);
-    console.log(state);
-    console.log(mobile);
-    console.log(pincode);
-    addAddress();
-  };
-
-  const cancelHandler = () => {
-    props.isEdit ? props.setIsEdit(false) : props.setIsAddNew(false);
   };
 
   return (
