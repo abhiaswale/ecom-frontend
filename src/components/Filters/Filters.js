@@ -171,11 +171,10 @@ const Filters = (props) => {
           <span>{prod.productPrice}</span>
           <button
             onClick={() => {
-              // props.onAdd(prod._id);
               cartCtx.addToCart(prod._id);
             }}
           >
-            add to cart
+            Add to cart
           </button>
           <button>{prod.wishlist === true ? "y" : "n"}</button>
         </div>

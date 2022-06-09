@@ -4,7 +4,7 @@ const CartContext = React.createContext({
   wishlistQuantity: 0,
   updateCartQuan: () => {},
   updateWishlistQuan: () => {},
-  addToCart: () => {},
+  addToCart: (id) => {},
   cart: [],
 });
 
@@ -76,7 +76,6 @@ export const CartContextProvider = (props) => {
     addtoCart: addtoCartHandler,
     cartItems: cartItems,
   };
-  y;
 
   return (
     <CartContext.Provider value={contextValue}>
