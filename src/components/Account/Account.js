@@ -1,4 +1,3 @@
-import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import Navigation from "../Navigation/Navigation";

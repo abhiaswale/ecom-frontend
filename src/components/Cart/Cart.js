@@ -17,6 +17,7 @@ const Cart = () => {
   const authCtx = useContext(AuthContext);
 
   const getCart = () => {
+    // setProducts(cartCtx.cart);
     fetch("http://localhost:3000/user/cart", {
       method: "GET",
       headers: {
@@ -47,7 +48,7 @@ const Cart = () => {
   }, [getCart]);
 
   const getAddresses = () => {
-    fetch("http://localhost:3000/user/details", {
+    fetch("http://localhost:3000/get-addresses", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -56,10 +57,10 @@ const Cart = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.user.addresses);
-        setAddresses(data.user.addresses);
-        if (data.user.addresses.length > 0) {
-          setSelectedAddress(data.user.addresses[0]);
+        console.log(data.data);
+        setAddresses(data.data);
+        if (data.data.length > 0) {
+          setSelectedAddress(data.data[0]);
         }
       });
   };
@@ -107,6 +108,7 @@ const Cart = () => {
         console.log(err);
       });
   };
+
   const postOrder = () => {
     fetch(`http://localhost:3000/user/order`, {
       method: "POST",
@@ -165,6 +167,7 @@ const Cart = () => {
               </div>
               {selection && (
                 <AddressSelector
+                  setAddresses={setAddresses}
                   addresses={addresses}
                   addressSelector={setSelectedAddress}
                   selection={setSelection}
@@ -194,6 +197,7 @@ const Cart = () => {
                           className="border-[1px] border-black rounded-lg p-[4px] mr-2"
                           onClick={() => {
                             addtoCartHandler(p.productId._id);
+                            // cartCtx.addToCart(p.productId._id);
                           }}
                         >
                           <AddIcon />
@@ -205,6 +209,7 @@ const Cart = () => {
                           className="border-[1px] border-black rounded-lg p-[4px] mx-2"
                           onClick={() => {
                             removeFromCartHandler(p.productId._id);
+                            // cartCtx.removeFromCart(p.productId._id);
                           }}
                         >
                           {p.quantity <= 1 ? <DeleteIcon /> : <RemoveIcon />}
@@ -230,6 +235,7 @@ const Cart = () => {
             </section>
             <div className="my-4">
               <button
+                disabled={true}
                 className=" text-white  w-full p-2 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
                 onClick={() => {
                   postOrder();
@@ -237,6 +243,7 @@ const Cart = () => {
               >
                 Place Order
               </button>
+              {!selectedAddress && <p>Please select a address to checkout</p>}
             </div>
           </div>
         </div>

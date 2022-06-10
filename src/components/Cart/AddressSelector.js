@@ -1,5 +1,7 @@
 import React from "react";
+import AddressCard from "../Address/AddressCard";
 import Modal from "../Modal/Modal";
+import CloseIcon from "@mui/icons-material/Close";
 
 const AddressSelector = (props) => {
   const addressSelector = (e) => {
@@ -10,21 +12,30 @@ const AddressSelector = (props) => {
       }
     });
   };
+
   return (
     <Modal>
-      <div className="bg-gray-600">
-        <div>AddressSelector</div>
-        {props.addresses.map((a) => (
-          <label>
-            <input
-              type="radio"
-              name="address"
-              value={a._id}
-              onChange={addressSelector}
+      <div className="bg-white bg-opacity-50 w-full h-full relative">
+        <div className="bg-white h-auto w-2/5 absolute top-[28%] left-[28%]">
+          <div className="">
+            <CloseIcon
+              onClick={() => {
+                props.selection(false);
+              }}
             />
-            {a.Name}
-          </label>
-        ))}
+            {props.addresses.map((a) => (
+              <label className="flex justify-start items-baseline p-4">
+                <input
+                  type="radio"
+                  name="address"
+                  value={a._id}
+                  onChange={addressSelector}
+                />
+                <AddressCard i={a} setAddresses={props.setAddresses} />
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
     </Modal>
   );

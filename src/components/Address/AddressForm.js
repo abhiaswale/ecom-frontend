@@ -32,10 +32,11 @@ const AddressForm = (props) => {
   }, []);
 
   const cancelHandler = () => {
+    console.log("called");
     props.isEdit ? props.setIsEdit(false) : props.setIsAddNew(false);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     console.log(name);
     console.log(address);
@@ -49,6 +50,7 @@ const AddressForm = (props) => {
       url = `http://localhost:3000/edit-address/${props.addressData._id}`;
       method = "PUT";
     }
+
     fetch(url, {
       method: method,
       headers: {

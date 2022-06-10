@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
 import AuthContext from "../Context/auth-context";
-import AddressForm from "./AddressForm";
+import AddressForm from "../Address/AddressForm";
+import AddressCard from "../Address/AddressCard";
 
 const Address = () => {
   const [isAddNew, setIsAddNew] = useState(false);
@@ -26,23 +27,6 @@ const Address = () => {
       });
   }, []);
 
-  const removeAddress = (id) => {
-    fetch(`http://localhost:3000/remove-address/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: authCtx.token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setAddresses(data.data);
-        console.log(data);
-      });
-  };
-
   const editHandler = (id) => {
     console.log(id);
     setIsEdit(true);
@@ -56,37 +40,11 @@ const Address = () => {
       <h3 className="font-semibold my-6">MY ADDRESSES</h3>
       <section>
         {addresses.map((i) => (
-          <div className="my-2" key={i._id}>
-            <p className="font-semibold ">{i.Name}</p>
-            <section className="my-2 ">
-              {i.AddressLine1}&nbsp;
-              {i.City}, {i.State}-{i.Pincode}
-              <p>{i.Country}</p>
-              <p>Mobile Number: {i.Mobile}</p>
-            </section>
-            <div className="flex justify-start items-start">
-              <div className="">
-                <button
-                  className="text-sm text-white my-2 p-[4px] px-4 border-[0.5px] border-[#0E3EDA] rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
-                  onClick={() => {
-                    editHandler(i._id);
-                  }}
-                >
-                  Edit
-                </button>
-              </div>
-              <div className="ml-4">
-                <button
-                  className="text-sm border-[0.5px] border-black my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3f404353]"
-                  onClick={() => {
-                    removeAddress(i._id);
-                  }}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          </div>
+          <AddressCard
+            i={i}
+            editAddress={editHandler}
+            setAddresses={setAddresses}
+          />
         ))}
       </section>
       <div className=" my-8 ">
@@ -104,6 +62,7 @@ const Address = () => {
       )}
       {isEdit && (
         <AddressForm
+          addresses={addresses}
           setAddresses={setAddresses}
           isEdit={isEdit}
           addressData={editAddress}

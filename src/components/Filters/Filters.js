@@ -56,11 +56,7 @@ const Filters = (props) => {
   // }, [wishlist]);
 
   const navigate = useNavigate();
-
-  // console.log(wishlist);
-  // console.log(products);
   let filteredProducts = [];
-
   //Filter Logic
   const filterHandler = (id, type) => {
     setFiltering(true);
@@ -171,6 +167,7 @@ const Filters = (props) => {
           <span>{prod.productPrice}</span>
           <button
             onClick={() => {
+              // abc.addtoCart(prod._id);
               cartCtx.addToCart(prod._id);
             }}
           >
@@ -183,12 +180,12 @@ const Filters = (props) => {
   );
 
   if ((bChecked.length > 0 || checked.length > 0) && fProd.length <= 0) {
-    content = <h1>No Products found</h1>;
+    content = <h1 className="text-2xl font-bold my-20">No Products found!!</h1>;
   }
 
   return (
     <div className="flex justify-start items-start">
-      <div className="ml-4 w-1/5 my-8">
+      <div className="ml-16 w-[15%] my-8 ">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold ">FILTERS</h3>
           <button
@@ -202,7 +199,7 @@ const Filters = (props) => {
             Clear All
           </button>
         </div>
-        <div className="border-b-[1px] border-indigo-500"></div>
+        <Divider />
         <div className="text-left">
           <ul className="my-2">
             <li className="text-[1.1rem] font-bold p-[2px] my-2">SORT</li>
@@ -216,7 +213,7 @@ const Filters = (props) => {
                   onChange={() => {
                     SortHandler(1);
                   }}
-                  className="mr-2"
+                  className="mr-2 h-4 w-4"
                 />
                 High to low
               </label>
@@ -231,47 +228,61 @@ const Filters = (props) => {
                   onChange={() => {
                     SortHandler(-1);
                   }}
-                  className="mr-2"
+                  className="mr-2 h-4 w-4"
                 />
                 Low to High
               </label>
             </li>
           </ul>
-          <div className="border-b-[1px] border-indigo-500"></div>
+          <Divider />
           <ul className="my-2">
             <li className="text-[1.1rem] font-bold p-[2px] my-2">CATEGORY</li>
             {categoryFilters.map((value, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  onChange={() => {
-                    filterHandler(value.name, value.type);
-                  }}
-                  checked={checked.indexOf(value.name) === -1 ? false : true}
-                />
-                <label>{value.name}</label>
+              <li key={index} className="mt-1">
+                <label>
+                  <input
+                    type="checkbox"
+                    className="mr-2 h-4 w-4"
+                    onChange={() => {
+                      filterHandler(value.name, value.type);
+                    }}
+                    checked={checked.indexOf(value.name) === -1 ? false : true}
+                  />
+                  {value.name}
+                </label>
               </li>
             ))}
           </ul>
-          <div className="border-b-[1px] border-indigo-500"></div>
+          <Divider />
           <ul className="my-2">
             <li className="text-[1.1rem] font-bold p-[2px] my-2">BRAND</li>
             {brandFilters.map((value, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  onChange={() => {
-                    brandfilterHandler(value.name, value.type);
-                  }}
-                  checked={bChecked.indexOf(value.name) === -1 ? false : true}
-                />
-                <label>{value.name}</label>
+              <li key={index} className="mt-1">
+                <label>
+                  <input
+                    className="mr-2 h-4 w-4"
+                    type="checkbox"
+                    onChange={() => {
+                      brandfilterHandler(value.name, value.type);
+                    }}
+                    checked={bChecked.indexOf(value.name) === -1 ? false : true}
+                  />
+                  {value.name}
+                </label>
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <div>{content}</div>
+      <div className="w-[80%]">{content}</div>
+    </div>
+  );
+};
+
+export const Divider = () => {
+  return (
+    <div className="my-2 ">
+      <div className="border-b-[0.5px] border-indigo-500"></div>
     </div>
   );
 };

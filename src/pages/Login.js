@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../components/Context/auth-context";
 import Form from "../components/Form/Form";
+import Layout from "../components/Layout/Layout";
 import Navigation from "../components/Navigation/Navigation";
 
 const Login = () => {
@@ -44,10 +45,9 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <Navigation />
+    <Layout>
       <Form>
-        <form className="w-full" onSubmit={loginHandler}>
+        <form className="w-full " onSubmit={loginHandler}>
           <h1 className="text-2xl font-bold my-4">LOGIN</h1>
           <div className="my-4">
             <input
@@ -74,7 +74,7 @@ const Login = () => {
           </div>
         </form>
       </Form>
-    </div>
+    </Layout>
   );
 };
 

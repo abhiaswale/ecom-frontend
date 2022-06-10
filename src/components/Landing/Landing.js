@@ -14,6 +14,7 @@ import samsung from "../Assets/Brands/samsung.png";
 import apple from "../Assets/Brands/apple.png";
 import dell from "../Assets/Brands/dell.png";
 import asus from "../Assets/Brands/asus.jpg";
+import Layout from "../Layout/Layout";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -66,8 +67,8 @@ const Landing = () => {
   ];
 
   return (
-    <div>
-      <Navigation />
+    <Layout>
+      {/* <Navigation /> */}
       <div
         style={{ backgroundImage: `url(${bg})` }}
         className="bg-cover w-full h-[55vh]"
@@ -146,7 +147,7 @@ const Landing = () => {
           </div>
         </div>
       </section>
-    </div>
+    </Layout>
   );
 };
 

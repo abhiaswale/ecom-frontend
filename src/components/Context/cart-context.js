@@ -5,6 +5,7 @@ const CartContext = React.createContext({
   updateCartQuan: () => {},
   updateWishlistQuan: () => {},
   addToCart: (id) => {},
+  removeFromCart: (id) => {},
   cart: [],
 });
 
@@ -21,6 +22,7 @@ export const CartContextProvider = (props) => {
         return resp.json();
       })
       .then((data) => {
+        setCartItems(data.data);
         let count = 0;
         data.data.forEach((element) => {
           count++;
@@ -45,17 +47,39 @@ export const CartContextProvider = (props) => {
       });
   };
 
-  const addtoCartHandler = (id) => {
+  const addItemToCart = (id) => {
+    const token = localStorage.getItem("token");
     fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        headers: { Authorization: localStorage.getItem("token") },
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("called");
+        setCartItems(data.data.items);
+        updateCart();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const removeItemFromCart = (id) => {
+    fetch(`http://localhost:3000/user/delete-from-cart/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
       .then((data) => {
         setCartItems(data.data.items);
+      })
+      .then(() => {
         updateCart();
       })
       .catch((err) => {
@@ -69,12 +93,13 @@ export const CartContextProvider = (props) => {
   }, []);
 
   const contextValue = {
+    addToCart: addItemToCart,
+    removeFromCart: removeItemFromCart,
     cartQuantity: quan,
     updateCartQuan: updateCart,
     wishlistQuantity: wishlistquan,
     updateWishlistQuan: updateWishlist,
-    addtoCart: addtoCartHandler,
-    cartItems: cartItems,
+    cart: cartItems,
   };
 
   return (

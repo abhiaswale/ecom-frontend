@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import CartContext from "../Context/cart-context";
 import Filters from "../Filters/Filters";
+import Layout from "../Layout/Layout";
 import Navigation from "../Navigation/Navigation";
 import Prod from "../Prod";
 
@@ -92,8 +93,7 @@ const Shop = () => {
   };
 
   return (
-    <div>
-      <Navigation />
+    <Layout>
       {products && (
         <Filters
           products={products}
@@ -103,7 +103,7 @@ const Shop = () => {
           wishlist={wishlist}
         />
       )}
-    </div>
+    </Layout>
   );
 };
 
