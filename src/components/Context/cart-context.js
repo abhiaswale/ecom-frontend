@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const CartContext = React.createContext({
   cartQuantity: 0,
   wishlistQuantity: 0,
@@ -7,6 +8,8 @@ const CartContext = React.createContext({
   addToCart: (id) => {},
   removeFromCart: (id) => {},
   cart: [],
+  wishlist: [],
+  snack: "",
 });
 
 export const CartContextProvider = (props) => {
@@ -14,6 +17,9 @@ export const CartContextProvider = (props) => {
   const [wishlistquan, setWishlistQuan] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
+  const [snackbarContent, setSnackbar] = useState("");
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const getWishlistItems = () => {
     fetch("http://localhost:3000/user/wishlist", {
@@ -41,6 +47,7 @@ export const CartContextProvider = (props) => {
         return resp.json();
       })
       .then((data) => {
+        console.log(data);
         setCartItems(data.data);
         let count = 0;
         data.data.forEach((element) => {
@@ -65,15 +72,28 @@ export const CartContextProvider = (props) => {
         setWishlistQuan(count);
       });
   };
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       updateCart();
       updateWishlist();
+      getWishlistItems();
     }
   }, []);
 
+  const closeSnack = () => {
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  };
+
   const addItemToCart = (id) => {
+    setSnackbar("Adding item to the cart");
+    setOpen(true);
     const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
     fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
       method: "POST",
       headers: {
@@ -86,6 +106,8 @@ export const CartContextProvider = (props) => {
         console.log("called");
         setCartItems(data.data.items);
         updateCart();
+        setSnackbar("Added Item to cart");
+        closeSnack();
       })
       .catch((err) => {
         console.log(err);
@@ -93,6 +115,8 @@ export const CartContextProvider = (props) => {
   };
 
   const removeItemFromCart = (id) => {
+    setSnackbar("Removing Item from the cart");
+    setOpen(true);
     fetch(`http://localhost:3000/user/delete-from-cart/${id}`, {
       method: "POST",
       headers: {
@@ -106,6 +130,8 @@ export const CartContextProvider = (props) => {
       })
       .then(() => {
         updateCart();
+        setSnackbar("Removed Item from the cart");
+        closeSnack();
       })
       .catch((err) => {
         console.log(err);
@@ -120,6 +146,10 @@ export const CartContextProvider = (props) => {
     wishlistQuantity: wishlistquan,
     updateWishlistQuan: updateWishlist,
     cart: cartItems,
+    wishlist: wishlistItems,
+    snack: snackbarContent,
+    open: open,
+    setOpen: closeSnack,
   };
 
   return (

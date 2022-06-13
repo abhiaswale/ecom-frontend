@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../Context/auth-context";
-import Navigation from "../Navigation/Navigation";
 import AddressSelector from "./AddressSelector";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CartContext from "../Context/cart-context";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Layout from "../Layout/Layout";
+import SnackBar from "../util/SnackBar";
 
 const Cart = () => {
   const cartCtx = useContext(CartContext);
@@ -17,24 +18,8 @@ const Cart = () => {
   const authCtx = useContext(AuthContext);
 
   const getCart = () => {
-    // setProducts(cartCtx.cart);
-    fetch("http://localhost:3000/user/cart", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        setProducts(data.data);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+    setProducts(cartCtx.cart);
+    console.log(cartCtx.cart);
   };
 
   useEffect(() => {
@@ -69,46 +54,6 @@ const Cart = () => {
     getAddresses();
   }, []);
 
-  const addtoCartHandler = (id) => {
-    fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.data.items);
-      })
-      .then(() => {
-        cartCtx.updateCartQuan();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const removeFromCartHandler = (id) => {
-    fetch(`http://localhost:3000/user/delete-from-cart/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: authCtx.token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.data.items);
-      })
-      .then(() => {
-        cartCtx.updateCartQuan();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const postOrder = () => {
     if (products.length <= 0) {
       alert("CArt is Empty");
@@ -135,8 +80,8 @@ const Cart = () => {
   };
 
   return (
-    <div className="">
-      <Navigation />
+    <Layout>
+      <SnackBar />
       <h3 className="my-6 p-4 text-xl font-semibold">MY CART</h3>
       <div className=" text-left flex justify-center items-center">
         <div className="grid grid-cols-2 divide-x divide-indigo-500 gap-4 w-4/6">
@@ -179,8 +124,8 @@ const Cart = () => {
               )}
             </div>
             <div className="my-4 p-2 rounded-xl border-[1px] border-black">
-              {products &&
-                products.map((p) => (
+              {cartCtx.cart &&
+                cartCtx.cart.map((p) => (
                   <div
                     className="flex justify-center items-center p-2"
                     key={p.productId._id}
@@ -200,8 +145,7 @@ const Cart = () => {
                         <button
                           className="border-[1px] border-black rounded-lg p-[4px] mr-2"
                           onClick={() => {
-                            addtoCartHandler(p.productId._id);
-                            // cartCtx.addToCart(p.productId._id);
+                            cartCtx.addToCart(p.productId._id);
                           }}
                         >
                           <AddIcon />
@@ -212,8 +156,7 @@ const Cart = () => {
                         <button
                           className="border-[1px] border-black rounded-lg p-[4px] mx-2"
                           onClick={() => {
-                            removeFromCartHandler(p.productId._id);
-                            // cartCtx.removeFromCart(p.productId._id);
+                            cartCtx.removeFromCart(p.productId._id);
                           }}
                         >
                           {p.quantity <= 1 ? <DeleteIcon /> : <RemoveIcon />}
@@ -252,7 +195,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

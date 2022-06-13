@@ -1,20 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navigation from "../Navigation/Navigation";
 import Rating from "@mui/material/Rating";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CartContext from "../Context/cart-context";
+import LoadingSpinner from "../util/LoadingSpinner";
+import SnackBar from "../util/SnackBar";
+import Layout from "../Layout/Layout";
+// import { Snackbar } from "@mui/material";
+// import { Snackbar } from "@mui/material";
 const SingleProduct = () => {
   const [product, setProduct] = useState();
   const [isProductInCart, setIsProductInCart] = useState();
+  const [Loading, setLoading] = useState(true);
   const productId = useParams();
   const cartCtx = useContext(CartContext);
   const navigate = useNavigate();
 
   const getProduct = () => {
+    setLoading(true);
     fetch(`http://localhost:3000/get-product/${productId.id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -27,6 +33,7 @@ const SingleProduct = () => {
             ? setIsProductInCart(true)
             : setIsProductInCart(false);
         });
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -38,8 +45,9 @@ const SingleProduct = () => {
     getProduct();
   }, []);
   return (
-    <>
-      <Navigation />
+    <Layout>
+      {Loading && <LoadingSpinner />}
+      <SnackBar />
       {product && (
         <div className="flex justify-center items-center">
           <div className="grid grid-cols-2 w-4/5 my-6 shadow-xl rounded-lg">
@@ -102,7 +110,7 @@ const SingleProduct = () => {
           </div>
         </div>
       )}
-    </>
+    </Layout>
   );
 };
 

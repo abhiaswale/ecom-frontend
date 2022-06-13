@@ -99,7 +99,7 @@ const SearchBar = () => {
   return (
     <section className="flex justify-center items-center flex-row relative">
       <input
-        className="w-full p-2 rounded-lg"
+        className="focus:outline-none focus:shadow-outline w-full p-2 rounded-lg"
         type="text"
         onChange={changeHandler}
         ref={inputRef}

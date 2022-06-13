@@ -7,6 +7,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         "20/80": "20% 80%",
+        "30/70": "30% 70%",
       },
     },
   },

@@ -4,6 +4,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { AiFillStar } from "react-icons/ai";
 import CartContext from "../Context/cart-context";
+import SnackBar from "../util/SnackBar";
 const Filters = (props) => {
   const categoryFilters = [
     { id: 1, name: "Mobile", type: "category" },
@@ -176,6 +177,7 @@ const Filters = (props) => {
 
   return (
     <div className="flex justify-start items-start">
+      <SnackBar />
       <div className="ml-16 w-[15%] my-8 ">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold ">FILTERS</h3>

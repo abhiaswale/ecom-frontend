@@ -6,6 +6,7 @@ import Filters from "../Filters/Filters";
 import Layout from "../Layout/Layout";
 import Navigation from "../Navigation/Navigation";
 import Prod from "../Prod";
+import LoadingSpinner from "../util/LoadingSpinner";
 
 const Shop = () => {
   const location = useLocation();
@@ -13,16 +14,20 @@ const Shop = () => {
   const filterId = location.state;
   const [products, setProducts] = useState("");
   const [wishlist, setWishlist] = useState([]);
+  const [Loading, setLoading] = useState(true);
+
   const [fP, setfP] = useState([]);
 
   const authCtx = useContext(AuthContext);
   const cartCtx = useContext(CartContext);
   //Get the Products
   useEffect(() => {
+    setLoading(true);
     fetch("http://localhost:3000/get-products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -93,6 +98,7 @@ const Shop = () => {
 
   return (
     <Layout>
+      {Loading && <LoadingSpinner />}
       {products && fP && (
         <Filters
           products={products}
