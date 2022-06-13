@@ -20,7 +20,6 @@ const AddressCard = ({ i, editAddress, setAddresses, addresses }) => {
         console.log(data);
       });
   };
-
   return (
     <>
       <div className="my-2" key={i._id}>

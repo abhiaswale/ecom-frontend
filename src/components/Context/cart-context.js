@@ -13,8 +13,27 @@ export const CartContextProvider = (props) => {
   const [quan, setQuan] = useState(null);
   const [wishlistquan, setWishlistQuan] = useState(null);
   const [cartItems, setCartItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
+
+  const getWishlistItems = () => {
+    fetch("http://localhost:3000/user/wishlist", {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("wishlist", data.data);
+        setWishlistItems(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const updateCart = () => {
+    console.log("cart called");
     fetch("http://localhost:3000/user/cart", {
       headers: { Authorization: localStorage.getItem("token") },
     })
@@ -46,6 +65,12 @@ export const CartContextProvider = (props) => {
         setWishlistQuan(count);
       });
   };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      updateCart();
+      updateWishlist();
+    }
+  }, []);
 
   const addItemToCart = (id) => {
     const token = localStorage.getItem("token");
@@ -86,11 +111,6 @@ export const CartContextProvider = (props) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    updateCart();
-    updateWishlist();
-  }, []);
 
   const contextValue = {
     addToCart: addItemToCart,

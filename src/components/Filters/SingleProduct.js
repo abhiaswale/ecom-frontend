@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import Rating from "@mui/material/Rating";
-
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CartContext from "../Context/cart-context";
 const SingleProduct = () => {
   const [product, setProduct] = useState();
+  const [isProductInCart, setIsProductInCart] = useState();
   const productId = useParams();
+  const cartCtx = useContext(CartContext);
+  const navigate = useNavigate();
 
   const getProduct = () => {
     fetch(`http://localhost:3000/get-product/${productId.id}`)
@@ -14,10 +21,18 @@ const SingleProduct = () => {
         console.log(data.data);
         setProduct(data.data);
       })
+      .then(() => {
+        cartCtx.cart.forEach((p) => {
+          p.productId._id === productId.id
+            ? setIsProductInCart(true)
+            : setIsProductInCart(false);
+        });
+      })
       .catch((err) => {
         console.log(err);
       });
   };
+  console.log(cartCtx.cart);
 
   useEffect(() => {
     getProduct();
@@ -27,36 +42,66 @@ const SingleProduct = () => {
       <Navigation />
       {product && (
         <div className="flex justify-center items-center">
-          <div className="grid grid-cols-2 w-3/5 my-6">
+          <div className="grid grid-cols-2 w-4/5 my-6 shadow-xl rounded-lg">
             <div className="p-4">
-              <img className="h-54 w-54" src={product.productImage}></img>
+              <img
+                className="h-[35rem] w-[35rem]"
+                src={product.productImage}
+              ></img>
             </div>
-            <div className="text-left">
-              <p className="text-xl font-semibold ">
+            <div className="p-4 mt-10 text-left">
+              <p className="text-xl font-semibold pt-4">
                 {product.productDescription}
               </p>
-              <p>{product.productBrand}</p>
-              <div>
+              <p className="py-2">{product.productBrand}</p>
+              <div className="flex ">
                 <Rating
                   name="read-only"
                   value={product.productRating}
                   readOnly
                 />
-                {product.productReviews}
+                <span className="">({product.productReviews} Reviews)</span>
               </div>
 
-              <p>{product.productPrice}</p>
-              <div>
-                <p>Fast delivery available</p>
-                <p>Price displayed is inclusive of GST</p>
-                <p>Currently in stock</p>
+              <p className="flex flex-col text-xl font-semibold py-1">
+                &#8377; {product.productPrice}
+                <span className="text-xs">Inclusive of all Taxes</span>
+              </p>
+              <div className="my-2 ">
+                <div className="border-b-[0.5px] border-gray-300"></div>
               </div>
-              <button>Add to Cart</button>
+              <div className="my-2">
+                <div className="py-[1px]">
+                  <LocalShippingIcon style={{ fontSize: "20px" }} />
+
+                  <span className="text-sm mx-2">Fast delivery available</span>
+                </div>
+                <div className="py-[1px]">
+                  <CheckBoxIcon style={{ fontSize: "20px" }} />
+                  <span className="text-sm mx-2">
+                    Price displayed is inclusive of GST
+                  </span>
+                </div>
+                <div className="py-[1px]">
+                  <InventoryIcon style={{ fontSize: "20px" }} />
+                  <span className="text-sm mx-2">Currently in stock</span>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  isProductInCart
+                    ? navigate("/cart")
+                    : cartCtx.addToCart(product._id);
+                }}
+                className="text-white my-4 p-2 px-5 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
+              >
+                <ShoppingCartIcon />{" "}
+                {isProductInCart ? "Go to cart" : "Add to Cart"}
+              </button>
             </div>
           </div>
         </div>
       )}
-      {product && <p>{product.productName}</p>}
     </>
   );
 };

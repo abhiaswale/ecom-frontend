@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import bg from "../Assets/ecom.jpg";
+import bg from "../Assets/w.jpg";
 import Logo from "../Assets/L1.png";
 import Navigation from "../Navigation/Navigation";
 import Divider from "@mui/material/Divider";
@@ -71,7 +71,7 @@ const Landing = () => {
       {/* <Navigation /> */}
       <div
         style={{ backgroundImage: `url(${bg})` }}
-        className="bg-cover w-full h-[55vh]"
+        className="bg-cover w-full h-[65vh]"
       >
         <img src={Logo} className="inline h-16 my-6" />
         <h1 className="font-semibold text-6xl my-4">SUMMER SALE</h1>
@@ -106,13 +106,13 @@ const Landing = () => {
               >
                 <img
                   src={item.background}
-                  className="bg-cover w-full h-auto opacity-40 border-2 border-teal-500 rounded-xl absolute"
+                  className="bg-cover w-full h-auto border-2 border-teal-500 rounded-xl absolute"
                 ></img>
-
-                <div className="font-bold absolute top-1/2 left-1/2 text-center">
-                  {item.name}
-                </div>
               </div>
+
+              //    <div className="font-bold absolute top-1/2 left-1/2 text-center ">
+              //   {item.name}
+              // </div>
             ))}
           </div>
         </div>

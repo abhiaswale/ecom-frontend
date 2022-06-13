@@ -110,6 +110,10 @@ const Cart = () => {
   };
 
   const postOrder = () => {
+    if (products.length <= 0) {
+      alert("CArt is Empty");
+      return;
+    }
     fetch(`http://localhost:3000/user/order`, {
       method: "POST",
       headers: {
@@ -181,9 +185,9 @@ const Cart = () => {
                     className="flex justify-center items-center p-2"
                     key={p.productId._id}
                   >
-                    <div>
+                    <div className=" w-72 h-60">
                       <img
-                        className="w-96 h-auto"
+                        className="bg-cover"
                         src={p.productId.productImage}
                       ></img>
                     </div>
@@ -235,7 +239,7 @@ const Cart = () => {
             </section>
             <div className="my-4">
               <button
-                disabled={true}
+                // disabled={true}
                 className=" text-white  w-full p-2 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
                 onClick={() => {
                   postOrder();

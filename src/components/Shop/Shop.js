@@ -39,7 +39,7 @@ const Shop = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log("wishlist", data.data);
+        console.log("wishlist", data.data);
         setWishlist(data.data);
       })
       .catch((err) => {
@@ -54,15 +54,14 @@ const Shop = () => {
       wishlist.forEach((e) => {
         const index = prod.findIndex((i) => p._id === i._id);
         if (e.productId._id === p._id) {
-          console.log("match", index);
           updatedItem = { ...p, wishlist: true };
           prod[index] = updatedItem;
           console.log(prod[index]); //Ithe wishlist true set ae for each product in wishlist
-        } else if (e.productId._id !== p._id) {
-          console.log(" no match", index);
-          updatedItem = { ...p, wishlist: false };
-          prod[index] = updatedItem;
         }
+        // else {
+        //   updatedItem = { ...p, wishlist: false };
+        //   prod[index] = updatedItem;
+        // }
       });
     });
     console.log(prod); // ithe sagle false set hotay except for the lastest product added in the wishlist
@@ -94,7 +93,7 @@ const Shop = () => {
 
   return (
     <Layout>
-      {products && (
+      {products && fP && (
         <Filters
           products={products}
           wishlistProds={fP}

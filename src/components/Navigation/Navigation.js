@@ -16,7 +16,7 @@ const Navigation = () => {
   const [wCount, setWCount] = useState(0);
 
   useEffect(() => {
-    // console.log("called");
+    console.log("called ctx");
     setCount(cartContext.cartQuantity);
     setWCount(cartContext.wishlistQuantity);
   });
@@ -51,8 +51,8 @@ const Navigation = () => {
           <SearchBar />
         </div>
 
-        <section className="flex justify-evenly items-center flex-row">
-          {authCtx.isAuth && <button onClick={logoutHandler}>Logout</button>}
+        <div className="flex justify-evenly items-center flex-row w-72">
+          {/* {authCtx.isAuth && <button onClick={logoutHandler}>Logout</button>} */}
           <Link to="/account" className="text-lg">
             <AccountCircleIcon className="text-lg" />
             {authCtx.isAuth && <p className="text-sm">Hi,{authCtx.userName}</p>}
@@ -70,7 +70,7 @@ const Navigation = () => {
               <p>Cart</p>
             </Link>
           </Badge>
-        </section>
+        </div>
       </div>
     </div>
   );

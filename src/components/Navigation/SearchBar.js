@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoSearch } from "react-icons/go";
+import CloseIcon from "@mui/icons-material/Close";
 
 const suggestions = [
   "Mobile",
@@ -38,12 +39,15 @@ const SearchBar = () => {
       return;
     }
     return (
-      <ul ref={suggestionRef} className="absolute top-10 bg-white w-full">
+      <ul
+        ref={suggestionRef}
+        className="absolute top-10 bg-white w-full text-left rounded-sm"
+      >
         {suggest &&
           suggest.map((item) => (
             <li
               key={item}
-              className="cursor-pointer"
+              className="cursor-pointer hover:bg-gray-300 my-2 px-1"
               onClick={(e) => {
                 inputRef.current.value = item;
                 submitHandler(e);
@@ -95,7 +99,7 @@ const SearchBar = () => {
   return (
     <section className="flex justify-center items-center flex-row relative">
       <input
-        className="w-full p-2"
+        className="w-full p-2 rounded-lg"
         type="text"
         onChange={changeHandler}
         ref={inputRef}
@@ -107,13 +111,26 @@ const SearchBar = () => {
         }}
       ></input>
       {searchItem && getSuggestions()}
-      <button
-        className="absolute right-4 text-[1.4rem]"
-        onClick={submitHandler}
-        type="submit"
-      >
-        <GoSearch />
-      </button>
+
+      {searchItem ? (
+        <button
+          className="absolute right-4 text-[1.4rem]"
+          onClick={() => {
+            inputRef.current.value = "";
+            setSearchItem("");
+          }}
+        >
+          <CloseIcon />
+        </button>
+      ) : (
+        <button
+          className="absolute right-4 text-[1.4rem]"
+          onClick={submitHandler}
+          type="submit"
+        >
+          <GoSearch />
+        </button>
+      )}
     </section>
   );
 };

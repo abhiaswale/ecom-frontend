@@ -41,6 +41,7 @@ const Login = () => {
     autoLogout(remainingMiliseconds);
     console.log(data);
     navigate("/");
+    window.location.reload();
     console.log("Login handler");
   };
 

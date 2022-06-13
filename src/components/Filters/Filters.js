@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { AiFillStar } from "react-icons/ai";
 import CartContext from "../Context/cart-context";
 const Filters = (props) => {
   const categoryFilters = [
@@ -25,38 +26,11 @@ const Filters = (props) => {
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
   const [products, setProducts] = useState(props.wishlistProds);
-  const wishlist = props.wishlist;
-
   const cartCtx = useContext(CartContext);
-  // console.log(products);
-  // const Temp = () => {
-  //   const prod = [...products];
-  //   prod.forEach((p) => {
-  //     wishlist.forEach((e) => {
-  //       let updatedItem;
-  //       if (e.productId === p._id) {
-  //         const index = prod.findIndex((i) => e.productId === i._id);
-  //         console.log(index);
-  //         updatedItem = { ...p, wishlist: true };
-  //         prod[index] = updatedItem;
-  //       } else if (p._id !== e.productId) {
-  //         const index = products.findIndex((i) => p._id === i._id);
-  //         updatedItem = { ...p, wishlist: false };
-  //         prod[index] = updatedItem;
-  //       }
-  //     });
-  //   });
-  //   console.log(prod);
-  //   setProducts(prod);
-  // };
-  // useEffect(() => {
-  //   if (wishlist.length > 0) {
-  //     Temp();
-  //   }
-  // }, [wishlist]);
-
   const navigate = useNavigate();
   let filteredProducts = [];
+
+  console.log(products);
   //Filter Logic
   const filterHandler = (id, type) => {
     setFiltering(true);
@@ -151,29 +125,46 @@ const Filters = (props) => {
 
   let content;
   content = (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="p-4 grid grid-cols-4 gap-4">
       {products.map((prod) => (
-        <div key={prod._id}>
+        <div key={prod._id} className="flex flex-col w-full ">
           <div
-            className="flex justify-center items-center"
+            className="flex-1 flex justify-center items-center "
             onClick={() => {
               navigate(`/shop/${prod._id}`);
             }}
           >
-            <img src={prod.productImage} className="w-52 h-52 bg-cover"></img>
+            <img src={prod.productImage} className=" w-52 h-52 bg-cover"></img>
           </div>
-          <p>{prod.productBrand}</p>
-          <h1>{prod.productName}</h1>
-          <span>{prod.productPrice}</span>
-          <button
-            onClick={() => {
-              // abc.addtoCart(prod._id);
-              cartCtx.addToCart(prod._id);
-            }}
-          >
-            Add to cart
-          </button>
-          <button>{prod.wishlist === true ? "y" : "n"}</button>
+          <div className="flex-1 flex justify-center items-center flex-col text-left">
+            <div className="w-1/2">
+              <div>
+                <h6 className="font-semibold">{prod.productBrand}</h6>
+              </div>
+              <div>
+                <h4>{prod.productName}</h4>
+                <span className="font-semibold">
+                  &#8377;{prod.productPrice}
+                </span>
+                <p className="flex">
+                  <span>{prod.productRating}</span>
+                  <span className="text-lg text-yellow-400">
+                    <AiFillStar />{" "}
+                  </span>
+                  | {prod.productReviews}
+                </p>
+              </div>
+              <button
+                className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
+                onClick={() => {
+                  cartCtx.addToCart(prod._id);
+                }}
+              >
+                Add to cart
+              </button>
+            </div>
+            {/* <button>{prod.wishlist === true ? "y" : "n"}</button> */}
+          </div>
         </div>
       ))}
     </div>
