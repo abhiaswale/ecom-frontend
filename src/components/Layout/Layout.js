@@ -6,7 +6,7 @@ const Layout = (props) => {
   return (
     <>
       <Navigation />
-      <div className="">{props.children}</div>
+      <div className="h-auto min-h-[80vh]">{props.children}</div>
       <Footer />
     </>
   );

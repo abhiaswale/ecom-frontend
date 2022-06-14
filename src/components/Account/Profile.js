@@ -28,7 +28,7 @@ const Profile = () => {
       {userData && (
         <div>
           <h3 className=" font-semibold">PROFILE DETAILS</h3>
-          <div className="my-4 w-2/3">
+          <div className="my-4 w-full lg:w-2/3">
             <section className="my-2 grid grid-cols-2">
               <p>Full Name :</p>
               <p>

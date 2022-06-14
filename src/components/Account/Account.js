@@ -1,16 +1,18 @@
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import AuthContext from "../Context/auth-context";
-import Navigation from "../Navigation/Navigation";
+import { NavLink, Outlet } from "react-router-dom";
+import Layout from "../Layout/Layout";
 
 const Account = () => {
   return (
-    <>
-      <Navigation />
-      <div className="text-3xl p-4 my-4 font-semibold">ACCOUNT</div>
-      <div className="border-b-[1px] border-indigo-500 mx-80"></div>
+    <Layout>
+      <div className="flex justify-center items-center ">
+        <div className="text-xl lg:text-3xl p-4 my-4 font-semibold">
+          ACCOUNT
+        </div>
+      </div>
+      <div className="border-b-[1px] border-gray-400 mx-80"></div>
       <div className="flex justify-center items-center flex-row">
-        <div className="grid grid-cols-20/80 divide-x divide-indigo-500 w-3/5">
-          <nav className=" px-4 grid grid-cols-1 divide-y divide-indigo-500 w-auto font-semibold text-xl h-[15rem]">
+        <div className="grid grid-cols-1 lg:grid-cols-20/80 lg:divide-x divide-gray-400 lg:w-3/5 w-full">
+          <nav className="px-4 hidden lg:grid grid-cols-1 divide-y divide-gray-400  w-auto font-semibold text-xl h-[15rem]">
             <NavLink
               to="/account"
               className={({ isActive }) =>
@@ -50,7 +52,7 @@ const Account = () => {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

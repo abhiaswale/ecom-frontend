@@ -22,7 +22,7 @@ const AddressCard = ({ i, editAddress, setAddresses, addresses }) => {
   };
   return (
     <>
-      <div className="my-2" key={i._id}>
+      <div className="my-2 text-sm" key={i._id}>
         <p className="font-semibold ">{i.Name}</p>
         <section className="my-2 ">
           {i.AddressLine1}&nbsp;

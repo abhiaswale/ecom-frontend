@@ -4,8 +4,6 @@ import AuthContext from "../Context/auth-context";
 import CartContext from "../Context/cart-context";
 import Filters from "../Filters/Filters";
 import Layout from "../Layout/Layout";
-import Navigation from "../Navigation/Navigation";
-import Prod from "../Prod";
 import LoadingSpinner from "../util/LoadingSpinner";
 
 const Shop = () => {
@@ -79,25 +77,12 @@ const Shop = () => {
   }, [wishlist, products]);
 
   const addtoCartHandler = (id) => {
-    // fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: authCtx.token,
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     cartCtx.updateCartQuan();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
     cartCtx.addToCart(id);
   };
 
   return (
     <Layout>
+      {/* <div className="absolute lg:mt-[4rem] mt-[6rem]"> */}
       {Loading && <LoadingSpinner />}
       {products && fP && (
         <Filters
@@ -108,6 +93,7 @@ const Shop = () => {
           wishlist={wishlist}
         />
       )}
+      {/* </div> */}
     </Layout>
   );
 };

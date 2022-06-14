@@ -18,7 +18,7 @@ const SearchPage = () => {
         <p className="text-xl font-semibold">
           Search Results for "{keyword}"- {searchResults.length} items
         </p>
-        <div className="p-4 grid grid-cols-4 gap-4 my-4">
+        <div className="p-4 grid grid-cols-2 lg:grid-cols-4 gap-4 my-4">
           {searchResults.length > 0 &&
             searchResults.map((prod) => (
               <div key={prod._id} className="flex flex-col w-full ">

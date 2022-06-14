@@ -50,10 +50,10 @@ const SingleProduct = () => {
       <SnackBar />
       {product && (
         <div className="flex justify-center items-center">
-          <div className="grid grid-cols-2 w-4/5 my-6 shadow-xl rounded-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 w-full lg:w-4/5 my-6 shadow-xl rounded-lg">
             <div className="p-4">
               <img
-                className="h-[35rem] w-[35rem]"
+                className=" lg:h-[35rem] lg:w-[35rem]"
                 src={product.productImage}
               ></img>
             </div>

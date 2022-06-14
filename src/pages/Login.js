@@ -80,7 +80,8 @@ const Login = () => {
   return (
     <Layout>
       <Form>
-        <form className="w-full shadow-xl" onSubmit={loginHandler}>
+        {/* absolute mt-[40rem] */}
+        <form className="w-full shadow-xl " onSubmit={loginHandler}>
           <h1 className="text-2xl font-bold my-4">LOGIN</h1>
           {registerMsg && <p>{registerMsg}</p>}
           <div className="my-5">

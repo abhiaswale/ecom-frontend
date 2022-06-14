@@ -81,19 +81,18 @@ const AddressForm = (props) => {
     <Modal>
       <form
         onSubmit={submitHandler}
-        className="absolute w-2/5 top-1/3 left-1/3 p-3 flex justify-center items-center flex-col bg-blue-300"
+        className="text-sm lg:text-base absolute w-11/12 lg:w-2/5 top-[22%] left-[4%] lg:top-[15%] lg:left-[30%] p-4 flex justify-center  flex-col bg-white"
       >
-        <h4>Add Address</h4>
+        <h4 className="text-xl font-semibold">Add Address</h4>
         <label>
           <select
-            className="w-full"
+            className="w-full my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
             defalutValue={country}
             onChange={(e) => {
               setCountry(e.target.value);
             }}
           >
             <option value="India">India</option>
-            <option value="Australia">Australia</option>
           </select>
         </label>
         <input
@@ -104,6 +103,7 @@ const AddressForm = (props) => {
             setName(e.target.value);
           }}
           defaultValue={name}
+          className="my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
         />
         <input
           type="text"
@@ -112,6 +112,7 @@ const AddressForm = (props) => {
             setAddress(e.target.value);
           }}
           defaultValue={address}
+          className="my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
         />
         <input
           type="text"
@@ -120,14 +121,15 @@ const AddressForm = (props) => {
             setCity(e.target.value);
           }}
           defaultValue={city}
+          className="my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
         />
         <label>
-          State
           <select
             onChange={(e) => {
               setState(e.target.value);
             }}
             defaultValue={state}
+            className="w-full my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
           >
             {options.map((opt, i) => (
               <option key={i} value={opt.value}>
@@ -143,6 +145,7 @@ const AddressForm = (props) => {
             setPincode(e.target.value);
           }}
           defaultValue={pincode}
+          className="my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
         />
         <input
           type="text"
@@ -151,15 +154,24 @@ const AddressForm = (props) => {
             setMobile(e.target.value);
           }}
           defaultValue={mobile}
+          className="my-2 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2"
         />
-        <section>
-          <button type="submit">Save</button>
-          <button>Fill with dummy details</button>
+        <section className="flex justify-start items-center text-sm">
+          <button
+            type="submit"
+            className=" mr-1 text-white my-4 p-2 px-5 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
+          >
+            Save
+          </button>
+          <button className="mx-1 rounded-lg border-[1px] border-gray-300 p-2 hover:bg-[#3053c8] hover:text-white">
+            Fill with dummy details
+          </button>
           <button
             type="submit"
             onClick={() => {
               cancelHandler();
             }}
+            className="mx-1 rounded-lg border-[1px] border-gray-300 p-2 hover:bg-[#3053c8] hover:text-white"
           >
             Cancel
           </button>

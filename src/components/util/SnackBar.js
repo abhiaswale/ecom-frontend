@@ -6,7 +6,7 @@ const SnackBar = () => {
   const cartCtx = useContext(CartContext);
   return (
     <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       open={cartCtx.open}
       autoHideDuration={1000}
       message={cartCtx.snack}

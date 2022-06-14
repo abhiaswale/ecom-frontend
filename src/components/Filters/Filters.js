@@ -126,7 +126,7 @@ const Filters = (props) => {
 
   let content;
   content = (
-    <div className="p-4 grid grid-cols-4 gap-4">
+    <div className="p-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
       {products.map((prod) => (
         <div key={prod._id} className="flex flex-col w-full ">
           <div
@@ -178,7 +178,7 @@ const Filters = (props) => {
   return (
     <div className="flex justify-start items-start">
       <SnackBar />
-      <div className="ml-16 w-[15%] my-8 ">
+      <div className="hidden lg:block ml-16 w-[15%] my-8 ">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold ">FILTERS</h3>
           <button
@@ -267,14 +267,14 @@ const Filters = (props) => {
           </ul>
         </div>
       </div>
-      <div className="w-[80%]">{content}</div>
+      <div className="w-full lg:w-[80%]">{content}</div>
     </div>
   );
 };
 
 export const Divider = () => {
   return (
-    <div className="my-2 ">
+    <div className="my-2">
       <div className="border-b-[0.5px] border-indigo-500"></div>
     </div>
   );

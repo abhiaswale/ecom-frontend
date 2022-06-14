@@ -63,7 +63,7 @@ const Signup = () => {
   return (
     <Layout>
       <Form>
-        <form className="w-full text-left shadow-xl" onSubmit={submitHandler}>
+        <form className="w-full text-left shadow-xl " onSubmit={submitHandler}>
           <h1 className="text-2xl font-bold my-4 text-center">SIGNUP</h1>
           <div className="m-5 grid grid-cols-30/70 ">
             <label id="fName" className="p-2 font-semibold ">

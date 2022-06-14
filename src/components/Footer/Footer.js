@@ -7,7 +7,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="font-Sans">
+    <div className="relative">
       <div className="py-4">
         <div className="w-full border-t border-blue-200"></div>
       </div>

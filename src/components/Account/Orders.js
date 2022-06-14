@@ -25,7 +25,6 @@ const Orders = () => {
   return (
     <div className="text-left m-6">
       <h3 className="font-semibold my-2">MY ORDERS</h3>
-
       {orders.map((o) => (
         <div className="p-4 shadow-2xl rounded-lg text-sm">
           <div className="my-2 text-sm">
