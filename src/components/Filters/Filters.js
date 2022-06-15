@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { AiFillStar } from "react-icons/ai";
 import CartContext from "../Context/cart-context";
 import SnackBar from "../util/SnackBar";
@@ -31,8 +29,8 @@ const Filters = (props) => {
   const navigate = useNavigate();
   let filteredProducts = [];
 
-  console.log(products);
-  //Filter Logic
+  //FILTERING LOGICC
+
   const filterHandler = (id, type) => {
     setFiltering(true);
     const currentIndex = checked.indexOf(id);
@@ -135,10 +133,13 @@ const Filters = (props) => {
               navigate(`/shop/${prod._id}`);
             }}
           >
-            <img src={prod.productImage} className=" w-52 h-52 bg-cover"></img>
+            <img
+              src={prod.productImage}
+              className=" w-52 lg:h-52 h-44 bg-cover"
+            ></img>
           </div>
           <div className="flex-1 flex justify-center items-center flex-col text-left">
-            <div className="w-1/2">
+            <div className="w-full lg:w-1/2">
               <div>
                 <h6 className="font-semibold">{prod.productBrand}</h6>
               </div>
@@ -156,7 +157,7 @@ const Filters = (props) => {
                 </p>
               </div>
               <button
-                className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
+                className="w-full lg:w-auto text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
                 onClick={() => {
                   cartCtx.addToCart(prod._id);
                 }}

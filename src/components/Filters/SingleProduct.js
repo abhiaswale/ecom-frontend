@@ -9,16 +9,16 @@ import CartContext from "../Context/cart-context";
 import LoadingSpinner from "../util/LoadingSpinner";
 import SnackBar from "../util/SnackBar";
 import Layout from "../Layout/Layout";
-// import { Snackbar } from "@mui/material";
-// import { Snackbar } from "@mui/material";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 const SingleProduct = () => {
   const [product, setProduct] = useState();
   const [isProductInCart, setIsProductInCart] = useState();
+  const [inWishlist, setInWishlist] = useState(false);
   const [Loading, setLoading] = useState(true);
   const productId = useParams();
   const cartCtx = useContext(CartContext);
   const navigate = useNavigate();
-
   const getProduct = () => {
     setLoading(true);
     fetch(`http://localhost:3000/get-product/${productId.id}`)
@@ -39,11 +39,25 @@ const SingleProduct = () => {
         console.log(err);
       });
   };
-  console.log(cartCtx.cart);
 
   useEffect(() => {
     getProduct();
   }, []);
+
+  useEffect(() => {
+    cartCtx.cart.forEach((w) => {
+      w.productId._id === productId.id
+        ? setIsProductInCart(true)
+        : setIsProductInCart(false);
+    });
+
+    cartCtx.wishlist.forEach((c) => {
+      c.productId._id === productId.id
+        ? setInWishlist(true)
+        : setInWishlist(false);
+    });
+  });
+
   return (
     <Layout>
       {Loading && <LoadingSpinner />}
@@ -95,17 +109,36 @@ const SingleProduct = () => {
                   <span className="text-sm mx-2">Currently in stock</span>
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  isProductInCart
-                    ? navigate("/cart")
-                    : cartCtx.addToCart(product._id);
-                }}
-                className="text-white my-4 p-2 px-5 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
-              >
-                <ShoppingCartIcon />{" "}
-                {isProductInCart ? "Go to cart" : "Add to Cart"}
-              </button>
+              <div className="text-left flex justify-start items-center lg:flex-row flex-col">
+                <button
+                  onClick={() => {
+                    isProductInCart
+                      ? navigate("/cart")
+                      : cartCtx.addToCart(product._id);
+                  }}
+                  className="text-white my-2 lg:my-4 p-2 px-5 rounded-lg border-[1px] border-[#0E3EDA] bg-[#0E3EDA] hover:bg-[#3053c8]"
+                >
+                  <ShoppingCartIcon />
+                  {isProductInCart ? "Go to cart" : "Add to Cart"}
+                </button>
+                <button
+                  className=" mx-2my-2 lg:my-4 p-2 px-8 rounded-lg border-[1px] border-gray-600 hover:bg-gray-200"
+                  onClick={() => {
+                    inWishlist
+                      ? cartCtx.removeFromWishlist(product._id)
+                      : cartCtx.addToWishlist(product._id);
+                  }}
+                >
+                  <span className="mx-1">
+                    {inWishlist ? (
+                      <FavoriteIcon />
+                    ) : (
+                      <FavoriteBorderOutlinedIcon />
+                    )}
+                  </span>
+                  {inWishlist ? "Added in wishlist" : "Add to wishlist"}
+                </button>
+              </div>
             </div>
           </div>
         </div>

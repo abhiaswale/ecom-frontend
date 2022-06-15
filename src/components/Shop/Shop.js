@@ -8,16 +8,16 @@ import LoadingSpinner from "../util/LoadingSpinner";
 
 const Shop = () => {
   const location = useLocation();
-  // console.log(location.state);
   const filterId = location.state;
   const [products, setProducts] = useState("");
-  const [wishlist, setWishlist] = useState([]);
+  // const [wishlist, setWishlist] = useState([]);
   const [Loading, setLoading] = useState(true);
 
   const [fP, setfP] = useState([]);
 
   const authCtx = useContext(AuthContext);
   const cartCtx = useContext(CartContext);
+
   //Get the Products
   useEffect(() => {
     setLoading(true);
@@ -30,31 +30,13 @@ const Shop = () => {
       .catch((err) => {
         console.log(err);
       });
-    getWishlist();
   }, []);
-
-  const getWishlist = () => {
-    fetch("http://localhost:3000/user/wishlist", {
-      method: "GET",
-      headers: {
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("wishlist", data.data);
-        setWishlist(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const Temp = () => {
     const prod = [...products];
     prod.forEach((p) => {
       let updatedItem;
-      wishlist.forEach((e) => {
+      cartCtx.wishlist.forEach((e) => {
         const index = prod.findIndex((i) => p._id === i._id);
         if (e.productId._id === p._id) {
           updatedItem = { ...p, wishlist: true };
@@ -70,30 +52,23 @@ const Shop = () => {
     console.log(prod); // ithe sagle false set hotay except for the lastest product added in the wishlist
     setfP(prod);
   };
-  useEffect(() => {
-    if (wishlist && wishlist.length > 0 && products.length > 0) {
-      Temp();
-    }
-  }, [wishlist, products]);
-
-  const addtoCartHandler = (id) => {
-    cartCtx.addToCart(id);
-  };
+  // useEffect(() => {
+  //   if (wishlist && wishlist.length > 0 && products.length > 0) {
+  //     Temp();
+  //   }
+  // }, [wishlist, products]);
 
   return (
     <Layout>
-      {/* <div className="absolute lg:mt-[4rem] mt-[6rem]"> */}
       {Loading && <LoadingSpinner />}
       {products && fP && (
         <Filters
           products={products}
           wishlistProds={fP}
           fId={filterId}
-          onAdd={addtoCartHandler}
-          wishlist={wishlist}
+          // wishlist={wishlist}
         />
       )}
-      {/* </div> */}
     </Layout>
   );
 };

@@ -1,49 +1,80 @@
 import { Snackbar } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../Context/auth-context";
+import CartContext from "../Context/cart-context";
+import { AiFillStar } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import Layout from "../Layout/Layout";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Wishlist = () => {
-  const [wishlist, setWishlist] = useState();
-  const [showS, setshowS] = useState(false);
-  const authCtx = useContext(AuthContext);
-  const getWishlist = () => {
-    fetch("http://localhost:3000/user/wishlist", {
-      method: "GET",
-      headers: {
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("wishlist", data.data);
-        setWishlist(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    getWishlist();
-  }, []);
-
+  const cartCtx = useContext(CartContext);
+  const navigate = useNavigate();
   return (
-    <div>
-      {showS && (
-        <Snackbar
-          open={showS}
-          autoHideDuration={6000}
-          message="Note archived"
-        />
+    <Layout>
+      <h3 className="p-4 text-xl font-semibold">MY WISHLIST</h3>
+      {cartCtx.wishlist.length <= 0 && (
+        <p className="lg:text-xl font-semibold my-10">
+          No Products in Wishlist
+        </p>
       )}
-      <button
-        onClick={() => {
-          setshowS(!showS);
-        }}
-      >
-        Show snackbar
-      </button>
-      {wishlist && wishlist.map((w) => <p>{w.productId.productName}</p>)}
-    </div>
+      <div className="p-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {cartCtx.wishlist &&
+          cartCtx.wishlist.map((prod) => (
+            <div
+              key={prod.productId._id}
+              className="flex flex-col w-full shadow-2xl "
+            >
+              <div className="flex justify-end items-center p-2">
+                <CloseIcon
+                  onClick={() => cartCtx.removeFromWishlist(prod.productId._id)}
+                />
+              </div>
+              <div
+                className="flex-1 flex justify-center items-center "
+                onClick={() => {
+                  navigate(`/shop/${prod.productId._id}`);
+                }}
+              >
+                <img
+                  src={prod.productId.productImage}
+                  className=" w-52 h-52 bg-cover"
+                ></img>
+              </div>
+              <div className="flex-1 flex justify-center items-center flex-col text-left">
+                <div className="w-1/2">
+                  <div>
+                    <h6 className="font-semibold">
+                      {prod.productId.productBrand}
+                    </h6>
+                  </div>
+                  <div>
+                    <h4>{prod.productId.productName}</h4>
+                    <span className="font-semibold">
+                      &#8377;{prod.productId.productPrice}
+                    </span>
+                    <p className="flex">
+                      <span>{prod.productId.productRating}</span>
+                      <span className="text-lg text-yellow-400">
+                        <AiFillStar />{" "}
+                      </span>
+                      | {prod.productId.productReviews}
+                    </p>
+                  </div>
+                  <button
+                    className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
+                    onClick={() => {
+                      cartCtx.addToCart(prod.productId._id);
+                    }}
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
+    </Layout>
   );
 };
 

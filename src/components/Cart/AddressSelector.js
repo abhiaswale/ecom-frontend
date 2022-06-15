@@ -30,7 +30,10 @@ const AddressSelector = (props) => {
             </div>
             <div>
               {props.addresses.map((a) => (
-                <label className="flex justify-start items-baseline p-4">
+                <label
+                  key={a._id}
+                  className="flex justify-start items-baseline p-4"
+                >
                   <input
                     type="radio"
                     name="address"

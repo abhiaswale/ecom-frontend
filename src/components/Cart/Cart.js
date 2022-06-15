@@ -45,7 +45,7 @@ const Cart = () => {
       .then((data) => {
         setAddresses(data.data);
         if (data.data.length > 0) {
-          setSelectedAddress(addresses[0]);
+          setSelectedAddress(data.data[0]);
         }
       });
   };
@@ -54,29 +54,36 @@ const Cart = () => {
     getAddresses();
   }, []);
 
-  const postOrder = () => {
-    if (products.length <= 0) {
-      alert("CArt is Empty");
-      return;
+  useEffect(() => {
+    console.log("called");
+    const payment = localStorage.getItem("paymentId");
+    if (payment) {
+      console.log("order called");
     }
-    fetch(`http://localhost:3000/user/order`, {
-      method: "POST",
-      headers: {
-        Authorization: authCtx.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        aId: selectedAddress,
-        totalPrice: totalPrice,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  });
+
+  const postOrder = async (a) => {
+    // if (payment) {
+    //   fetch(`http://localhost:3000/user/order`, {
+    //     method: "POST",
+    //     headers: {
+    //       Authorization: authCtx.token,
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       aId: selectedAddress,
+    //       totalPrice: totalPrice,
+    //     }),
+    //   })
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //       localStorage.removeItem("paymentId");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   };
 
   const loadScript = (src) => {
@@ -210,7 +217,8 @@ const Cart = () => {
                       selectedAddress ? "bg-black" : ""
                     }text-white w-full p-2 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]`}
                     onClick={() => {
-                      postOrder();
+                      // postOrder(selectedAddress);
+                      displayRazorpay(selectedAddress);
                     }}
                   >
                     Place Order
@@ -229,13 +237,13 @@ const Cart = () => {
           <p className="lg:text-xl font-semibold my-10">No Products in cart!</p>
         )}
       </div>
-      <button
+      {/* <button
         onClick={() => {
           displayRazorpay();
         }}
       >
         Display Razorpay
-      </button>
+      </button> */}
     </Layout>
   );
 };

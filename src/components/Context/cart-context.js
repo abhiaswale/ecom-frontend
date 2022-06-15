@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 const CartContext = React.createContext({
   cartQuantity: 0,
   wishlistQuantity: 0,
-  updateCartQuan: () => {},
-  updateWishlistQuan: () => {},
   addToCart: (id) => {},
   removeFromCart: (id) => {},
+  addToWishlist: (id) => {},
+  removeFromWishlist: (id) => {},
   cart: [],
   wishlist: [],
   snack: "",
@@ -21,22 +21,85 @@ export const CartContextProvider = (props) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const getWishlistItems = () => {
+  //WISHLIST
+  const updateWishlist = () => {
     fetch("http://localhost:3000/user/wishlist", {
-      method: "GET",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((data) => {
+        setWishlistItems(data.data);
+        let count = 0;
+        data.data.forEach((element) => {
+          count++;
+        });
+        setWishlistQuan(count);
+      });
+  };
+
+  const addItemToWishlist = (id) => {
+    setSnackbar("Adding item to wishlist");
+    setOpen(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+    fetch(`http://localhost:3000/user/add-to-wishlist/${id}`, {
+      method: "POST",
       headers: {
-        Authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+        Authorization: token,
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("wishlist", data.data);
+        console.log(data.data);
         setWishlistItems(data.data);
+        updateWishlist();
+        setSnackbar("Added Item to Wishlist");
+        closeSnack();
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const removeItemFromWishlist = (id) => {
+    setSnackbar("Removing item from wishlist");
+    setOpen(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+    fetch(`http://localhost:3000/user/remove-from-wishlist/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data);
+        setWishlistItems(data.data);
+        updateWishlist();
+        setSnackbar("Removed item from Wishlist");
+        closeSnack();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const closeSnack = () => {
+    setTimeout(() => {
+      setOpen(false);
+    }, 1000);
+  };
+
+  ///////////////////CART
 
   const updateCart = () => {
     console.log("cart called");
@@ -55,36 +118,6 @@ export const CartContextProvider = (props) => {
         });
         setQuan(count);
       });
-  };
-
-  const updateWishlist = () => {
-    fetch("http://localhost:3000/user/wishlist", {
-      headers: { Authorization: localStorage.getItem("token") },
-    })
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((data) => {
-        let count = 0;
-        data.data.forEach((element) => {
-          count++;
-        });
-        setWishlistQuan(count);
-      });
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      updateCart();
-      updateWishlist();
-      getWishlistItems();
-    }
-  }, []);
-
-  const closeSnack = () => {
-    setTimeout(() => {
-      setOpen(false);
-    }, 1000);
   };
 
   const addItemToCart = (id) => {
@@ -138,15 +171,24 @@ export const CartContextProvider = (props) => {
       });
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      updateCart();
+      updateWishlist();
+    }
+  }, []);
+
   const contextValue = {
     addToCart: addItemToCart,
     removeFromCart: removeItemFromCart,
     cartQuantity: quan,
-    updateCartQuan: updateCart,
-    wishlistQuantity: wishlistquan,
-    updateWishlistQuan: updateWishlist,
     cart: cartItems,
+    ////////////////////////
+    addToWishlist: addItemToWishlist,
+    removeFromWishlist: removeItemFromWishlist,
+    wishlistQuantity: wishlistquan,
     wishlist: wishlistItems,
+    ////////////////////////
     snack: snackbarContent,
     open: open,
     setOpen: closeSnack,
