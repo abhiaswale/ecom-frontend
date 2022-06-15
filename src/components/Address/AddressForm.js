@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../Context/auth-context";
 import Modal from "../Modal/Modal";
+import { AddressDetails } from "../util/TempLogin";
 
 const AddressForm = (props) => {
   const authCtx = useContext(AuthContext);
@@ -11,6 +12,10 @@ const AddressForm = (props) => {
   const [pincode, setPincode] = useState("");
   const [country, setCountry] = useState("India");
   const [mobile, setMobile] = useState("");
+
+  // const [editAddress, setEditAddress] = useState();
+  // const [isEdit, setIsEdit] = useState(false);
+  // const [addresses, setAddresses] = useState([]);
 
   let options = [
     { value: "Maharashtra", label: "Maharashtra" },
@@ -36,14 +41,18 @@ const AddressForm = (props) => {
     props.isEdit ? props.setIsEdit(false) : props.setIsAddNew(false);
   };
 
-  const submitHandler = async (e) => {
+  const setDummyDetails = () => {
+    setCountry(AddressDetails.country);
+    setName(AddressDetails.name);
+    setAddress(AddressDetails.address);
+    setState(AddressDetails.state);
+    setPincode(AddressDetails.pincode);
+    setMobile(AddressDetails.mobile);
+    setCity(AddressDetails.city);
+  };
+
+  const submitHandler = (e) => {
     e.preventDefault();
-    console.log(name);
-    console.log(address);
-    console.log(city);
-    console.log(state);
-    console.log(mobile);
-    console.log(pincode);
     let url = "http://localhost:3000/add-address";
     let method = "POST";
     if (props.isEdit) {
@@ -163,7 +172,12 @@ const AddressForm = (props) => {
           >
             Save
           </button>
-          <button className="mx-1 rounded-lg border-[1px] border-gray-300 p-2 hover:bg-[#3053c8] hover:text-white">
+          <button
+            onClick={() => {
+              setDummyDetails();
+            }}
+            className="mx-1 rounded-lg border-[1px] border-gray-300 p-2 hover:bg-[#3053c8] hover:text-white"
+          >
             Fill with dummy details
           </button>
           <button

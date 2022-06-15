@@ -23,7 +23,18 @@ export const MobileNavlinks = ({ setIsOpen }) => {
         </div>
         <div className="p-2 pb-4 ">
           <AccountCircleIcon style={{ fontSize: "3.1rem" }} />
-          <p className="p-2 text-xl">{authCtx.userName}</p>
+          {authCtx.isAuth && <p className="p-2 text-xl">{authCtx.userName}</p>}
+          {!authCtx.isAuth && (
+            <Link
+              to="/login"
+              className="p-2 text-xl"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
       <nav
