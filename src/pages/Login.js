@@ -15,6 +15,7 @@ const Login = () => {
   const registerMsg = location.state;
   const autoLogout = (miliseconds) => {
     setTimeout(() => {
+      alert("logout called");
       authCtx.logout();
       navigate("/login");
     }, miliseconds);
@@ -66,7 +67,7 @@ const Login = () => {
         const remainingMiliseconds = 60 * 60 * 1000;
         const expiryDate = new Date().getTime() + remainingMiliseconds;
         localStorage.setItem("expiryDate", expiryDate);
-        autoLogout(remainingMiliseconds);
+        autoLogout(1000);
         console.log(data);
         navigate("/");
         window.location.reload();

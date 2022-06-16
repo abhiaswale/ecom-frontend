@@ -5,8 +5,6 @@ import { Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./components/util/PrivateRoute";
 import Account from "./components/Account/Account";
 import Profile from "./components/Account/Profile";
-import Prod from "./components/Prod";
-import Footer from "./components/Footer/Footer";
 import Signup from "./pages/Signup";
 import SearchPage from "./pages/SearchPage";
 import SingleProduct from "./components/Filters/SingleProduct";
@@ -23,7 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/shop/:id" element={<SingleProduct />} />
-        <Route path="/search" element={<SearchPage />}></Route>
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/" element={<Landing />} />
         <Route
           path="/cart"

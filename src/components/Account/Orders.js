@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const getOrders = () => {
     fetch("http://localhost:3000/user/orders", {
@@ -22,11 +24,12 @@ const Orders = () => {
   useEffect(() => {
     getOrders();
   }, []);
+
   return (
     <div className="text-left m-6">
       <h3 className="font-semibold my-2">MY ORDERS</h3>
       {orders.map((o) => (
-        <div className="p-4 shadow-2xl rounded-lg text-sm">
+        <div className="p-4 shadow-2xl rounded-lg text-sm" key={o._id}>
           <div className="my-2 text-sm">
             <p className="text-base font-semibold">Order Confirmed</p>
             <p>{o.createdAt}</p>
@@ -40,7 +43,10 @@ const Orders = () => {
           <div className="my-2">
             {o.products.map((p) => (
               <div
-                onClick={() => {}}
+                key={p.product._id}
+                onClick={() => {
+                  navigate(`/shop/${p.product._id}`);
+                }}
                 className="my-2 flex justify-start items-center border-[1px] border-black rounded-lg"
               >
                 <div className="p-2 m-2">

@@ -139,10 +139,9 @@ const Filters = (props) => {
             ></img>
           </div>
           <div className="flex-1 flex justify-center items-center flex-col text-left">
-            <div className="w-full lg:w-1/2">
-              <div>
-                <h6 className="font-semibold">{prod.productBrand}</h6>
-              </div>
+            <div className="w-1/2">
+              <div></div>
+              <h6 className="font-semibold">{prod.productBrand}</h6>
               <div>
                 <h4>{prod.productName}</h4>
                 <span className="font-semibold">
@@ -156,14 +155,16 @@ const Filters = (props) => {
                   | {prod.productReviews}
                 </p>
               </div>
-              <button
-                className="w-full lg:w-auto text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
-                onClick={() => {
-                  cartCtx.addToCart(prod._id);
-                }}
-              >
-                Add to cart
-              </button>
+              <div>
+                <button
+                  className="w-full lg:w-auto text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
+                  onClick={() => {
+                    cartCtx.addToCart(prod._id);
+                  }}
+                >
+                  Add to cart
+                </button>
+              </div>
             </div>
             {/* <button>{prod.wishlist === true ? "y" : "n"}</button> */}
           </div>

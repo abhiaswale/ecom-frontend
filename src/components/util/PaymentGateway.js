@@ -19,6 +19,7 @@ export default async function displayRazorpay(address) {
     description: "Wallet Transaction",
     logo: "https://ibb.co/4PbHWqt",
     order_id: data.id,
+
     handler: async function (response) {
       localStorage.setItem("paymentId", response.razorpay_payment_id);
       alert("Payment ID : " + response.razorpay_payment_id);
@@ -26,6 +27,7 @@ export default async function displayRazorpay(address) {
       paymentId = response.razorpay_payment_id;
       return paymentId;
     },
+
     prefill: {
       name: address.Name,
       email: userDetails.user.email,

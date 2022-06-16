@@ -41,6 +41,7 @@ const Address = () => {
       <section>
         {addresses.map((i) => (
           <AddressCard
+            key={i._id}
             i={i}
             editAddress={editHandler}
             setAddresses={setAddresses}
