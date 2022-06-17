@@ -52,7 +52,7 @@ function App() {
           <Route path="" element={<Profile />} exact></Route>
           <Route path="address" element={<Address />}></Route>
           <Route path="setting" element={<Setting />}></Route>
-          <Route path="wishlist" element={<></>}></Route>
+          {/* <Route path="wishlist" element={<></>}></Route> */}
           <Route path="orders" element={<Orders />}></Route>
         </Route>
       </Routes>

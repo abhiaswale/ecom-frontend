@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AiFillStar } from "react-icons/ai";
 import CartContext from "../Context/cart-context";
 import SnackBar from "../util/SnackBar";
+import ProductCard from "./ProductCard";
 const Filters = (props) => {
   const categoryFilters = [
     { id: 1, name: "Mobile", type: "category" },
@@ -25,8 +25,6 @@ const Filters = (props) => {
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
   const [products, setProducts] = useState(props.wishlistProds);
-  const cartCtx = useContext(CartContext);
-  const navigate = useNavigate();
   let filteredProducts = [];
 
   //FILTERING LOGICC
@@ -126,49 +124,7 @@ const Filters = (props) => {
   content = (
     <div className="p-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
       {products.map((prod) => (
-        <div key={prod._id} className="flex flex-col w-full ">
-          <div
-            className="flex-1 flex justify-center items-center "
-            onClick={() => {
-              navigate(`/shop/${prod._id}`);
-            }}
-          >
-            <img
-              src={prod.productImage}
-              className=" w-52 lg:h-52 h-44 bg-cover"
-            ></img>
-          </div>
-          <div className="flex-1 flex justify-center items-center flex-col text-left">
-            <div className="w-1/2">
-              <div></div>
-              <h6 className="font-semibold">{prod.productBrand}</h6>
-              <div>
-                <h4>{prod.productName}</h4>
-                <span className="font-semibold">
-                  &#8377;{prod.productPrice}
-                </span>
-                <p className="flex">
-                  <span>{prod.productRating}</span>
-                  <span className="text-lg text-yellow-400">
-                    <AiFillStar />{" "}
-                  </span>
-                  | {prod.productReviews}
-                </p>
-              </div>
-              <div>
-                <button
-                  className="w-full lg:w-auto text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
-                  onClick={() => {
-                    cartCtx.addToCart(prod._id);
-                  }}
-                >
-                  Add to cart
-                </button>
-              </div>
-            </div>
-            {/* <button>{prod.wishlist === true ? "y" : "n"}</button> */}
-          </div>
-        </div>
+        <ProductCard prod={prod} key={prod._id} />
       ))}
     </div>
   );

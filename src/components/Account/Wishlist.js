@@ -4,12 +4,14 @@ import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import CloseIcon from "@mui/icons-material/Close";
+import SnackBar from "../util/SnackBar";
 
 const Wishlist = () => {
   const cartCtx = useContext(CartContext);
   const navigate = useNavigate();
   return (
     <Layout>
+      <SnackBar />
       <h3 className="p-4 text-xl font-semibold">MY WISHLIST</h3>
       {cartCtx.wishlist.length <= 0 && (
         <p className="lg:text-xl font-semibold my-10">
@@ -47,7 +49,9 @@ const Wishlist = () => {
                     </h6>
                   </div>
                   <div>
-                    <h4>{prod.productId.productName}</h4>
+                    <h4 className="overflow-hidden text-ellipsis whitespace-nowrap">
+                      {prod.productId.productName}
+                    </h4>
                     <span className="font-semibold">
                       &#8377;{prod.productId.productPrice}
                     </span>
@@ -59,15 +63,15 @@ const Wishlist = () => {
                       | {prod.productId.productReviews}
                     </p>
                   </div>
-                  <button
-                    className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
-                    onClick={() => {
-                      cartCtx.addToCart(prod.productId._id);
-                    }}
-                  >
-                    Add to cart
-                  </button>
                 </div>
+                <button
+                  className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
+                  onClick={() => {
+                    cartCtx.addToCart(prod.productId._id);
+                  }}
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           ))}

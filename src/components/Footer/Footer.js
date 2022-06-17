@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div className="relative">
       <div className="py-4">
-        <div className="w-full border-t border-blue-200"></div>
+        <div className="w-full border-t border-gray-400"></div>
       </div>
       <div className="flex justify-center items-center flex-row my-6">
         <div className="text-neutral-500 hover:text-cyan-500 text-3xl mx-4 transition-all ease-in-out delay-150">

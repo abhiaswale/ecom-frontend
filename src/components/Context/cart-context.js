@@ -93,16 +93,17 @@ export const CartContextProvider = (props) => {
       });
   };
 
+  ///////////////////SNACKBAR
+
   const closeSnack = () => {
     setTimeout(() => {
       setOpen(false);
-    }, 1000);
+    }, 2000);
   };
 
   ///////////////////CART
 
   const updateCart = () => {
-    console.log("cart called");
     fetch("http://localhost:3000/user/cart", {
       headers: { Authorization: localStorage.getItem("token") },
     })

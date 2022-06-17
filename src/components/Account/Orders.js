@@ -38,8 +38,8 @@ const Orders = () => {
           <p className="my-2">Order #{o._id}</p>
           <p className="my-2">Total: &#8377;{o.totalAmount}</p>
           <p>
-            Deliver To: {o.address.Name} {o.address.AddressLine1},
-            {o.address.AddressLine2},{o.address.City},{o.address.State}
+            <span className="font-semibold"> Deliver To:</span> {o.address.Name}{" "}
+            {o.address.AddressLine1},{o.address.City},{o.address.State}
           </p>
           <div className="my-2">
             {o.products.map((p) => (

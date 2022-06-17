@@ -122,7 +122,7 @@ const SingleProduct = () => {
                   {isProductInCart ? "Go to cart" : "Add to Cart"}
                 </button>
                 <button
-                  className=" mx-2my-2 lg:my-4 p-2 px-8 rounded-lg border-[1px] border-gray-600 hover:bg-gray-200"
+                  className=" mx-2 my-2 lg:my-4 p-2 px-8 rounded-lg border-[1px] border-gray-600 hover:bg-gray-200"
                   onClick={() => {
                     inWishlist
                       ? cartCtx.removeFromWishlist(product._id)
