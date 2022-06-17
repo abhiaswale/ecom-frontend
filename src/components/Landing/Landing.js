@@ -71,7 +71,11 @@ const Landing = () => {
           style={{ backgroundImage: `url(${bg})` }}
           className="bg-cover w-full lg:h-[65vh] h-[45vh] "
         >
-          <img src={Logo} className="inline lg:h-16 h-12 mt-14 mb-2" />
+          <img
+            alt="ECOM Logo"
+            src={Logo}
+            className="inline lg:h-16 h-12 mt-14 mb-2"
+          />
           <h1 className="font-semibold lg:text-6xl text-4xl my-4">
             SUMMER SALE
           </h1>
@@ -99,6 +103,7 @@ const Landing = () => {
                   className="w-48 cursor-pointer  transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl"
                 >
                   <img
+                    alt={item.name}
                     src={item.background}
                     className="bg-cover w-full h-auto border-2 border-teal-500 rounded-xl "
                   ></img>
@@ -128,6 +133,7 @@ const Landing = () => {
                   className="cursor-pointer transition-all border-8 border-transparent scale-105 hover:border-0 hover:text-xl flex justify-center items-center"
                 >
                   <img
+                    alt={item.name}
                     src={item.background}
                     className="bg-cover w-full h-auto "
                   ></img>

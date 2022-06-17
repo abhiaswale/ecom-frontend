@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoSearch } from "react-icons/go";
-import CloseIcon from "@mui/icons-material/Close";
+import { GoSearch, GoX } from "react-icons/go";
 
 const suggestions = [
   "Mobile",
@@ -26,9 +25,9 @@ const SearchBar = () => {
   const changeHandler = (e) => {
     let array = [];
     setSearchItem(e.target.value);
-    if (searchItem.length >= 1) {
+    if (searchItem.length > 0) {
       array = suggestions.filter((item) => {
-        return item.toLowerCase().startsWith(searchItem.toLowerCase());
+        return item.toLowerCase().includes(searchItem.toLowerCase());
       });
     }
     setSuggest(array);
@@ -51,6 +50,7 @@ const SearchBar = () => {
               onClick={(e) => {
                 inputRef.current.value = item;
                 submitHandler(e);
+                setSuggest([]);
               }}
             >
               {item}
@@ -75,7 +75,7 @@ const SearchBar = () => {
   });
 
   const submitHandler = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("submit called");
     if (inputRef.current.value.length <= 0 || searchItem.length <= 0) {
       return;
@@ -104,33 +104,34 @@ const SearchBar = () => {
         onChange={changeHandler}
         ref={inputRef}
         placeholder="Type to search"
-        onKeyUp={(e) => {
+        onKeyPress={(e) => {
           if (e.key === "Enter") {
             submitHandler();
+            setSuggest([]);
           }
         }}
       ></input>
       {searchItem && getSuggestions()}
-
-      {searchItem ? (
+      {searchItem && (
         <button
-          className="absolute right-4 text-[1.4rem]"
+          className="absolute right-12 text-[1.4rem]"
           onClick={() => {
             inputRef.current.value = "";
             setSearchItem("");
           }}
         >
-          <CloseIcon />
-        </button>
-      ) : (
-        <button
-          className="absolute right-4 text-[1.4rem]"
-          onClick={submitHandler}
-          type="submit"
-        >
-          <GoSearch />
+          <GoX />
         </button>
       )}
+      <button
+        className="absolute right-4 text-[1.4rem]"
+        onClick={(e) => {
+          submitHandler(e);
+        }}
+        type="submit"
+      >
+        <GoSearch />
+      </button>
     </section>
   );
 };

@@ -15,6 +15,7 @@ const ProductCard = ({ prod }) => {
         }}
       >
         <img
+          alt={prod.productName}
           src={prod.productImage}
           className=" w-52 lg:h-52 h-44 bg-cover"
         ></img>

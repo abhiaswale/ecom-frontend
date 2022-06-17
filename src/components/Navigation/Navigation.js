@@ -36,11 +36,10 @@ const Navigation = () => {
   useEffect(() => {
     setCount(cartContext.cartQuantity);
     setWCount(cartContext.wishlistQuantity);
-  });
+  }, [cartContext.cartQuantity, cartContext.wishlistQuantity]);
 
   return (
     <>
-      {/* <div className="h-16 relative top-[-4rem]"></div> */}
       <div className="fixed lg:block z-20 h-auto w-screen">
         <div className="px-3 h-16 bg-[#0E3EDA] flex justify-between lg:justify-around items-center ">
           <div
@@ -64,7 +63,7 @@ const Navigation = () => {
 
           <nav className="hidden lg:flex justify-center items-center">
             <Link to="">
-              <img src={EComLogo} className="h-10 w-32"></img>
+              <img alt="ECOM Logo" src={EComLogo} className="h-10 w-32"></img>
             </Link>
             <NavLink
               to="/"

@@ -5,6 +5,8 @@ const CartContext = React.createContext({
   wishlistQuantity: 0,
   addToCart: (id) => {},
   removeFromCart: (id) => {},
+  refreshCart: () => {},
+  refreshWishlist: () => {},
   addToWishlist: (id) => {},
   removeFromWishlist: (id) => {},
   cart: [],
@@ -104,21 +106,28 @@ export const CartContextProvider = (props) => {
   ///////////////////CART
 
   const updateCart = () => {
-    fetch("http://localhost:3000/user/cart", {
-      headers: { Authorization: localStorage.getItem("token") },
-    })
-      .then((resp) => {
-        return resp.json();
+    const token = localStorage.getItem("token");
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
+    if (token) {
+      fetch("http://localhost:3000/user/cart", {
+        headers: { Authorization: localStorage.getItem("token") },
       })
-      .then((data) => {
-        console.log(data);
-        setCartItems(data.data);
-        let count = 0;
-        data.data.forEach((element) => {
-          count++;
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setCartItems(data.data);
+          let count = 0;
+          data.data.forEach((element) => {
+            count++;
+          });
+          setQuan(count);
         });
-        setQuan(count);
-      });
+    }
   };
 
   const addItemToCart = (id) => {
@@ -184,11 +193,13 @@ export const CartContextProvider = (props) => {
     removeFromCart: removeItemFromCart,
     cartQuantity: quan,
     cart: cartItems,
+    refreshCart: updateCart,
     ////////////////////////
     addToWishlist: addItemToWishlist,
     removeFromWishlist: removeItemFromWishlist,
     wishlistQuantity: wishlistquan,
     wishlist: wishlistItems,
+    refreshWishlist: updateWishlist,
     ////////////////////////
     snack: snackbarContent,
     open: open,

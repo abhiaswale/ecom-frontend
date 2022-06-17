@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import AuthContext from "../Context/auth-context";
 import CartContext from "../Context/cart-context";
 import Filters from "../Filters/Filters";
 import Layout from "../Layout/Layout";
@@ -15,7 +14,6 @@ const Shop = () => {
 
   const [fP, setfP] = useState([]);
 
-  const authCtx = useContext(AuthContext);
   const cartCtx = useContext(CartContext);
 
   //Get the Products

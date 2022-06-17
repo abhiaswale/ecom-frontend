@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../components/Context/auth-context";
+import CartContext from "../components/Context/cart-context";
 import Form from "../components/Form/Form";
 import Layout from "../components/Layout/Layout";
 import { LoginDetails } from "../components/util/TempLogin";
 const Login = () => {
   const authCtx = useContext(AuthContext);
+  const cartContext = useContext(CartContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -14,8 +16,8 @@ const Login = () => {
   const location = useLocation();
   const registerMsg = location.state;
   const autoLogout = (miliseconds) => {
+    console.log(miliseconds);
     setTimeout(() => {
-      alert("logout called");
       authCtx.logout();
       navigate("/login");
     }, miliseconds);
@@ -67,10 +69,11 @@ const Login = () => {
         const remainingMiliseconds = 60 * 60 * 1000;
         const expiryDate = new Date().getTime() + remainingMiliseconds;
         localStorage.setItem("expiryDate", expiryDate);
-        autoLogout(1000);
+        autoLogout(remainingMiliseconds);
         console.log(data);
         navigate("/");
-        window.location.reload();
+        cartContext.refreshCart();
+        cartContext.refreshWishlist();
         console.log("Login handler");
       })
       .catch((error) => {

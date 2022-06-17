@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
 import AuthContext from "../Context/auth-context";
@@ -25,7 +24,7 @@ const Address = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [authCtx.token]);
 
   const editHandler = (id) => {
     console.log(id);

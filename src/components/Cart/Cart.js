@@ -112,6 +112,7 @@ const Cart = () => {
         .then((data) => {
           navigate("/order", { state: data.id });
           setPaymentId("");
+          cartCtx.refreshCart();
         })
         .catch((err) => {
           console.log(err);

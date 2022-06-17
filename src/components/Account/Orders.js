@@ -48,7 +48,7 @@ const Orders = () => {
                 onClick={() => {
                   navigate(`/shop/${p.product._id}`);
                 }}
-                className="my-2 flex justify-start items-center border-[1px] border-black rounded-lg"
+                className="my-2 flex justify-start items-center border-[1px] border-gray-300 rounded-lg"
               >
                 <div className="p-2 m-2">
                   <img className="w-32 h-auto" src={p.product.productImage} />

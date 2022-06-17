@@ -15,7 +15,7 @@ const CartItem = ({ p }) => {
         ></img>
       </div>
       <div className="w-full">
-        <p className="font-semibold">{p.productId.productDescription}</p>
+        <p className="font-semibold p-1">{p.productId.productDescription}</p>
         <p>&#8377;{p.productId.productPrice}</p>
         <div className="flex justify-start items-center my-2">
           <button

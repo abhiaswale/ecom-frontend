@@ -29,6 +29,7 @@ const SearchPage = () => {
                   }}
                 >
                   <img
+                    alt={prod.productName}
                     src={prod.productImage}
                     className=" w-52 h-52 bg-cover"
                   ></img>
@@ -39,7 +40,9 @@ const SearchPage = () => {
                       <h6 className="font-semibold">{prod.productBrand}</h6>
                     </div>
                     <div>
-                      <h4>{prod.productName}</h4>
+                      <h4 className="overflow-hidden text-ellipsis whitespace-nowrap">
+                        {prod.productName}
+                      </h4>
                       <span className="font-semibold">
                         &#8377;{prod.productPrice}
                       </span>
@@ -51,16 +54,15 @@ const SearchPage = () => {
                         | {prod.productReviews}
                       </p>
                     </div>
-                    <button
-                      className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
-                      onClick={() => {
-                        cartCtx.addToCart(prod._id);
-                      }}
-                    >
-                      Add to cart
-                    </button>
                   </div>
-                  {/* <button>{prod.wishlist === true ? "y" : "n"}</button> */}
+                  <button
+                    className="text-sm border-[0.5px] border-gray-400 my-2 p-[4px] px-4 rounded-lg  hover:bg-[#3053c8] hover:text-white"
+                    onClick={() => {
+                      cartCtx.addToCart(prod._id);
+                    }}
+                  >
+                    Add to cart
+                  </button>
                 </div>
               </div>
             ))}

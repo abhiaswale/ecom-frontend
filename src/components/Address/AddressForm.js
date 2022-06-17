@@ -54,8 +54,6 @@ const AddressForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (!name) {
-    }
     let url = "http://localhost:3000/add-address";
     let method = "POST";
     if (props.isEdit) {

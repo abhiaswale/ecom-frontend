@@ -9,7 +9,9 @@ const Account = () => {
           ACCOUNT
         </div>
       </div>
-      <div className="border-b-[1px] border-gray-400 mx-80"></div>
+      <div className="hidden lg:block border-b-[0.5px] border-gray-400 mx-80"></div>
+      <div className="lg:hidden block border-[0.5px] border-gray-300 mx-2"></div>
+
       <div className="flex justify-center items-center flex-row">
         <div className="grid grid-cols-1 lg:grid-cols-20/80 lg:divide-x divide-gray-400 lg:w-3/5 w-full">
           <nav className="px-4 hidden lg:grid grid-cols-1 divide-y divide-gray-400  w-auto font-semibold text-xl h-[15rem]">
@@ -47,7 +49,7 @@ const Account = () => {
               Setting
             </NavLink>
           </nav>
-          <div className="">
+          <div>
             <Outlet />
           </div>
         </div>

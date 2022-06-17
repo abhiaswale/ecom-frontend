@@ -106,12 +106,12 @@ const Filters = (props) => {
   //SORTING LOGIC
   const SortHandler = (value) => {
     let p;
-    if (value == -1) {
+    if (value === -1) {
       p = products.sort((a, b) => {
         return Number(a.productPrice) - Number(b.productPrice);
       });
     }
-    if (value == 1) {
+    if (value === 1) {
       p = products.sort((a, b) => {
         return Number(b.productPrice) - Number(a.productPrice);
       });
