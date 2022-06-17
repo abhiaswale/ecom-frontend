@@ -13,6 +13,7 @@ import Orders from "./components/Account/Orders";
 import Cart from "./components/Cart/Cart";
 import Address from "./components/Account/Address";
 import Setting from "./components/Account/Setting";
+import OrderStatus from "./components/Cart/OrderStatus";
 function App() {
   return (
     <div className="font-Sans text-center ">
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/shop/:id" element={<SingleProduct />} />
+        <Route path="/order" element={<OrderStatus />}></Route>
         <Route path="/search" element={<SearchPage />} />
         <Route path="/" element={<Landing />} />
         <Route

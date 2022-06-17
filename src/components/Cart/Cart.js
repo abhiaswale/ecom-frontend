@@ -1,22 +1,57 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../Context/auth-context";
 import AddressSelector from "./AddressSelector";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import CartContext from "../Context/cart-context";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Layout from "../Layout/Layout";
 import SnackBar from "../util/SnackBar";
-import displayRazorpay from "../util/PaymentGateway";
+import CartItem from "./CartItem";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
-  const [products, setProducts] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
   const [addresses, setAddresses] = useState([]);
+  const [products, setProducts] = useState("");
   const [selection, setSelection] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const authCtx = useContext(AuthContext);
+  const [paymentId, setPaymentId] = useState("");
+
+  async function displayRazorpay(address) {
+    const data = await fetch("http://localhost:3000/payment/razorpay", {
+      method: "POST",
+      headers: { Authorization: localStorage.getItem("token") },
+    }).then((res) => res.json());
+
+    const userDetails = await fetch("http://localhost:3000/user/details", {
+      method: "GET",
+      headers: { Authorization: localStorage.getItem("token") },
+    }).then((t) => t.json());
+
+    const options = {
+      key: "rzp_test_9ynKRozO1YO0Gq",
+      currency: data.currency,
+      amount: data.amount,
+      description: "Wallet Transaction",
+      logo: "https://ibb.co/4PbHWqt",
+      order_id: data.id,
+      prefill: {
+        name: address.Name,
+        email: userDetails.user.email,
+        contact: address.Mobile,
+      },
+      handler: async function (response) {
+        alert("Payment ID : " + response.razorpay_payment_id);
+        alert("Order ID : " + response.razorpay_order_id);
+        setPaymentId(response.razorpay_payment_id);
+      },
+    };
+
+    //display window
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
 
   const getCart = () => {
     setProducts(cartCtx.cart);
@@ -50,40 +85,37 @@ const Cart = () => {
       });
   };
   useEffect(() => {
-    getCart();
+    // getCart();
     getAddresses();
   }, []);
 
   useEffect(() => {
-    console.log("called");
-    const payment = localStorage.getItem("paymentId");
-    if (payment) {
-      console.log("order called");
-    }
-  });
+    postOrder();
+  }, [paymentId]);
 
-  const postOrder = async (a) => {
-    // if (payment) {
-    //   fetch(`http://localhost:3000/user/order`, {
-    //     method: "POST",
-    //     headers: {
-    //       Authorization: authCtx.token,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       aId: selectedAddress,
-    //       totalPrice: totalPrice,
-    //     }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       console.log(data);
-    //       localStorage.removeItem("paymentId");
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
+  const postOrder = () => {
+    console.log(paymentId);
+    if (paymentId) {
+      fetch(`http://localhost:3000/user/order`, {
+        method: "POST",
+        headers: {
+          Authorization: authCtx.token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          aId: selectedAddress,
+          totalPrice: totalPrice,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          navigate("/order", { state: data.id });
+          setPaymentId("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const loadScript = (src) => {
@@ -103,6 +135,7 @@ const Cart = () => {
   useEffect(() => {
     loadScript("https://checkout.razorpay.com/v1/checkout.js");
   });
+
   return (
     <Layout>
       <SnackBar />
@@ -151,50 +184,49 @@ const Cart = () => {
                 <div className="my-4 p-2 rounded-xl border-[1px] border-gray-300">
                   {cartCtx.cart &&
                     cartCtx.cart.map((p) => (
-                      <div
-                        // className="flex justify-center items-center p-2"
-                        className="grid grid-cols-30/70 "
-                        key={p.productId._id}
-                      >
-                        <div className="w-36 h-36 align-middle">
-                          <img
-                            className="bg-cover lg:w-full w-3/4"
-                            src={p.productId.productImage}
-                          ></img>
-                        </div>
-                        <div className="w-full">
-                          <p className="font-semibold">
-                            {p.productId.productDescription}
-                          </p>
-                          <p>&#8377;{p.productId.productPrice}</p>
-                          <div className="flex justify-start items-center my-2">
-                            <button
-                              className="border-[1px] border-black rounded-lg p-[4px] mr-2"
-                              onClick={() => {
-                                cartCtx.addToCart(p.productId._id);
-                              }}
-                            >
-                              <AddIcon />
-                            </button>
-                            <p className="border-[1px] border-black rounded-lg p-[4px] px-4 mx-2">
-                              {p.quantity}
-                            </p>
-                            <button
-                              className="border-[1px] border-black rounded-lg p-[4px] mx-2"
-                              onClick={() => {
-                                cartCtx.removeFromCart(p.productId._id);
-                              }}
-                            >
-                              {p.quantity <= 1 ? (
-                                <DeleteIcon />
-                              ) : (
-                                <RemoveIcon />
-                              )}
-                            </button>
-                          </div>
-                        </div>
-                        {/* <div className="border-b-2 border-black w-full"></div> */}
-                      </div>
+                      <CartItem p={p} key={p.productId._id} />
+                      // <div
+                      //   className="grid grid-cols-30/70 "
+                      //   key={p.productId._id}
+                      // >
+                      //   <div className="w-36 h-36 align-middle">
+                      //     <img
+                      //       className="bg-cover lg:w-full w-3/4"
+                      //       src={p.productId.productImage}
+                      //     ></img>
+                      //   </div>
+                      //   <div className="w-full">
+                      //     <p className="font-semibold">
+                      //       {p.productId.productDescription}
+                      //     </p>
+                      //     <p>&#8377;{p.productId.productPrice}</p>
+                      //     <div className="flex justify-start items-center my-2">
+                      //       <button
+                      //         className="border-[1px] border-black rounded-lg p-[4px] mr-2"
+                      //         onClick={() => {
+                      //           cartCtx.addToCart(p.productId._id);
+                      //         }}
+                      //       >
+                      //         <AddIcon />
+                      //       </button>
+                      //       <p className="border-[1px] border-black rounded-lg p-[4px] px-4 mx-2">
+                      //         {p.quantity}
+                      //       </p>
+                      //       <button
+                      //         className="border-[1px] border-black rounded-lg p-[4px] mx-2"
+                      //         onClick={() => {
+                      //           cartCtx.removeFromCart(p.productId._id);
+                      //         }}
+                      //       >
+                      //         {p.quantity <= 1 ? (
+                      //           <DeleteIcon />
+                      //         ) : (
+                      //           <RemoveIcon />
+                      //         )}
+                      //       </button>
+                      //     </div>
+                      //   </div>
+                      // </div>
                     ))}
                 </div>
               </div>
@@ -237,13 +269,6 @@ const Cart = () => {
           <p className="lg:text-xl font-semibold my-10">No Products in cart!</p>
         )}
       </div>
-      {/* <button
-        onClick={() => {
-          displayRazorpay();
-        }}
-      >
-        Display Razorpay
-      </button> */}
     </Layout>
   );
 };

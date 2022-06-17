@@ -1,6 +1,4 @@
-import { Snackbar } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../Context/auth-context";
 import CartContext from "../Context/cart-context";
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +36,7 @@ const Wishlist = () => {
               >
                 <img
                   src={prod.productId.productImage}
-                  className=" w-52 h-52 bg-cover"
+                  className=" w-52 h-40 lg:h-52 bg-cover"
                 ></img>
               </div>
               <div className="flex-1 flex justify-center items-center flex-col text-left">

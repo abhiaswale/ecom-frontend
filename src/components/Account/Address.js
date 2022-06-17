@@ -38,6 +38,7 @@ const Address = () => {
   return (
     <div className="text-left m-6">
       <h3 className="font-semibold my-6">MY ADDRESSES</h3>
+      {addresses.length <= 0 && <p>No Address Found!</p>}
       <section>
         {addresses.map((i) => (
           <AddressCard
