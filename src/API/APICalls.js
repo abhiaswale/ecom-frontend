@@ -1,4 +1,5 @@
-const base_url = "http://localhost:3000/";
+// const base_url = "http://localhost:3000/";
+const base_url = "https://ecom-server05.herokuapp.com/";
 
 //GET
 export const getReq = async (url) => {

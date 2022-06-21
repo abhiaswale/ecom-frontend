@@ -11,7 +11,6 @@ import SearchBar from "./SearchBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { MobileNavlinks } from "./NavLinks";
-// import MobileLogo from "../Assets/mblogo.png";
 
 const Navigation = () => {
   const authCtx = useContext(AuthContext);
@@ -94,8 +93,6 @@ const Navigation = () => {
           <div className="hidden lg:block w-96">
             <SearchBar />
           </div>
-          {/* //Mobile Navlinks */}
-
           <div className="lg:hidden flex justify-center items-center ">
             <Badge
               badgeContent={authCtx.isAuth ? wCount : 0}

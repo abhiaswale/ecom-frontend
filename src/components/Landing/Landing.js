@@ -106,9 +106,6 @@ const Landing = () => {
                     src={item.background}
                     className="bg-cover w-full h-auto border-2 border-teal-500 rounded-xl "
                   ></img>
-                  {/* <div className="lg:hidden font-bold absolute top-1/2 left-1/2 text-center ">
-                  {item.name}
-                </div> */}
                 </div>
               ))}
             </div>
