@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoSearch, GoX } from "react-icons/go";
+import { getReq } from "../../API/APICalls";
 
 const suggestions = [
   "Mobile",
@@ -76,23 +77,19 @@ const SearchBar = () => {
 
   const submitHandler = (e) => {
     // e.preventDefault();
-    console.log("submit called");
     if (inputRef.current.value.length <= 0 || searchItem.length <= 0) {
       return;
     }
-    fetch(`http://localhost:3000/search?searchTerm=${inputRef.current.value}`, {
-      method: "GET",
-    })
-      .then((res) => {
-        return res.json();
-      })
+    getReq(`search?searchTerm=${inputRef.current.value}`)
       .then((data) => {
-        console.log(data);
         const searchData = {
           data: data,
           searchItem: inputRef.current.value,
         };
         navigate("/search", { state: searchData });
+      })
+      .catch((err) => {
+        alert(err);
       });
   };
 

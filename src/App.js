@@ -14,6 +14,7 @@ import Cart from "./components/Cart/Cart";
 import Address from "./components/Account/Address";
 import Setting from "./components/Account/Setting";
 import OrderStatus from "./components/Cart/OrderStatus";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <div className="font-Sans text-center ">
@@ -52,9 +53,9 @@ function App() {
           <Route path="" element={<Profile />} exact></Route>
           <Route path="address" element={<Address />}></Route>
           <Route path="setting" element={<Setting />}></Route>
-          {/* <Route path="wishlist" element={<></>}></Route> */}
           <Route path="orders" element={<Orders />}></Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {/* <Footer /> */}
     </div>

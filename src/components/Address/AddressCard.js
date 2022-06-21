@@ -1,24 +1,13 @@
-import React, { useContext } from "react";
-import AuthContext from "../Context/auth-context";
+import React from "react";
+import { deleteReq } from "../../API/APICalls";
 
-const AddressCard = ({ i, editAddress, setAddresses, addresses }) => {
-  const authCtx = useContext(AuthContext);
-
+const AddressCard = ({ i, editAddress, setAddresses }) => {
   const removeAddress = (id) => {
-    fetch(`http://localhost:3000/remove-address/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: authCtx.token,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
+    deleteReq(`remove-address/${id}`)
       .then((data) => {
         setAddresses(data.data);
-        console.log(data);
-      });
+      })
+      .catch((err) => alert(err));
   };
   return (
     <>

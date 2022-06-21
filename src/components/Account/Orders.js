@@ -1,23 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../Context/auth-context";
+import { getReq } from "../../API/APICalls";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  const authCtx = useContext(AuthContext);
+
   const getOrders = () => {
-    fetch("http://localhost:3000/user/orders", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
+    getReq("user/orders")
       .then((data) => {
-        console.log(data.data);
         setOrders(data.data);
+      })
+      .catch((err) => {
+        alert(err);
       });
   };
 
@@ -51,7 +46,11 @@ const Orders = () => {
                 className="my-2 flex justify-start items-center border-[1px] border-gray-300 rounded-lg"
               >
                 <div className="p-2 m-2">
-                  <img className="w-32 h-auto" src={p.product.productImage} />
+                  <img
+                    alt={p.product.productName}
+                    className="w-32 h-auto"
+                    src={p.product.productImage}
+                  />
                 </div>
                 <div>
                   <p>{p.product.productName}</p>

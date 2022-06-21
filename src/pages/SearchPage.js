@@ -31,7 +31,7 @@ const SearchPage = () => {
                   <img
                     alt={prod.productName}
                     src={prod.productImage}
-                    className=" w-52 h-52 bg-cover"
+                    className="w-52 h-40 lg:h-52 bg-cover"
                   ></img>
                 </div>
                 <div className="flex-1 flex justify-center items-center flex-col text-left">

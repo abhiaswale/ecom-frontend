@@ -11,6 +11,7 @@ import SnackBar from "../util/SnackBar";
 import Layout from "../Layout/Layout";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { getReq } from "../../API/APICalls";
 const SingleProduct = () => {
   const [product, setProduct] = useState();
   const [isProductInCart, setIsProductInCart] = useState();
@@ -21,10 +22,8 @@ const SingleProduct = () => {
   const navigate = useNavigate();
   const getProduct = () => {
     setLoading(true);
-    fetch(`http://localhost:3000/get-product/${productId.id}`)
-      .then((res) => res.json())
+    getReq(`get-product/${productId.id}`)
       .then((data) => {
-        console.log(data.data);
         setProduct(data.data);
       })
       .then(() => {
@@ -67,6 +66,7 @@ const SingleProduct = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full lg:w-4/5 my-6 shadow-xl rounded-lg">
             <div className="p-4">
               <img
+                alt={product.productName}
                 className=" lg:h-[35rem] lg:w-[35rem]"
                 src={product.productImage}
               ></img>

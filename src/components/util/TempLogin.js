@@ -4,10 +4,10 @@ export const LoginDetails = {
 };
 export const AddressDetails = {
   name: "John Doe",
-  address: "4766 Lewis Street",
-  city: "Phoenix",
-  state: "Arizona",
-  country: "United States",
-  pincode: "85016",
+  address: "4766 BS Road",
+  city: "Mumbai",
+  state: "Maharashtra",
+  country: "India",
+  pincode: "850161",
   mobile: "6026450587",
 };

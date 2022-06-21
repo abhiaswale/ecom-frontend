@@ -4,34 +4,28 @@ import AddIcon from "@mui/icons-material/Add";
 import AuthContext from "../Context/auth-context";
 import AddressForm from "../Address/AddressForm";
 import AddressCard from "../Address/AddressCard";
+import { getReq } from "../../API/APICalls";
 
 const Address = () => {
   const [isAddNew, setIsAddNew] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
   const authCtx = useContext(AuthContext);
   const [addresses, setAddresses] = useState([]);
   const [editAddress, setEditAddress] = useState();
-
+  const [isEdit, setIsEdit] = useState(false);
   useEffect(() => {
-    fetch("http://localhost:3000/get-addresses", {
-      method: "GET",
-      headers: { Authorization: authCtx.token },
-    })
-      .then((res) => res.json())
+    getReq("get-addresses")
       .then((data) => {
         setAddresses(data.data);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   }, [authCtx.token]);
 
   const editHandler = (id) => {
-    console.log(id);
     setIsEdit(true);
     const aD = addresses.filter((a) => a._id === id);
     setEditAddress(aD[0]);
-    console.log(aD);
   };
 
   return (

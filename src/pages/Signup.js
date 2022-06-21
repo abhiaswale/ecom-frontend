@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { postReq } from "../API/APICalls";
 import Form from "../components/Form/Form";
 import Layout from "../components/Layout/Layout";
 
@@ -15,8 +16,8 @@ const Signup = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !password || !confirmPassword) {
-      setErrorMsg("Fields cannot be empty");
+    if (!firstName && !lastName && !password && !confirmPassword) {
+      setErrorMsg("Please fill all fields");
       return;
     }
     if (firstName.length === 0) {
@@ -25,6 +26,10 @@ const Signup = () => {
     }
     if (lastName.length === 0) {
       setErrorMsg("Please enter Valid Last Name");
+      return;
+    }
+    if (email.length === 0) {
+      setErrorMsg("Please enter Valid Email");
       return;
     }
     if (password.length < 4) {
@@ -36,28 +41,13 @@ const Signup = () => {
       return;
     }
 
-    fetch("http://localhost:3000/auth/register", {
-      method: "POST",
-      body: JSON.stringify({
-        fName: firstName,
-        lName: lastName,
-        email: email,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    postReq("auth/register", {
+      firstName,
+      lastName,
+      email,
+      password,
     })
       .then((res) => {
-        if (res.status === 422) {
-          throw new Error("Email already exists!");
-        }
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Creating a user failed");
-        }
-        return res.json();
-      })
-      .then(() => {
         navigate("/login", { state: "Successfully Registered! Please login" });
       })
       .catch((err) => {
@@ -82,9 +72,7 @@ const Signup = () => {
               type="text"
               placeholder="First Name"
               className={`focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2 ${
-                errorMsg.toLowerCase().includes("first" || "empty")
-                  ? "border-red-600"
-                  : ""
+                errorMsg.toLowerCase().includes("first") ? "border-red-600" : ""
               }`}
             ></input>
           </div>

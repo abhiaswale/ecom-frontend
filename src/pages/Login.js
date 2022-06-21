@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { postReq } from "../API/APICalls";
 import AuthContext from "../components/Context/auth-context";
 import CartContext from "../components/Context/cart-context";
 import Form from "../components/Form/Form";
@@ -16,7 +17,6 @@ const Login = () => {
   const location = useLocation();
   const registerMsg = location.state;
   const autoLogout = (miliseconds) => {
-    console.log(miliseconds);
     setTimeout(() => {
       authCtx.logout();
       navigate("/login");
@@ -29,7 +29,10 @@ const Login = () => {
   };
   const loginHandler = async (e) => {
     e.preventDefault();
-
+    if (!email && !password) {
+      setErrorMsg("Please fill all fields");
+      return;
+    }
     if (!email) {
       setErrorMsg("Please enter valid email");
       return;
@@ -39,28 +42,7 @@ const Login = () => {
       return;
     }
 
-    console.log(email, password);
-
-    fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          throw new Error("Invalid credentials");
-        }
-
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Could not authenticate you");
-        }
-        return res.json();
-      })
+    postReq("auth/login", { email, password })
       .then((data) => {
         authCtx.login(data.token);
         localStorage.setItem("token", data.token);
@@ -70,11 +52,11 @@ const Login = () => {
         const expiryDate = new Date().getTime() + remainingMiliseconds;
         localStorage.setItem("expiryDate", expiryDate);
         autoLogout(remainingMiliseconds);
-        console.log(data);
-        navigate("/");
         cartContext.refreshCart();
         cartContext.refreshWishlist();
-        console.log("Login handler");
+      })
+      .then(() => {
+        navigate("/");
       })
       .catch((error) => {
         setErrorMsg(error.message);
@@ -84,14 +66,15 @@ const Login = () => {
   return (
     <Layout>
       <Form>
-        {/* absolute mt-[40rem] */}
         <form className="w-full shadow-xl " onSubmit={loginHandler}>
           <h1 className="text-2xl font-bold my-4">LOGIN</h1>
           {registerMsg && <p>{registerMsg}</p>}
           <div className="my-5">
             <input
               className={`w-4/5 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2 ${
-                errorMsg.toLowerCase().includes("email") ? "border-red-600" : ""
+                errorMsg.toLowerCase().includes("email" && "fields")
+                  ? "border-red-600"
+                  : ""
               }`}
               type="text"
               placeholder="Enter your email"
@@ -104,7 +87,7 @@ const Login = () => {
           <div className="my-4">
             <input
               className={`w-4/5 focus:outline-none focus:shadow-outline rounded-lg border-[1px] border-gray-300 p-2 ${
-                errorMsg.toLowerCase().includes("password")
+                errorMsg.toLowerCase().includes("password" && "fields")
                   ? "border-red-600"
                   : ""
               }`}
@@ -116,7 +99,7 @@ const Login = () => {
               }}
             ></input>
           </div>
-          {errorMsg && <p className="m-5 text-red-500 text-xs">{errorMsg}</p>}
+          {errorMsg && <p className="m-2 text-red-500 text-xs">{errorMsg}</p>}
           <button
             className="w-4/5 text-white my-4 p-2 px-5 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]"
             type="submit"

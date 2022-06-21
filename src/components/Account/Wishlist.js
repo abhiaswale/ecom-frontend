@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import CartContext from "../Context/cart-context";
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +37,7 @@ const Wishlist = () => {
                 }}
               >
                 <img
+                  alt={prod.productId.productName}
                   src={prod.productId.productImage}
                   className=" w-52 h-40 lg:h-52 bg-cover"
                 ></img>

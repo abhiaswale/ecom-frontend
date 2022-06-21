@@ -22,7 +22,6 @@ const Landing = () => {
       id: id,
       type: type,
     };
-    console.log("Called");
     navigate("/shop", { state: detail });
   };
 

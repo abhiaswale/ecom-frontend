@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Context/auth-context";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -11,6 +11,7 @@ import SearchBar from "./SearchBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { MobileNavlinks } from "./NavLinks";
+// import MobileLogo from "../Assets/mblogo.png";
 
 const Navigation = () => {
   const authCtx = useContext(AuthContext);
@@ -18,6 +19,8 @@ const Navigation = () => {
   const [count, setCount] = useState(0);
   const [wCount, setWCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
   let menuRef = useRef();
 
   useEffect(() => {
@@ -54,7 +57,7 @@ const Navigation = () => {
               <MenuIcon style={{ fontSize: "2.1rem" }} />
             )}
 
-            <h2 className="mx-3">ECOM</h2>
+            <h2 className="mx-3 font-semibold text-xl">ECOM.</h2>
           </div>
 
           <div ref={menuRef} className="absolute z-40 top-0 left-0 w-3/5">
@@ -63,7 +66,14 @@ const Navigation = () => {
 
           <nav className="hidden lg:flex justify-center items-center">
             <Link to="">
-              <img alt="ECOM Logo" src={EComLogo} className="h-10 w-32"></img>
+              <img
+                alt="ECOM Logo"
+                src={EComLogo}
+                className="h-10 w-32"
+                onClick={() => {
+                  navigate("/");
+                }}
+              ></img>
             </Link>
             <NavLink
               to="/"

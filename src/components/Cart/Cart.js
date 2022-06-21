@@ -1,33 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../Context/auth-context";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import AddressSelector from "./AddressSelector";
 import CartContext from "../Context/cart-context";
 import Layout from "../Layout/Layout";
 import SnackBar from "../util/SnackBar";
 import CartItem from "./CartItem";
 import { useNavigate } from "react-router-dom";
+import { getReq, postReq } from "../../API/APICalls";
 
 const Cart = () => {
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   const [selectedAddress, setSelectedAddress] = useState();
   const [addresses, setAddresses] = useState([]);
-  const [products, setProducts] = useState("");
   const [selection, setSelection] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const authCtx = useContext(AuthContext);
   const [paymentId, setPaymentId] = useState("");
 
   async function displayRazorpay(address) {
-    const data = await fetch("http://localhost:3000/payment/razorpay", {
-      method: "POST",
-      headers: { Authorization: localStorage.getItem("token") },
-    }).then((res) => res.json());
-
-    const userDetails = await fetch("http://localhost:3000/user/details", {
-      method: "GET",
-      headers: { Authorization: localStorage.getItem("token") },
-    }).then((t) => t.json());
+    const data = await postReq("payment/razorpay");
+    const userDetails = await getReq("user/details");
 
     const options = {
       key: "rzp_test_9ynKRozO1YO0Gq",
@@ -42,8 +33,6 @@ const Cart = () => {
         contact: address.Mobile,
       },
       handler: async function (response) {
-        alert("Payment ID : " + response.razorpay_payment_id);
-        alert("Order ID : " + response.razorpay_order_id);
         setPaymentId(response.razorpay_payment_id);
       },
     };
@@ -53,11 +42,6 @@ const Cart = () => {
     paymentObject.open();
   }
 
-  const getCart = () => {
-    setProducts(cartCtx.cart);
-    console.log(cartCtx.cart);
-  };
-
   useEffect(() => {
     if (cartCtx.cart) {
       let tp = 0;
@@ -66,59 +50,43 @@ const Cart = () => {
       });
       setTotalPrice(tp);
     }
-  }, [getCart]);
+  }, [cartCtx.cart]);
 
   const getAddresses = () => {
-    fetch("http://localhost:3000/get-addresses", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authCtx.token,
-      },
-    })
-      .then((res) => res.json())
+    getReq("get-addresses")
       .then((data) => {
         setAddresses(data.data);
         if (data.data.length > 0) {
           setSelectedAddress(data.data[0]);
         }
-      });
+      })
+      .catch((err) => alert(err));
   };
   useEffect(() => {
-    // getCart();
     getAddresses();
   }, []);
 
-  useEffect(() => {
-    postOrder();
-  }, [paymentId]);
-
-  const postOrder = () => {
-    console.log(paymentId);
+  const postOrder = useCallback(() => {
     if (paymentId) {
-      fetch(`http://localhost:3000/user/order`, {
-        method: "POST",
-        headers: {
-          Authorization: authCtx.token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          aId: selectedAddress,
-          totalPrice: totalPrice,
-          paymentId: paymentId,
-        }),
+      postReq("user/order", {
+        selectedAddress,
+        totalPrice: totalPrice - totalPrice / 10,
+        paymentId,
       })
-        .then((res) => res.json())
         .then((data) => {
           navigate("/order", { state: data.id });
           setPaymentId("");
           cartCtx.refreshCart();
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     }
-  };
+  }, [cartCtx, navigate, paymentId, selectedAddress, totalPrice]);
+
+  useEffect(() => {
+    postOrder();
+  }, [paymentId, postOrder]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -197,19 +165,24 @@ const Cart = () => {
                   <span>{totalPrice}</span>
                 </section>
                 <section className="my-2 grid grid-cols-2">
-                  <p>Convinience Fee</p>
+                  <p>Discount( -10% ) :</p>
+                  <span>{totalPrice / 10}</span>
+                </section>
+                <section className="my-2 grid grid-cols-2">
+                  <p>Convinience Fee :</p>
                   <span>
                     <del>&#8377;99</del> FREE
                   </span>
                 </section>
+                <section className="my-2 grid grid-cols-2">
+                  <p>To Pay:</p>
+                  <span>{totalPrice - totalPrice / 10}</span>
+                </section>
                 <div className="my-4">
                   <button
                     disabled={selectedAddress ? false : true}
-                    className={`${
-                      selectedAddress ? "bg-black" : ""
-                    }text-white w-full p-2 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8]`}
+                    className={`disabled:opacity-40 text-white w-full p-2 rounded-lg bg-[#0E3EDA] hover:bg-[#3053c8] cursor-pointer`}
                     onClick={() => {
-                      // postOrder(selectedAddress);
                       displayRazorpay(selectedAddress);
                     }}
                   >
@@ -217,7 +190,7 @@ const Cart = () => {
                   </button>
                   {!selectedAddress && (
                     <p className="text-center text-red-500 font-semibold">
-                      Please select a address to checkout
+                      Please select an address to checkout
                     </p>
                   )}
                 </div>

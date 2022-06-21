@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import CartContext from "../Context/cart-context";
+import React, { useCallback, useEffect, useState } from "react";
 import SnackBar from "../util/SnackBar";
 import ProductCard from "./ProductCard";
 const Filters = (props) => {
@@ -24,38 +22,43 @@ const Filters = (props) => {
   const [checked, setChecked] = useState([]);
   const [bChecked, setBChecked] = useState([]);
   const [fProd, setFProd] = useState([]);
-  const [products, setProducts] = useState(props.wishlistProds);
+  const [products, setProducts] = useState(props.products);
+  const [c, setC] = useState({ lth: false, htl: false });
   let filteredProducts = [];
 
   //FILTERING LOGICC
 
-  const filterHandler = (id, type) => {
-    setFiltering(true);
-    const currentIndex = checked.indexOf(id);
-    const newChecked = [...checked];
+  const filterHandler = useCallback(
+    (id, type) => {
+      setFiltering(true);
+      const currentIndex = checked.indexOf(id);
+      const newChecked = [...checked];
+      if (currentIndex === -1) {
+        newChecked.push(id);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      setChecked(newChecked);
+    },
+    [checked]
+  );
 
-    if (currentIndex === -1) {
-      newChecked.push(id);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-  };
-
-  const brandfilterHandler = (id, type) => {
-    setFiltering(true);
-    const currentIndex = bChecked.indexOf(id);
-    const newChecked = [...bChecked];
-    if (currentIndex === -1) {
-      newChecked.push(id);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setBChecked(newChecked);
-  };
+  const brandfilterHandler = useCallback(
+    (id, type) => {
+      setFiltering(true);
+      const currentIndex = bChecked.indexOf(id);
+      const newChecked = [...bChecked];
+      if (currentIndex === -1) {
+        newChecked.push(id);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      setBChecked(newChecked);
+    },
+    [bChecked]
+  );
 
   if (filtering) {
-    console.log(checked, bChecked);
     if (checked.length > 0 || bChecked.length > 0) {
       filteredProducts = props.products.filter((product) => {
         if (
@@ -74,7 +77,6 @@ const Filters = (props) => {
           checked.includes(p.productCategory) &&
           bChecked.includes(p.productBrand)
         ) {
-          console.log(p);
           return p;
         }
         return null;
@@ -106,17 +108,16 @@ const Filters = (props) => {
   //SORTING LOGIC
   const SortHandler = (value) => {
     let p;
-    if (value === -1) {
+    if (value === "lth") {
       p = products.sort((a, b) => {
         return Number(a.productPrice) - Number(b.productPrice);
       });
     }
-    if (value === 1) {
+    if (value === "htl") {
       p = products.sort((a, b) => {
         return Number(b.productPrice) - Number(a.productPrice);
       });
     }
-    console.log(p);
     setProducts([...p]);
   };
 
@@ -133,6 +134,21 @@ const Filters = (props) => {
     content = <h1 className="text-2xl font-bold my-20">No Products found!!</h1>;
   }
 
+  const setRadio = (e) => {
+    setC(() => {
+      return {
+        lth: false,
+        htl: false,
+        [e.target.value]: true,
+      };
+    });
+  };
+
+  const s = () => {
+    setC(() => ({ lth: false, htl: false }));
+    setProducts(props.products);
+  };
+
   return (
     <div className="flex justify-start items-start">
       <SnackBar />
@@ -144,6 +160,7 @@ const Filters = (props) => {
               setBChecked([]);
               setChecked([]);
               setFiltering(true);
+              s();
             }}
             className="underline leading-4"
           >
@@ -157,12 +174,14 @@ const Filters = (props) => {
             <li>
               <label>
                 <input
+                  checked={c.htl}
                   type="radio"
                   id="htl"
-                  value="1"
+                  value="htl"
                   name="sorting"
-                  onChange={() => {
-                    SortHandler(1);
+                  onChange={(e) => {
+                    setRadio(e);
+                    SortHandler("htl");
                   }}
                   className="mr-2 h-4 w-4"
                 />
@@ -172,12 +191,14 @@ const Filters = (props) => {
             <li>
               <label>
                 <input
+                  checked={c.lth}
                   type="radio"
                   id="lth"
-                  value="-1"
+                  value="lth"
                   name="sorting"
-                  onChange={() => {
-                    SortHandler(-1);
+                  onChange={(e) => {
+                    setRadio(e);
+                    SortHandler("lth");
                   }}
                   className="mr-2 h-4 w-4"
                 />
@@ -233,7 +254,7 @@ const Filters = (props) => {
 export const Divider = () => {
   return (
     <div className="my-2">
-      <div className="border-b-[0.5px] border-indigo-500"></div>
+      <div className="border-b-[0.5px] border-gray-400"></div>
     </div>
   );
 };

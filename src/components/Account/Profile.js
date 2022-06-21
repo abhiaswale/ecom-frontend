@@ -1,25 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../Context/auth-context";
+import React, { useEffect, useState } from "react";
+import { getReq } from "../../API/APICalls";
 
 const Profile = () => {
   const [userData, setUserData] = useState();
-  const authCtx = useContext(AuthContext);
+
   useEffect(() => {
     getUserDetails();
   }, []);
 
   const getUserDetails = () => {
-    fetch("http://localhost:3000/user/details", {
-      method: "GET",
-      headers: { Authorization: authCtx.token },
-    })
-      .then((res) => res.json())
+    getReq("user/details")
       .then((data) => {
         setUserData(data.user);
-        console.log(data);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   };
 

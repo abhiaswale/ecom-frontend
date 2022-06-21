@@ -10,7 +10,7 @@ const Account = () => {
         </div>
       </div>
       <div className="hidden lg:block border-b-[0.5px] border-gray-400 mx-80"></div>
-      <div className="lg:hidden block border-[0.5px] border-gray-300 mx-2"></div>
+      <div className="lg:hidden block border-b-[0.5px] border-gray-400 mx-2"></div>
 
       <div className="flex justify-center items-center flex-row">
         <div className="grid grid-cols-1 lg:grid-cols-20/80 lg:divide-x divide-gray-400 lg:w-3/5 w-full">

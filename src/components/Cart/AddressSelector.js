@@ -7,6 +7,9 @@ import AddressForm from "../Address/AddressForm";
 
 const AddressSelector = (props) => {
   const [isAddNew, setIsAddNew] = useState(false);
+  const [editAddress, setEditAddress] = useState();
+  const [isEdit, setIsEdit] = useState(false);
+
   const addressSelector = (e) => {
     props.addresses.forEach((a) => {
       if (e.target.value === a._id) {
@@ -16,11 +19,19 @@ const AddressSelector = (props) => {
     });
   };
 
+  const editHandler = (id) => {
+    console.log(id);
+    setIsEdit(true);
+    const aD = props.addresses.filter((a) => a._id === id);
+    setEditAddress(aD[0]);
+    console.log(aD);
+  };
+
   return (
     <Modal>
-      <div className="bg-white bg-opacity-50 w-full h-full relative">
-        <div className="bg-white my-3 h-auto w-11/12 lg:w-2/5 absolute top-[15%] left-[4%] lg:left-[28%]">
-          <div>
+      <div className="overflow-hidden bg-white bg-opacity-50 w-full h-full relative">
+        <div className=" overflow-y-scroll bg-white my-3 h-[80vh] w-11/12 lg:w-2/5 absolute top-[15%] left-[4%] lg:left-[28%]">
+          <div className="">
             <div className="flex justify-end items-center p-2">
               <CloseIcon
                 onClick={() => {
@@ -39,9 +50,12 @@ const AddressSelector = (props) => {
                     name="address"
                     value={a._id}
                     onChange={addressSelector}
-                    className=""
                   />
-                  <AddressCard i={a} setAddresses={props.setAddresses} />
+                  <AddressCard
+                    i={a}
+                    setAddresses={props.setAddresses}
+                    editAddress={editHandler}
+                  />
                 </label>
               ))}
             </div>
@@ -61,6 +75,15 @@ const AddressSelector = (props) => {
           <AddressForm
             setAddresses={props.setAddresses}
             setIsAddNew={setIsAddNew}
+          />
+        )}
+        {isEdit && (
+          <AddressForm
+            addresses={props.addresses}
+            setAddresses={props.setAddresses}
+            isEdit={isEdit}
+            addressData={editAddress}
+            setIsEdit={setIsEdit}
           />
         )}
       </div>

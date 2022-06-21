@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { postReq, getReq, deleteReq } from "../../API/APICalls";
 const CartContext = React.createContext({
   cartQuantity: 0,
   wishlistQuantity: 0,
@@ -22,77 +23,59 @@ export const CartContextProvider = (props) => {
   const [snackbarContent, setSnackbar] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
   //WISHLIST
-  const updateWishlist = () => {
-    fetch("http://localhost:3000/user/wishlist", {
-      headers: { Authorization: localStorage.getItem("token") },
-    })
-      .then((resp) => {
-        return resp.json();
-      })
-      .then((data) => {
-        setWishlistItems(data.data);
-        let count = 0;
-        data.data.forEach((element) => {
-          count++;
-        });
-        setWishlistQuan(count);
+  const updateWishlist = useCallback(async () => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
+    try {
+      const data = await getReq("user/wishlist");
+      setWishlistItems(data.data);
+      let count = 0;
+      data.data.forEach((element) => {
+        count++;
       });
+      setWishlistQuan(count);
+    } catch (err) {
+      alert(err);
+    }
+  }, []);
+
+  const addItemToWishlist = async (id) => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
+    try {
+      setSnackbar("Adding item to wishlist");
+      setOpen(true);
+      const data = await postReq(`user/add-to-wishlist/${id}`);
+      setWishlistItems(data.data);
+      updateWishlist();
+      setSnackbar("Added Item to Wishlist");
+      closeSnack();
+    } catch (err) {
+      alert(err);
+    }
   };
 
-  const addItemToWishlist = (id) => {
-    setSnackbar("Adding item to wishlist");
-    setOpen(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
+  const removeItemFromWishlist = async (id) => {
+    if (!localStorage.getItem("token")) {
       navigate("/login");
+      return;
     }
-    fetch(`http://localhost:3000/user/add-to-wishlist/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        setWishlistItems(data.data);
-        updateWishlist();
-        setSnackbar("Added Item to Wishlist");
-        closeSnack();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const removeItemFromWishlist = (id) => {
-    setSnackbar("Removing item from wishlist");
-    setOpen(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
+    try {
+      setSnackbar("Removing item from wishlist");
+      setOpen(true);
+      const data = await deleteReq(`user/remove-from-wishlist/${id}`);
+      setWishlistItems(data.data);
+      updateWishlist();
+      setSnackbar("Removed item from Wishlist");
+      closeSnack();
+    } catch (err) {
+      alert(err);
     }
-    fetch(`http://localhost:3000/user/remove-from-wishlist/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        setWishlistItems(data.data);
-        updateWishlist();
-        setSnackbar("Removed item from Wishlist");
-        closeSnack();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   ///////////////////SNACKBAR
@@ -105,80 +88,58 @@ export const CartContextProvider = (props) => {
 
   ///////////////////CART
 
-  const updateCart = () => {
-    const token = localStorage.getItem("token");
+  const updateCart = useCallback(async () => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
       return;
     }
-    if (token) {
-      fetch("http://localhost:3000/user/cart", {
-        headers: { Authorization: localStorage.getItem("token") },
-      })
-        .then((resp) => {
-          return resp.json();
-        })
-        .then((data) => {
-          console.log(data);
-          setCartItems(data.data);
-          let count = 0;
-          data.data.forEach((element) => {
-            count++;
-          });
-          setQuan(count);
-        });
+    try {
+      const data = await getReq("user/cart");
+      setCartItems(data.data);
+      let count = 0;
+      data.data.forEach((element) => {
+        count++;
+      });
+      setQuan(count);
+    } catch (err) {
+      alert(err);
     }
-  };
+  }, []);
 
-  const addItemToCart = (id) => {
-    setSnackbar("Adding item to the cart");
-    setOpen(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
+  const addItemToCart = async (id) => {
+    if (!localStorage.getItem("token")) {
       navigate("/login");
+      return;
     }
-    fetch(`http://localhost:3000/user/add-to-cart/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("called");
-        setCartItems(data.data.items);
-        updateCart();
-        setSnackbar("Added Item to cart");
-        closeSnack();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      setSnackbar("Adding item to the cart");
+      setOpen(true);
+      const data = await postReq(`user/add-to-cart/${id}`);
+      setCartItems(data.data.items);
+      updateCart();
+      setSnackbar("Added Item to cart");
+      closeSnack();
+    } catch (err) {
+      alert(err);
+    }
   };
 
-  const removeItemFromCart = (id) => {
-    setSnackbar("Removing Item from the cart");
-    setOpen(true);
-    fetch(`http://localhost:3000/user/delete-from-cart/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCartItems(data.data.items);
-      })
-      .then(() => {
-        updateCart();
-        setSnackbar("Removed Item from the cart");
-        closeSnack();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const removeItemFromCart = async (id) => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+      return;
+    }
+    try {
+      setSnackbar("Removing Item from the cart");
+      setOpen(true);
+      const data = await deleteReq(`user/delete-from-cart/${id}`);
+      setCartItems(data.data.items);
+      updateCart();
+      setSnackbar("Removed Item from the cart");
+      closeSnack();
+    } catch (err) {
+      alert(err);
+    }
   };
 
   useEffect(() => {
@@ -186,7 +147,7 @@ export const CartContextProvider = (props) => {
       updateCart();
       updateWishlist();
     }
-  }, []);
+  }, [updateCart, updateWishlist]);
 
   const contextValue = {
     addToCart: addItemToCart,

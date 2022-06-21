@@ -7,7 +7,7 @@ const ProductCard = ({ prod }) => {
   const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   return (
-    <div key={prod._id} className="flex flex-col w-full ">
+    <div key={prod._id} className="flex flex-col w-full  ">
       <div
         className="flex-1 flex justify-center items-center "
         onClick={() => {
@@ -17,12 +17,11 @@ const ProductCard = ({ prod }) => {
         <img
           alt={prod.productName}
           src={prod.productImage}
-          className=" w-52 lg:h-52 h-44 bg-cover"
+          className=" w-52 lg:h-52 h-40 bg-cover cursor-pointer"
         ></img>
       </div>
       <div className="flex-1 flex justify-center items-center flex-col text-left">
         <div className="w-1/2">
-          <div></div>
           <h6 className="font-semibold">{prod.productBrand}</h6>
           <div>
             <h4 className="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -30,8 +29,6 @@ const ProductCard = ({ prod }) => {
             </h4>
             <span className="font-semibold text-sm">
               &#8377;
-              {/* {(prod.productPrice * prod.productDiscount) / 100} (
-            {prod.productDiscount}% OFF ) */}
               {prod.productPrice}
             </span>
             <p className="flex">

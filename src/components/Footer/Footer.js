@@ -7,7 +7,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="relative">
+    <div className="font-Sans relative">
       <div className="py-4">
         <div className="w-full border-t border-gray-400"></div>
       </div>

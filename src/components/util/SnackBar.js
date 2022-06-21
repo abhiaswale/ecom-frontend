@@ -12,7 +12,6 @@ const SnackBar = () => {
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       open={cartCtx.open}
       autoHideDuration={1000}
-      // message={cartCtx.snack}
     >
       <Alert severity="info">{cartCtx.snack}</Alert>
     </Snackbar>
