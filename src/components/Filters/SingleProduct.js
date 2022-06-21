@@ -13,8 +13,8 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { getReq } from "../../API/APICalls";
 const SingleProduct = () => {
-  const [product, setProduct] = useState();
-  const [isProductInCart, setIsProductInCart] = useState();
+  const [product, setProduct] = useState({});
+  const [isProductInCart, setIsProductInCart] = useState(false);
   const [inWishlist, setInWishlist] = useState(false);
   const [Loading, setLoading] = useState(true);
   const productId = useParams();

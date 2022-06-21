@@ -40,7 +40,7 @@ export const CartContextProvider = (props) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [navigate]);
 
   const addItemToWishlist = async (id) => {
     if (!localStorage.getItem("token")) {
@@ -104,7 +104,7 @@ export const CartContextProvider = (props) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [navigate]);
 
   const addItemToCart = async (id) => {
     if (!localStorage.getItem("token")) {
