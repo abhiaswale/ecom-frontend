@@ -38,7 +38,7 @@ export const CartContextProvider = (props) => {
       });
       setWishlistQuan(count);
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   }, []);
 
@@ -56,7 +56,7 @@ export const CartContextProvider = (props) => {
       setSnackbar("Added Item to Wishlist");
       closeSnack();
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 
@@ -74,7 +74,7 @@ export const CartContextProvider = (props) => {
       setSnackbar("Removed item from Wishlist");
       closeSnack();
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 
@@ -102,7 +102,7 @@ export const CartContextProvider = (props) => {
       });
       setQuan(count);
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   }, []);
 
@@ -120,7 +120,7 @@ export const CartContextProvider = (props) => {
       setSnackbar("Added Item to cart");
       closeSnack();
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 
@@ -138,7 +138,7 @@ export const CartContextProvider = (props) => {
       setSnackbar("Removed Item from the cart");
       closeSnack();
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 

@@ -89,7 +89,7 @@ const SearchBar = () => {
         navigate("/search", { state: searchData });
       })
       .catch((err) => {
-        alert(err);
+        console.log(err);
       });
   };
 

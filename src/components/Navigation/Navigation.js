@@ -18,7 +18,6 @@ const Navigation = () => {
   const [count, setCount] = useState(0);
   const [wCount, setWCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
   const navigate = useNavigate();
   let menuRef = useRef();
 
@@ -39,6 +38,21 @@ const Navigation = () => {
     setCount(cartContext.cartQuantity);
     setWCount(cartContext.wishlistQuantity);
   }, [cartContext.cartQuantity, cartContext.wishlistQuantity]);
+
+  // const token = localStorage.getItem("token");
+
+  // useEffect(() => {
+  //   if (token) {
+  //     getReq("user/details")
+  //       .then((data) => {
+  //         setUserData(data.user);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //     console.log(userData);
+  //   }
+  // }, [token]);
 
   return (
     <>

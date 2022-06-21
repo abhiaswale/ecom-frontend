@@ -51,6 +51,7 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.userName);
+        authCtx.userNameHandler(data.userName);
         const remainingMiliseconds = 60 * 60 * 1000;
         const expiryDate = new Date().getTime() + remainingMiliseconds;
         localStorage.setItem("expiryDate", expiryDate);
